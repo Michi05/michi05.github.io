@@ -3,182 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>John Doe - Digital Business Card</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 1rem;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-        .title {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-        .contact-info {
-            margin-bottom: 1rem;
-        }
-        .contact-info p {
-            margin: 0.5rem 0;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .social-links a {
-            color: #333;
-            text-decoration: none;
-            font-size: 1.5rem;
-        }
-        .toggle-theme {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        .skills {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #eee;
-        }
-        .skills h2 {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .skill-tag {
-            background-color: #e0e0e0;
-            color: #333;
-            padding: 0.3rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        .qr-code {
-            margin-top: 1rem;
-            text-align: center;
-        }
-        .qr-code img {
-            width: 150px;
-            height: 150px;
-        }
-    </style>
+    <title>Miguel A. Garcia - Profile</title>
+    <link rel="stylesheet" href="card.css">
 </head>
 <body>
     <button class="toggle-theme" onclick="toggleTheme()">🌓</button>
     <div class="card">
-        <img src="/placeholder.svg?height=150&width=150" alt="John Doe" class="profile-pic">
-        <h1>John Doe</h1>
-        <p class="title">Software Engineer</p>
+        <img src="assets/media/logo.png?height=150&width=150" alt="profile pic" class="profile-pic">
+        <h1>Miguel A. Garcia</h1>
+        <p class="title">SN CTA Architect</p>
         <div class="contact-info">
-            <p>📧 john.doe@example.com</p>
-            <p>📞 (123) 456-7890</p>
-            <p>📍 San Francisco, CA</p>
+            <p>📧 mag.net205@slmails.com</p>
+            <p>📍 London, UK</p>
         </div>
         <div class="social-links">
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">🔗</a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">🐙</a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">🐦</a>
+            <a href="https://linkedin.com/in/miguelgglez" target="_blank" rel="noopener noreferrer">🔗</a>
+            <a href="https://tinyurl.com/miguelgglez" target="_blank" rel="noopener noreferrer">🐙</a>
         </div>
         <div class="skills">
             <h2>Skills</h2>
             <div class="skill-tags">
                 <span class="skill-tag">JavaScript</span>
-                <span class="skill-tag">React</span>
-                <span class="skill-tag">Node.js</span>
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">Integrations</span>
+                <span class="skill-tag">ITIL</span>
             </div>
         </div>
-        <div class="qr-code">
-            <h2>Scan to save contact</h2>
-            <img id="qrcode" alt="QR Code">
-        </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        // Generate QR Code
-        window.addEventListener('load', function() {
-            var typeNumber = 0;
-            var errorCorrectionLevel = 'L';
-            var qr = qrcode(typeNumber, errorCorrectionLevel);
-            qr.addData(window.location.href);
-            qr.make();
-            document.getElementById('qrcode').src = qr.createDataURL();
-        });
-
-        // Add this to the existing <style> tag
-        document.head.insertAdjacentHTML('beforeend', `
-            <style>
-            .dark-mode {
-                background-color: #333;
-            }
-            .dark-mode .card {
-                background-color: #444;
-                color: #f0f0f0;
-            }
-            .dark-mode h1, .dark-mode h2 {
-                color: #f0f0f0;
-            }
-            .dark-mode .title {
-                color: #ccc;
-            }
-            .dark-mode .social-links a {
-                color: #f0f0f0;
-            }
-            .dark-mode .skill-tag {
-                background-color: #555;
-                color: #f0f0f0;
-            }
-            .dark-mode .skills {
-                border-top-color: #555;
-            }
-            </style>
-        `);
-    </script>
 </body>
 </html>

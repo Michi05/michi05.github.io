@@ -1,0 +1,119 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+h1 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+.title {
+    color: #666;
+    margin-bottom: 1rem;
+}
+.contact-info {
+    margin-bottom: 1rem;
+}
+.contact-info p {
+    margin: 0.5rem 0;
+}
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.social-links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+.toggle-theme {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.skills {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+.skills h2 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.skill-tag {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+.qr-code {
+    margin-top: 1rem;
+    text-align: center;
+}
+.qr-code img {
+    width: 150px;
+    height: 150px;
+}
+.dark-mode {
+    background-color: #333;
+}
+.dark-mode .card {
+    background-color: #444;
+    color: #f0f0f0;
+}
+.dark-mode h1, .dark-mode h2 {
+    color: #f0f0f0;
+}
+.dark-mode .title {
+    color: #ccc;
+}
+.dark-mode .social-links a {
+    color: #f0f0f0;
+}
+.dark-mode .skill-tag {
+    background-color: #555;
+    color: #f0f0f0;
+}
+.dark-mode .skills {
+    border-top-color: #555;
+}
