@@ -63,7 +63,7 @@ h1 {
     font-size: 1.5rem;
     cursor: pointer;
 }
-.skills {
+.skills, .subsection {
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 1px solid #eee;
