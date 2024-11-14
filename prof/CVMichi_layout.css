@@ -33,18 +33,10 @@ header {
 
 
 div#mainTitle {
-	flex: 3;
+	flex: 5;
 	order: 1;
 	
 	min-width: 500px;
-}
-
-div#personalData {
-	flex: 1;
-	order: 2;
-	
-	margin: auto 2em;
-	min-width: 200px;
 }
 
 
@@ -165,4 +157,44 @@ section {
 
 ******************************/
 /******************************/
+
+
+
+/*********** nov24 ************/
+#qrcode-top {
+	width: fit-content;
+    height: fit-content;
+    position: relative;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: auto 1em;
+}
+#qrcode {
+    min-height: 50px;
+    height: auto;
+    width: auto;
+}
+
+div#personalData {
+	flex: 2;
+	order: 2;
+	
+	margin: auto 2em;
+	min-width: 200px;
+
+	display: inline-flex;
+
+	ul, div {
+		margin-top: auto;
+	    margin-bottom: auto;
+
+	    z-index: 1;
+	}
+
+	/* letters ahead of qr due to white frame */
+	ul {
+        z-index: 50;
+	}
+}
 

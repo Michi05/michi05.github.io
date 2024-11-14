@@ -151,3 +151,28 @@ div.justifiedText {
     font-size: x-small;
 }
 
+
+/****************nov24*************/
+.dark-mode {
+    background-color: #333;
+}
+.dark-mode .card {
+    background-color: #444;
+    color: #f0f0f0;
+}
+.dark-mode h1, .dark-mode h2 {
+    color: #f0f0f0;
+}
+.dark-mode .title {
+    color: #ccc;
+}
+.dark-mode .social-links a {
+    color: #f0f0f0;
+}
+.dark-mode .skill-tag {
+    background-color: #555;
+    color: #f0f0f0;
+}
+.dark-mode .skills {
+    border-top-color: #555;
+}

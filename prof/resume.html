@@ -11,10 +11,21 @@
 		<meta http-equiv="cache-control" content="no-store">
 		<!-- MAG::Review this; not sure if worth it -->
 		<!-- https://fortawesome.github.io/Font-Awesome/cheatsheet -->
-		<link href="../cv_common_res/fontawesome-free-6.5.2-web/css/fontawesome.css" rel="stylesheet" />
-		<link href="../cv_common_res/fontawesome-free-6.5.2-web/css/brands.css" rel="stylesheet" />
-		<link href="../cv_common_res/fontawesome-free-6.5.2-web/css/solid.css" rel="stylesheet" />
-		<link href="../cv_common_res/fontawesome-free-6.5.2-web/css/regular.css" rel="stylesheet" />
+<!-- Core Font Awesome CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" rel="stylesheet">
+
+<!-- Font Awesome Brands Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css" rel="stylesheet">
+
+<!-- Font Awesome Solid Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css" rel="stylesheet">
+
+<!-- Font Awesome Regular Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/regular.min.css" rel="stylesheet">
+
+
+
+
 		<!-- jQuery library FIRST -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		<!-- Latest compiled and minified Bootstrap CSS & JS -->
@@ -23,6 +34,31 @@
 		<link rel="stylesheet" href="CVMichi_style.css">
 		<link rel="stylesheet" href="CVMichi_layout.css">
 		<link rel="stylesheet" href="CVMichi_timeline.css">
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Generate QR Code
+        window.addEventListener('load', function() {
+            var typeNumber = 0;
+            var errorCorrectionLevel = 'L'; // (L)ow, (M)ed, (Q), (H)igh
+            var qr = qrcode(typeNumber, errorCorrectionLevel);
+            const bookmark = "https://michi05.github.io/card"; //window.location.href;
+
+            qr.addData(bookmark);
+
+            qr.make();
+            document.getElementById('qrcode').src = qr.createDataURL();
+        });
+
+    </script>
+
+
 	</head>
 	<body>
 		<header>
@@ -48,6 +84,9 @@
 					</br>(https://tinyurl.com/miguelgglez)</a>
 					</li>
 				</ul>
+		    	<div id="qrcode-top" class="qr-code top-corner">
+		            <img id="qrcode" alt="QR Code">
+		        </div>
 			</div>
 		</header>
 		<div class="clearAll"></div>
@@ -333,59 +372,6 @@
 				</table>
 			</section>
 
-
-        <div class="qr-code">
-            <h2>Scan to save contact</h2>
-            <img id="qrcode" alt="QR Code">
-        </div>
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        // Generate QR Code
-        window.addEventListener('load', function() {
-            var typeNumber = 0;
-            var errorCorrectionLevel = 'L';
-            var qr = qrcode(typeNumber, errorCorrectionLevel);
-            qr.addData(window.location.href);
-            qr.make();
-            document.getElementById('qrcode').src = qr.createDataURL();
-        });
-
-        // Add this to the existing <style> tag
-        document.head.insertAdjacentHTML('beforeend', `
-            <style>
-            .dark-mode {
-                background-color: #333;
-            }
-            .dark-mode .card {
-                background-color: #444;
-                color: #f0f0f0;
-            }
-            .dark-mode h1, .dark-mode h2 {
-                color: #f0f0f0;
-            }
-            .dark-mode .title {
-                color: #ccc;
-            }
-            .dark-mode .social-links a {
-                color: #f0f0f0;
-            }
-            .dark-mode .skill-tag {
-                background-color: #555;
-                color: #f0f0f0;
-            }
-            .dark-mode .skills {
-                border-top-color: #555;
-            }
-            </style>
-        `);
-    </script>
 
 
 
