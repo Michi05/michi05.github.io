@@ -1,0 +1,72 @@
+
+@media print {
+
+	table, tbody, tr {
+    	page-break-inside: auto;
+	}
+
+    tr.detail, .avoid_break {
+		page-break-inside: avoid;
+		page-break-before: auto;
+	}
+    .break_before { /* Tricky, shouldn't be fixed... */
+		page-break-before: auto;
+		padding-top: 2in;
+	}
+	html,body { background: white; }
+	body {
+		border: 0;
+		min-width: 0;
+/*		max-width: 100vw;
+		width: 100vw; */
+	}
+	/* Neutralize links when printing! */
+	a {
+	    color: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+		text-decoration: inherit;
+	}
+	
+	#header, #footer {
+		visibility: hidden !important;
+		display: none !important;
+	}
+
+
+
+	/* ForV2: The headers and footers should never be visible; they're horrible!
+  @page { margin: 0; }
+  body { margin: 1.6cm; }
+  */
+
+
+/* Apr'24 -- Gral updates */
+/******************************/
+
+	.online_only {
+		display:none;
+	}
+	
+    a::after {
+        content: none !important;
+    }
+
+
+
+/* Apr'24 -- Fun w/ layouts */
+/******************************/
+
+    .col-md-6 {
+        width: 45%;
+        float: left;
+        margin: 2em 0;
+    }
+
+/******************************/
+/******************************/
+
+}
+
+
+	

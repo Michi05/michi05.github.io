@@ -1,0 +1,29 @@
+
+
+.infoRow {
+	display: grid;
+	grid-template-rows: auto auto; /* Two rows of auto height */
+	grid-template-columns: 30% 70%; /* First column takes 30%, second column takes 70% */
+	gap: 10px; /* Gap between grid items */
+}
+
+.date {
+	grid-row: 1; /* First row */
+	grid-column: 1; /* First column */
+}
+
+.detDestac {
+	grid-row: 1; /* First row */
+	grid-column: 2; /* Second column */
+}
+
+.detDescription {
+	grid-row: 2; /* Second row */
+	grid-column: 1 / span 2; /* Spanning across both columns */
+}
+
+/* For demonstration purposes */
+.infoRow > div {
+	padding: 10px;
+}
+

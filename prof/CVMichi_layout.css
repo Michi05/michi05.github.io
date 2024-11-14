@@ -1,0 +1,168 @@
+
+body {
+ /* ForV2: Size has been simplified for V1.0
+* Everything works with 900 px for my current configuration */
+	min-width: 900px;
+	max-width: 100em;
+	width: 60em;
+	margin: auto;
+	
+	/* Need to emulate a paper sheet for understanding the printing version */
+	padding: 1em;
+	background: white;
+	min-height: 100vh;
+	margin-top: 1em;
+	
+	border: 1px solid lightgray;
+}
+
+/* Header including title, personal data and picture*/
+header {
+	display: flex;
+	flex-flow: nowrap; /* Default but JiC */
+	margin: 2em;
+	
+	/* When taking out the picture...
+	* margin: 2em auto;
+    * width: 80%;
+	*/
+	
+/* Works above 850 px with my current configuration; 50em should work? (TEST) 
+	min-width: 50em;*/
+}
+
+
+div#mainTitle {
+	flex: 3;
+	order: 1;
+	
+	min-width: 500px;
+}
+
+div#personalData {
+	flex: 1;
+	order: 2;
+	
+	margin: auto 2em;
+	min-width: 200px;
+}
+
+
+/* Original with tables & sections */
+/******************************/
+table, tr { width: 100%; } /*100%parent*/
+section {
+	width: 85%;
+	margin: 1em 2em;
+    display: inline-block;
+}
+
+
+h5.sectionTitle:before {
+    content: " ";
+    display: inline-block;
+    margin: 0 1em 0.3em 10px; /* Be Careful with the left margin */
+    width: 10%;
+	height: 0px;
+	border: 3px solid /*MainColor*/RoyalBlue;
+}
+
+
+td.date,td.detailTag {
+    width: 15%; /* ForV2: Maybe 20%  but depending on related change? */
+    text-align: center;
+    vertical-align: middle;
+    padding: 4px;
+}
+
+tr.detail td, div.detail, div.row{
+	padding: 0.5em 2px;
+	line-height: 1.5;
+}
+
+section#Experience tr.detail td {
+	padding-top: 2em;
+}
+
+
+
+
+/* Nov'24 -- Compacting styles */
+
+.direct_report {
+	visibility: hidden;
+	display: none;
+}
+
+.remove_me {
+	color: red;
+}
+
+.two-column-list {
+    column-count: 2; /* Set the number of columns to 2 */
+    column-gap: 20px; /* Add space between columns */
+    list-style-position: inside; /* Keep bullet points inside the list */
+/*    padding: 0; /* Remove default padding */
+/*    margin: 0; /* Remove default margin */
+}
+
+
+
+/* Apr'24 -- Fun w/ layouts */
+/******************************
+ * 
+ * 
+ * 
+.flexcontainer {
+   display: flex;
+   align-items: left;
+   justify-content: center;
+   flex-flow: column;
+   align-content: left;
+
+}
+
+.flex_row {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-flow: row;
+   align-content: center;
+
+}
+
+section {
+}
+
+.flex_layout {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.date {
+    width: 100px;
+}
+
+.infoRow {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.detDestac {
+    font-weight: bold;
+}
+
+.detSecond {
+    color: #666;
+}
+
+
+******************************/
+/******************************/
+

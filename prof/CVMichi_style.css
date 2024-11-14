@@ -1,0 +1,153 @@
+
+/*
+--Check out the following pages:
+ - Generator2: http://www.yourcvbuilder.com/#Basics
+ - CV templates http://leahrn.org/cv-template-word.html (some awesome ones)
+ - About Styles and design: http://mashable.com/2011/07/10/digital-resume/#05EGLWa34aq8
+
+--Remember to Validate: https://validator.w3.org/
+*/
+
+
+html {
+	background:#FFDDAA;
+}
+
+
+
+/* Gral font family and format */
+header, main {	
+	font-family: "Georgia", "Constantia", serif;
+/*	Be interesting but not too playful. Be professional but not basic. Be modern but not extravagant. */
+}
+
+
+/* Opening headers first for readability */
+div#mainTitle {
+	color: /*TitleColor*/black;
+	font-style:italic;
+}
+h1#myName {
+	font-weight: bold;
+}
+h3#myPosition { color: /*SubColor*/darkgray ; }
+
+em, .noWrap { white-space: nowrap; } /* Names shouldn't wrap. Others should be Span */
+.noWrap { font-style: initial; }
+
+
+div#personalData {
+    color: /*MainColor*/RoyalBlue;
+    font-size: smaller;
+    font-family: "Calibri", sans-serif;
+    text-align: right;
+}
+
+
+#personalData>ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#personalData>ul>li { margin-bottom: 0.3em; }
+
+
+
+blockquote#MainQuote {
+	width: 70%; /* ForV2: too fixed? */
+    margin: 3em auto;
+    text-align: center;
+    font-style: italic;
+	color: /*SubColor*/darkgray;
+}
+
+blockquote#MainQuote:before {
+    content: "“";
+    font-size: 3em;
+    color: #999;
+    line-height: 0;
+    display: inline;
+    vertical-align: -0.3em;
+	
+	/* The margin has unwanted second effects (margin: 0 4px;) 
+	**so I use the relative position instead. */
+	position: relative;
+	right: 6px;
+}
+blockquote#MainQuote:after {
+    content: "”";
+    font-size: 3em;
+    color: #999;
+    line-height: 0;
+    display: inline;
+    vertical-align: -0.4em;
+}
+
+span.sideNote {
+	font-weight: normal;
+	font-size: small;
+}
+
+/* The parts of the actual content; sections and line-details */
+
+.clearAll {
+	clear: both;
+	display: none;
+}
+
+
+ /* FA icons should always take the same space */
+i.fa { margin: auto; width: 1em; }
+
+h5.sectionTitle {
+	color: /*MainColor*/RoyalBlue;
+	font-size: larger;
+	margin: 1em;
+}
+
+
+.detDestac {
+	font-weight:bold;
+	display: block;
+}
+.detSecond {
+	font-style:italic;
+	display: block;
+}
+.detDescription {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.detDescription>ul { margin: 0; }
+
+/* Version with points below: */
+.detSecond::after,.detDescription::after,.detDescription>ul>li::after { content: "."; }
+.detSecond::after,.detDescription::after,.detDescription>ul>li.noDot::after { content: ""; }
+/******************************/
+
+
+tr.legacyBlock, .hideMe {
+	visibility: hidden !important;
+	display: none !important;
+}
+
+
+
+#TechnicalSummary div.justifiedText:first-of-type {
+    text-indent: 0.6em;
+    margin-bottom:5px;
+    display:block;
+}
+
+div.justifiedText {
+	text-align: justify;
+}
+
+.fa-external-link{
+    vertical-align: super;
+    font-size: x-small;
+}
+

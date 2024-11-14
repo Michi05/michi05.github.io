@@ -1,0 +1,56 @@
+        .container {
+            width: fit-content;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .vertical-line {
+            position: absolute;
+            left: -32px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: lightgray;
+            z-index: -1;
+        }
+
+        .circle-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px; /* Increased margin to accommodate larger circles */
+            padding-left: 20px;
+            background-color: aliceblue;
+            border: unset;
+            position: relative;
+        }
+
+        .circle {
+            position: absolute;
+            left: -55px;
+            width: 45px; /* 50% larger than the previous 30px */
+            height: 45px; /* 50% larger than the previous 30px */
+            background-color: #0b5b8d;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px; /* Matches the height to vertically center text */
+            color: white;
+            font-weight: bold;
+            z-index: 1; /* Ensures the circles are above the vertical line */
+        }
+
+        .label {
+            padding: 10px;
+            font-size: 16px;
+            width: 8em;
+            color: darkslategrey;
+        }
+
+        #right_column_abs {
+            float: right;
+            width: 40%;
+            display: block;
+            position: absolute;
+            right: 4em;
+        }
+        }
+
