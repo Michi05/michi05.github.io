@@ -10,7 +10,7 @@
 
 
 html {
-	background:#FFDDAA;
+	background:#E8F0FE;
 }
 
 
@@ -30,7 +30,10 @@ div#mainTitle {
 h1#myName {
 	font-weight: bold;
 }
-h3#myPosition { color: /*SubColor*/darkgray ; }
+h2#myPosition { 
+	color: /*SubColor*/darkgray ;
+	font-size: 24px;
+}
 
 em, .noWrap { white-space: nowrap; } /* Names shouldn't wrap. Others should be Span */
 .noWrap { font-style: initial; }
@@ -100,7 +103,7 @@ span.sideNote {
  /* FA icons should always take the same space */
 i.fa { margin: auto; width: 1em; }
 
-h5.sectionTitle {
+h4.sectionTitle {
 	color: /*MainColor*/RoyalBlue;
 	font-size: larger;
 	margin: 1em;
@@ -152,7 +155,7 @@ div.justifiedText {
 }
 
 
-/****************nov24*************/
+/****************nov24 -- Dark Mode *************/
 .dark-mode {
     background-color: #333;
 }
@@ -176,3 +179,67 @@ div.justifiedText {
 .dark-mode .skills {
     border-top-color: #555;
 }
+
+
+/****************nov24 -- Re-styling *************/
+
+h5.detDestac {
+	font-weight: 1em;
+}
+
+
+    .experience-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .experience-item {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .title-date {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+
+        padding: 0 2em;
+    }
+
+    .date {
+        font-weight: bold;
+        text-align: right;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .detDescription {
+        margin-top: 5px;
+    }
+
+    ul {
+        padding-left: 20px;
+    }
+
+    .experience-item {
+    	content: "➖";
+
+    	.collapsible-content {
+        	display: none;
+		}
+    }
+
+    .experience-item.expanded {
+    	content: "➕";
+
+    	.collapsible-content {
+        	display: block;
+		}
+    }

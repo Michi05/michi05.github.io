@@ -33,10 +33,10 @@ header {
 
 
 div#mainTitle {
-	flex: 5;
+	flex: 4;
 	order: 1;
 	
-	min-width: 500px;
+	min-width: 60%
 }
 
 
@@ -44,13 +44,13 @@ div#mainTitle {
 /******************************/
 table, tr { width: 100%; } /*100%parent*/
 section {
-	width: 85%;
+	max-width: 85%;
 	margin: 1em 2em;
     display: inline-block;
 }
 
 
-h5.sectionTitle:before {
+h4.sectionTitle:before {
     content: " ";
     display: inline-block;
     margin: 0 1em 0.3em 10px; /* Be Careful with the left margin */
@@ -198,3 +198,15 @@ div#personalData {
 	}
 }
 
+/* Flex skill boxes */
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.skills-grid section {
+    flex: 1 1 calc(50% - 10px);
+	margin: unset;
+}

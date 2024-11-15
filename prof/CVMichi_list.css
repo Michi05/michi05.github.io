@@ -1,0 +1,95 @@
+
+
+/****************nov24 -- InlineCluster *************/
+
+ul.inline-cluster {
+    list-style: none;
+    padding: 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+ul.inline-cluster li {
+    display: inline;
+}
+ul.inline-cluster li::after {
+    content: " \2022 "; /* Bullet character */
+    padding: 0 5px;
+}
+ul.inline-cluster li:last-child::after {
+    content: ""; /* Remove bullet after the last item */
+}
+
+
+/****************nov24 -- Collapsible *************/
+
+
+    .toggle-icon {
+        width: 1em;
+        height: 1em;
+        border-radius: 30%;
+        border: 1px solid #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-right: 10px;
+        font-weight: bold;
+        font-size: large;
+    }
+
+    .expanded .toggle-icon::before {
+        content: "-";
+    }
+
+    .toggle-icon::before {
+        content: "+";
+    }
+
+/****************nov24 -- WordCloud *************/
+/* Elegant flex layout for word cloud */
+.word-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+}
+.word-cloud div {
+    font-size: calc(10px + 1.2 * var(--weight));
+    padding: 5px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    text-align: center;
+}
+/* Word cloud with gradient colors (Idea 1) */
+.word-cloud-gradient div {
+    font-size: calc(10px + 1.2 * var(--weight));
+    padding: 5px;
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+    border-radius: 5px;
+    text-align: center;
+    color: #333;
+}
+/* Word cloud with varied background colors and borders (Idea 3) */
+.word-cloud-bordered div {
+    font-size: calc(10px + 1.2 * var(--weight));
+    padding: 5px;
+    background: #e0e0e0;
+    border: 2px solid #b0bec5;
+    border-radius: 10px;
+    text-align: center;
+    color: #333;
+}
+/* Word cloud with emojis (Updated from Icons, Idea 7) */
+.word-cloud-icons div {
+    font-size: calc(10px + 1.2 * var(--weight));
+    padding: 5px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

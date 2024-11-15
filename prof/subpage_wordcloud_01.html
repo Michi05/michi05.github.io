@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Layout Comparison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        section {
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 800px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        /* Elegant flex layout for word cloud */
+        .word-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 40%;
+            justify-content: center;
+            align-items: center;
+        }
+        .word-cloud div {
+            font-size: calc(10px + 1.2 * var(--weight));
+            padding: 5px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        /* Word cloud with gradient colors (Idea 1) */
+        .word-cloud-gradient div {
+            font-size: calc(10px + 1.2 * var(--weight));
+            padding: 5px;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            border-radius: 5px;
+            text-align: center;
+            color: #333;
+        }
+        /* Word cloud with varied background colors and borders (Idea 3) */
+        .word-cloud-bordered div {
+            font-size: calc(10px + 1.2 * var(--weight));
+            padding: 5px;
+            background: #e0e0e0;
+            border: 2px solid #b0bec5;
+            border-radius: 10px;
+            text-align: center;
+            color: #333;
+        }
+        /* Word cloud with emojis (Updated from Icons, Idea 7) */
+        .word-cloud-icons div {
+            font-size: calc(10px + 1.2 * var(--weight));
+            padding: 5px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>List Layout Comparison</h1>
+
+    <!-- Word Cloud Layout with Gradient (Idea 1) -->
+    <section>
+        <h2>Word Cloud with Gradient Colors</h2>
+        <div class="word-cloud word-cloud-gradient">
+            <div style="--weight: 8;">Planning</div>
+            <div style="--weight: 10;">Solution design</div>
+            <div style="--weight: 9;">Implement</div>
+            <div style="--weight: 3;">OCM & Enablement</div>
+            <div style="--weight: 9;">UAT & Fixing</div>
+            <div style="--weight: 8;">Deploy & Support</div>
+            <div style="--weight: 5;">Enhance</div>
+        </div>
+    </section>
+
+    <!-- Word Cloud Layout with Background and Borders (Idea 3) -->
+    <section>
+        <h2>Word Cloud with Background Colors and Borders</h2>
+        <div class="word-cloud word-cloud-bordered">
+            <div style="--weight: 8;">Planning</div>
+            <div style="--weight: 10;">Solution design</div>
+            <div style="--weight: 9;">Implement</div>
+            <div style="--weight: 3;">OCM & Enablement</div>
+            <div style="--weight: 9;">UAT & Fixing</div>
+            <div style="--weight: 8;">Deploy & Support</div>
+            <div style="--weight: 5;">Enhance</div>
+        </div>
+    </section>
+
+    <!-- Word Cloud Layout with Emojis (Updated from Icons, Idea 7) -->
+    <section>
+        <h2>Word Cloud with Emojis</h2>
+        <div class="word-cloud word-cloud-icons">
+            <div style="--weight: 8;">📋 Planning</div>
+            <div style="--weight: 10;">💡 Solution design</div>
+            <div style="--weight: 9;">🛠️ Implement</div>
+            <div style="--weight: 3;">📢 OCM & Enablement</div>
+            <div style="--weight: 9;">🔍 UAT & Fixing</div>
+            <div style="--weight: 8;">🚀 Deploy & Support</div>
+            <div style="--weight: 5;">✨ Enhance</div>
+        </div>
+    </section>
+
+<script src="CVMichi_logic_client.js"></script>
+
+    <!-- Word Cloud Layout with Gradual Color Transition Based on Weight -->
+    <section>
+        <h2>Word Cloud with Gradual Color Transition Based on Weight</h2>
+        <div class="word-cloud coloured">
+            <div style="--weight: 8;">Planning</div>
+            <div style="--weight: 10;">Solution design</div>
+            <div style="--weight: 9;">Implement</div>
+            <div style="--weight: 3;">OCM & Enablement</div>
+            <div style="--weight: 0;">UAT & Fixing</div>
+            <div style="--weight: 8;">Deploy & Support</div>
+            <div style="--weight: 5;">Enhance</div>
+        </div>
+    </section>
+
+</body>
+</html>
