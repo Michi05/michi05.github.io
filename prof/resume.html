@@ -34,30 +34,11 @@
 		<link rel="stylesheet" href="CVMichi_style.css">
 		<link rel="stylesheet" href="CVMichi_layout.css">
 		<link rel="stylesheet" href="CVMichi_timeline.css">
-
-
+		<link rel="stylesheet" href="CVMichi_list.css">
+		<link rel="stylesheet" href="CVMichi_print.css">
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        // Generate QR Code
-        window.addEventListener('load', function() {
-            var typeNumber = 0;
-            var errorCorrectionLevel = 'L'; // (L)ow, (M)ed, (Q), (H)igh
-            var qr = qrcode(typeNumber, errorCorrectionLevel);
-            const bookmark = "https://michi05.github.io/card"; //window.location.href;
-
-            qr.addData(bookmark);
-
-            qr.make();
-            document.getElementById('qrcode').src = qr.createDataURL();
-        });
-
-    </script>
-
+	<script src="CVMichi_logic_client.js"></script>
 
 	</head>
 	<body>
@@ -68,8 +49,8 @@
 			</div>
 			<div id="personalData">
 				<ul>
-					<li>
-						<a href="mailto:mag.net205@slmails.com" target="_blank">mag.net205@slmails.com</a>
+					<li id="contact-email">
+						<a href="">(Click to see)</a>
 						<i style="color: #222;" class="fa-regular fa-envelope"></i>
 					</li>
 					<li>
@@ -105,120 +86,49 @@
 						</ul>
 					   Please, don't hesitate to ask me for examples and 'war stories'.
 					</div>
-					<div class="hideMe">
-						<div id="highlights_tech" class="col-md-6 col-sm-12 flex_layout" style="margin-top:2em">
-							<h3 class="sectionTitle">ServiceNow areas of focus</h3>
-						<!-- MAG: list of areas here -->
-						</div>
-						<div id="highlights_soft" class="col-md-6 col-sm-12 flex_layout" style="margin-top:2em">
-							<h3 class="sectionTitle">Project & soft skills</h3>
-						<!-- MAG: list of soft skills here -->
-						</div>
-
-					</div>
-
 				</div>
 			</section>
 
-
-
+			<div class="skills-grid">
+				<section>
+					<h4 class="sectionTitle">ServiceNow areas by focus</h4>
+					<ul>
+						<li>Customer Service (CSM) & Contracts</li>
+						<li>Service Portal (style and code)</li>
+						<li>Integrations using JDBC, REST Web Services and integration hub</li>
+						<li>Performance Analytics & Advanced Reporting</li>
+						<li>Basics like core, ITSM, CMDB and advanced scripting </li>
+					</ul>
+				</section>
+				<section>
+					<h4 class="sectionTitle">Project & soft skills</h4>
+					<ul>
+						<li>Worked as team lead and certified instructor</li>
+						<li>Handling and solving conflicts effectively</li>
+						<li>Discovery, requirement gathering and high level diagrams</li>
+						<li>Versatile and effective communication at different levels</li>
+					</ul>
+				</section>
+				<section>
+					<h4 class="sectionTitle">ServiceNow Certifications</h4>
+					<ul>
+						<li>Certified System Admin & Application Developer</li>
+						<li>CSM & ITSM Professional Suite Certifications</li>
+						<li>Service Provider and Field Services certs</li>
+						<li>Certified Technical Architect</li>
+					</ul>
+				</section>
+				<section>
+					<h4 class="sectionTitle">Relevant Education & Courses</h4>
+					<ul>
+						<li>PRINCE2 Foundation</li>
+						<li>ITIL v3 Foundation</li>
+						<li>Agile Project Management with SCRUM</li>
+						<li>Masters in Computer Science</li>
+					</ul>
+				</section>
+			</div>
 			
-			<section id="right_column_abs" class="">
-				<h4 class="sectionTitle">Experience by Project Workstream</h4>
-    <div class="container">
-        <div class="vertical-line"></div>
-
-        <div class="circle-box">
-            <div class="circle">20%</div>
-            <div class="label">PreSales</div>
-        </div>
-        <div class="circle-box">
-            <div class="circle">80%</div>
-            <div class="label">Planning</div>
-        </div>
-        <div class="circle-box">
-            <div class="circle">100%</div>
-            <div class="label">Solution design</div>
-        </div>
-        <div class="circle-box">
-            <div class="circle">90%</div>
-            <div class="label">Implement</div>
-        </div>
-        <div class="circle-box">
-            <div class="circle">30%</div>
-            <div class="label">OCM & Enablement</div>
-        </div>
-        <div class="circle-box">
-            <div class="circle">90%</div>
-            <div class="label">UAT & Fixing</div>
-        </div>
-        <div class="circle-box">
-            <div class="circle">80%</div>
-            <div class="label">Deploy & Support</div>
-        </div>
-        <div class="circle-box">
-            <div class="circle">50%</div>
-            <div class="label">Enhance</div>
-        </div>
-        <div class="circle-box">
-            <div class="circle">30%</div>
-            <div class="label">Upgrade</div>
-        </div>
-    </div>
-			</section>
-
-
-
-			
-			<section id="" class="col-md-6 col-sm-12 flex_layout">
-				<h4 class="sectionTitle">ServiceNow areas by focus</h4>
-				<ul>
-					<li>Customer Service (CSM) & Contracts</li>
-					<li>Service Portal (style and code)</li>
-					<li>Integrations using JDBC, REST Web Services and integration hub</li>
-					<li>Performance Analytics & Advanced Reporting</li>
-					<li>Basics like core, ITSM, CMDB and advanced scripting </li>
-				</ul>
-			</section>
-			<section id="" class="col-md-6 col-sm-12 flex_layout">
-				<h4 class="sectionTitle">Project & soft skills</h4>
-				<ul>
-					<li>Worked as team lead and certified instructor</li> <!-- amazing relation with ex-colleagues, still asking me for advice -->
-					<li>Handling and solving conflicts effectively</li> <!-- example when called partner PM -->
-					<li>Discovery, requirement gathering and high level diagrams</li>
-					<li>Versatile and effective communication at different levels</li> <!-- example with excel about data in scope -->
-				</ul>
-			</section>
-
-
-
-
-
-
-
-
-			<section id="" class="col-md-6 col-sm-12 flex_layout">
-				<h4 class="sectionTitle">ServiceNow Certifications</h4>
-				<ul>
-					<li class="">Certified System Admin & Application Developer</li>
-					<li class="">CSM & ITSM Professional Suite Certifications</li>
-					<li class="">Service Provider and Field Services certs</li>
-					<li class="">Certified Technical Architect</li>
-				</ul>
-			</section>
-
-			<section id="" class="col-md-6 col-sm-12 flex_layout">
-				<h4 class="sectionTitle">Relevant Education & Courses</h4>
-				<ul>
-					<li class="">PRINCE2 Foundation</li>
-					<li class="">ITIL v3 Foundation</li>
-					<li class="">Agile Project Management with SCRUM</li>
-					<li class="">Masters in Computer Science</li>
-				</ul>
-			</section>
-
-
-
 
 
 
@@ -226,54 +136,145 @@
 
 			<section id="Experience" class="">
 				<h4 class="sectionTitle">Relevant Experience</h4>
+<div class="experience-container">
+    <article class="experience-item">
+        <div class="title-date">
+            <h5 class="detDestac">Solution architect at The Process Play</h5>
+            <time class="date">Aug 2023 - Present</time>
+        </div>
+        <div class="info">
+            <div class="detDescription">
+                Providing technical solution architecture for pre-sales stage of three opportunities, including high level diagrams, proof of concept and presentations.
+            </div>
+            <span class="detDescription">Main Areas: CSM, Order Management, Scoped Apps</span>
+            <span class="detDescription direct_report">Direct Report: Alex Reilly-Jones</span>
+        </div>
+    </article>
+
+    <article class="experience-item">
+        <div class="title-date">
+            <h5 class="detDestac">Lead Technical Architect at Kainos Europe</h5>
+            <time class="date">Sep 2023 - Jun 2024</time>
+        </div>
+        <div class="info">
+            <div class="detDescription">
+                Lead the discovery, design and implementation for new processes, a CSM portal, and technical backend automation to support Kainos' latest cutting-edge initiative, called <em>Spark and Grow</em>. Coordinated backend (internal) and frontend (external) teams to launch the project quickly.
+            </div>
+            <span class="detDescription">Main Areas: CSM, Service Portal, Service design, Contract mgmt, GenAI</span>
+            <span class="detDescription direct_report">Direct Report: Peiter Freiesleben</span>
+        </div>
+    </article>
+
+    <article class="experience-item">
+        <div class="title-date">
+            <h5 class="detDestac">Lead Consultant & Technical Solutions Architect at FlyForm</h5>
+            <time class="date">Nov 2019 - Mar 2023</time>
+        </div>
+        <div class="info">
+            <div class="detDescription">
+            	Led 13 implementations from solution design to go-live for customers across <i>public sector</i>, <i>managed service providers</i> and more. Full involvement across
+
+				<ul class="inline-cluster">
+				    <li>requirement gathering</li>
+				    <li>solution design</li>
+				    <li>development</li>
+				    <li>quality review</li>
+				    <li>org. change (OCM).</li>
+				</ul>
+
+    	        <ul class="info collapsible-content">
+                    <li>Technical lead for several CSM and ITSM implementations for B2B clients, either extending or replacing client’s current solution</li>
+                    <li>Responsible for capturing requirements and designing tailored solutions with minimal customization, while improving the experience for IT users and customers</li>
+                    <li>Coordinated development and reviewed implementation to ensure quality ahead of the delivery phases</li>
+                    <li>Led projects from solution design to Go-Live, including full involvement in the technical implementation</li>
+                    <li>Designed contract management processes integrated with Dynamics365</li>
+                    <li>Implemented integration hub for ServiceNow ebonding and ScienceLogic</li>
+                </ul>
+            </div>
+
+            <span class="detDescription">Main Areas: Service Portal, CSM, CSDM, Performance Analytics, integrations</span>
+            <span class="detDescription direct_report">Direct Report: Arron Davies, SJ Scales, Rowan Staveley</span>
+        </div>
+    </article>
+
+    <article class="experience-item">
+        <div class="title-date">
+            <h5 class="detDestac">Principal Tech Consultant at Accenture UK</h5>
+            <time class="date">Oct 2017 - Nov 2019</time>
+        </div>
+        <div class="info">
+            <div class="detDescription">
+                <div class="justifiedText">Lead our managed services team to provide support, enhancements, and version upgrades to returning clients. Responsibilities included:</div>
+                <ul class="collapsible-content">
+                    <li>Collaborate with stakeholders to shape roadmaps, upgrade plans, migrations, and project scopes</li>
+                    <li>Supervise technical team solutions and ensure adherence to requirements and quality standards</li>
+                    <li>Handle technical escalations and drive remedial actions</li>
+                </ul>
+                <div class="justifiedText">As a lead consultant for multiple retail and investment banks:</div>
+                <ul>
+                    <li>Collaborated with pre-sales to agree timelines based on high-level design and estimates</li>
+                    <li>Led workshops and delivered multiple projects</li>
+                    <li>Custom REST integrations, including ServiceNow eBonding (pre-Integration Hub)</li>
+                    <li>JML processes with SOX-compliant integration to Azure Active Directory (AzureAD)</li>
+                    <li>Provided end-user train-the-trainer enablement</li>
+                </ul>
+            </div>
+            <span class="detDescription">Main Areas: ITSM, Service Portal, CSM, Performance Analytics, integrations</span>
+            <span class="detDescription direct_report">Direct Report: Michael Jenkins, Larry Larmeu</span>
+        </div>
+    </article>
+
+    <article class="experience-item">
+        <div class="title-date">
+            <h5 class="detDestac">Senior Tech Consultant at <em>Focus Group Europe (London)</em></h5>
+            <time class="date">Jan 2016 - Oct 2017</time>
+        </div>
+        <div class="info">
+            <div class="detDescription">
+                Worked with clients in the Real Estate, Asset Management, and Satellite Communication industries to:
+                <ul>
+                    <li>Drive requirement workshops and solution proposal for ITSM, CMDB, Service Portal, Joiners-Leavers process</li>
+                    <li>Propose and implement Joiners-Leavers process using ServiceNow Express</li>
+                    <li>Supervise migration to ServiceNow and implementation of a CSM Portal and integrations</li>
+                    <li>Implemented basic integrations like Azure, SCCM, and Okta (for SN Express)</li>
+                    <li>Led workshops and implemented ITSM projects with Portals for multiple companies</li>
+                </ul>
+            </div>
+            <span class="detDescription">Main Areas: Service Portal, ITSM, CMDB, Event Management, integrations</span>
+            <span class="detDescription direct_report">Direct Report: Rich Holdford, Saria Younus, Chas Sahota</span>
+        </div>
+    </article>
+
+    <article class="experience-item">
+        <div class="title-date">
+            <h5 class="detDestac">ServiceNow Developer at <a href="https://en.wikipedia.org/wiki/CERN"><em>CERN</em> <i class="fa fa-external-link"></i></a> (Geneva)</h5>
+            <time class="date">March 2013 - Dec 2015</time>
+        </div>
+        <div class="info">
+            <div class="detDescription">
+                Provided technical support to other teams within ServiceNow and implemented solutions including integrations with other systems, a service availability portal, and maintained the catalogue of non-IT services. Top achievements:
+                <ul>
+                    <li>Performance Analytics dashboards</li>
+                    <li>Service Availability portal</li>
+                    <li>Work Order & Tasks</li>
+                </ul>
+                <ul>
+                    <li>Multiple SOAP and REST web service integrations (Infor EAM, QMind, etc.)</li>
+                    <li>Version upgrades and fixing previous technical debt</li>
+                </ul>
+            </div>
+            <div class="detDescription">
+                <span class="detDescription">Main Areas: Javascript, SOAP/REST Web Services, HTML, CSS, jQuery, Jelly</span>
+            </div>
+            <span class="detDescription direct_report">Direct Report: Reinoud Martens, David Martin</span>
+        </div>
+    </article>
+</div>
+
+
+
+
 				<table>
-					<tr class="detail">
-						<td class="date">Aug 2023 <br />Present </td>
-						<td class="infoRow">
-							<span class="detDestac">Solution architect at The Process Play</span>
-							<div class="detDescription">
-								Providing technical solution architecture for pre-sales stage of three opportunities, including high level diagrams, proof of concept and presentations.
-							</div>
-							<span class="detDescription">Main Areas: CSM, Order Management, Scoped Apps</span>
-							<span class="detDescription direct_report">Direct Report: Alex Reilly-Jones</span>
-						</td>
-					</tr>
-					<tr class="detail">
-						<td class="date">Sep 2023 <br />Jun 2024 </td>
-						<td class="infoRow">
-							<span class="detDestac">Lead Technical Architect at Kainos Europe</span>
-							<div class="detDescription">
-								Lead the discovery, design and implementation for new processes, a CSM portal and technical backend automation to support Kainos' latest cutting-edge initiative, called <em>Spark and Grow</em>. In this case, we had to coordinate the backend (internal) and frontend (external) teams working in parallel to get the project live in record time.
-							</div>
-							<span class="detDescription">Main Areas: Service Portal, CSM, GenAI</span>
-							<span class="detDescription direct_report">Direct Report: Peiter Freiesleben</span>
-						</td>
-					</tr>
-					<tr class="detail">
-						<td class="date">Nov 2019 <br />Mar 2023 </td>
-						<td class="infoRow">
-							<span class="detDestac">Lead Consultant & Technical Solutions Architect at FlyForm</span>
-							<div class="detDescription">
-								Working mainly across <i>public sector</i> and <i>managed service providers</i>:
-								<ul>
-									<li>Technical lead for several CSM and ITSM implementations for B2B clients, either extending or replacing client’s current solution</li>
-									<li>Responsible for capturing requirements and designing tailored solutions with minimum customisation, while improving the experience both for IT users and customers</li>
-									<li>In charge of coordinating development and reviewing implementation to ensure quality ahead of the delivery and following phases</li>
-									<li>Leading projects all the way from solution design to Go-Live, including full involvement in the technical implementation</li>
-									<li>Contract management process design and integration to Dynamics365</li>
-									<li>Integration hub for ServiceNow ebonding and ScienceLogic</li>
-							</div>
-							<span class="detDescription">Main Areas: Service Portal, CSM, CSDM, Performance Analytics, integrations</span>
-							<span class="detDescription direct_report">Direct Report: Arron Davies, SJ Scales, Rowan Staveley</span>
-						</td>
-					</tr>
-				
-<!-- Force page break with this:
-				</table>
-			</section>
-			<section id="separator" style="visibility: hidden;" />
-				<table>
-		-->
 					<tr class="detail">
 						<td class="date">Oct 2017 <br />Nov 2019 </td>
 						<td class="infoRow">
@@ -322,53 +323,6 @@
 							<span class="detDescription direct_report">Direct Report: Michael Jenkins, Larry Larmeu</span>
 						</td>
 					</tr>
-					<tr class="detail">
-						<td class="date">Jan 2016 <br />Oct 2017 </td>
-						<td class="infoRow">
-							<span class="detDestac">Senior Tech Consultant at <em>Focus Group Europe (London)</em>
-							</span>
-							<div class="detDescription">
-								Worked with clients in the Real estate, Asset Mgmt and Satellite communication industries to:
-								<ul>
-									<li>Drive requirement workshops and solution proposal for ITSM, CMDB, Service Portal, Joiners-Leavers process</li>
-									<li>Understand the needs of the stakeholders and propose a technical solution to implement a Joiners-Leavers process with a REST integration using ServiceNow Express</li>
-									<li>Supervise migration to ServiceNow with implementation of a CSM Portal, Event Management and integrations using JDBC and SolarWind</li>
-									<li>Implemented some basic integrations like Azure, SCCM and okta (for SN Express)</li>
-									<li>Many other diverse workshops, consulting days and tailored enhancements, including initial implementations of multiple ITSM projects with Portal for multiple companies</li>
-								</ul>
-							</div>
-							<span class="detDescription">Main areas: Service Portal, ITSM, CMDB, Event Management, integrations</span>
-							<span class="detDescription direct_report">Direct Report: Rich Holdford, Saria Younus, Chas Sahota</span>
-						</td>
-					</tr>
-					<tr class="detail">
-						<td class="date">March 2013 <br />Dec 2015 </td>
-						<!-- ForV2: <br>to<br>December 2015 -->
-						<td class="infoRow">
-							<span class="detDestac">ServiceNow Developer at
-								<a href="https://en.wikipedia.org/wiki/CERN">
-									<em>CERN</em> <i class="fa fa-external-link"></i>
-								</a> (Geneva)
-							</span>
-							<div class="detDescription">
-								Provided technical support to other teams within ServiceNow and implemented solutions including integrations with other systems, service availability portal, while maintaining the catalogue of non-IT services. Top achievements:
-								<ul class="">
-									<li>Performance Analytics dashboards</li>
-									<li>Service Availability portal</li>
-									<li>Work Order & Tasks</li>
-								</ul>
-								<ul>
-									<li>Multiple SOAP and REST web service integrations (Infor EAM, QMind, etc.)</li>
-									<li>Version upgrades and rectifying technical debt</li>
-								</ul>
-
-							</div>
-							<div class="detDescription">
-								<span class="detDescription">Main Areas: Javascript, SOAP/REST Web Services, HTML, CSS, jQuery, Jelly</span>
-							</div>
-							<span class="detDescription direct_report">Direct report: Reinoud Martens, David Martin</span>
-						</td>
-					</tr>
 				</table>
 			</section>
 
@@ -381,4 +335,5 @@
 <!-- Postproc -->
 <!--
 <script src="CVMichi_gen_content.js"></script>
+<script src="CVMichi_logic_client.js"></script>
 -->
