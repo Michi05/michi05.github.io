@@ -43,16 +43,26 @@ h1 {
 .contact-info p {
     margin: 0.5rem 0;
 }
-.social-links {
+
+#contact-email {
+    text-decoration: underline;
+ }
+ 
+ #contact-email::before {
+    content: "📧";
+    text-decoration: none;
+ }
+ 
+  
+
+#social-links {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 3rem;
     margin-top: 1rem;
 }
-.social-links a {
-    color: #333;
+#social-links a {
     text-decoration: none;
-    font-size: 1.5rem;
 }
 .toggle-theme {
     position: absolute;
@@ -63,12 +73,12 @@ h1 {
     font-size: 1.5rem;
     cursor: pointer;
 }
-.skills, .subsection {
+section {
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 1px solid #eee;
 }
-.skills h2 {
+#skills h2 {
     font-size: 1.2rem;
     color: #333;
     margin-bottom: 0.5rem;
@@ -107,13 +117,13 @@ h1 {
 .dark-mode .title {
     color: #ccc;
 }
-.dark-mode .social-links a {
+.dark-mode #social-links a {
     color: #f0f0f0;
 }
 .dark-mode .skill-tag {
     background-color: #555;
     color: #f0f0f0;
 }
-.dark-mode .skills {
+.dark-mode #skills {
     border-top-color: #555;
 }

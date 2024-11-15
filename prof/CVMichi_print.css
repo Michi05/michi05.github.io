@@ -11,7 +11,7 @@
 	}
     .break_before { /* Tricky, shouldn't be fixed... */
 		page-break-before: auto;
-		padding-top: 2in;
+		padding-top: 2em;
 	}
 	html,body { background: white; }
 	body {

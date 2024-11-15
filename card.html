@@ -5,29 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miguel A. Garcia - Profile</title>
     <link rel="stylesheet" href="card.css">
+
+    <!-- Core Font Awesome CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" rel="stylesheet">
+<!-- Font Awesome Brands Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css" rel="stylesheet">
+<!-- Font Awesome Regular Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/regular.min.css" rel="stylesheet">
+
+    <script src="setEmailEvent.js"></script>
 </head>
 <body>
     <button class="toggle-theme" onclick="toggleTheme()">🌓</button>
     <div class="card subsection">
         <img src="assets/logo.png?height=150&width=150" alt="profile pic" class="profile-pic">
         <h1>Miguel A. Garcia</h1>
-        <p class="title">SN CTA Architect</p>
-        <div class="contact-info">
-            <p>📧 mag.net205@slmails.com</p>
+        <p class="title">ServiceNow Technical Architect (CTA)</p>
+        <section id="contact-info">
+            <p id="contact-email">(Click to see)</p>
             <p>📍 London, UK</p>
-        </div>
-        <div class="social-links subsection">
-            <a href="https://linkedin.com/in/miguelgglez" target="_blank" rel="noopener noreferrer">🔗 LinkedIN</a>
-            <a href="https://tinyurl.com/miguelgglez" target="_blank" rel="noopener noreferrer">📇 SN Profile</a>
-        </div>
-        <div class="skills subsection">
-            <h2>Skills</h2>
+        </section>
+        <section id="social-links">
+            <a href="https://linkedin.com/in/miguelgglez" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-linkedin"></i>
+                LinkedIN</a>
+            <a href="https://tinyurl.com/miguelgglez" target="_blank" rel="noopener noreferrer">
+                <i style="color: #222;" class="fa-regular fa-id-card"></i>
+                SN Profile</a>
+            <a href="https://michi05.github.io/prof/resume" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" style="width:10px">
+                    <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM80 64l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16L80 96c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 352c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32zm0 32l0 64 192 0 0-64L96 256zM240 416l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+                CV</a> <!-- fa-regular fa-file-invoice // fa-passport -->
+        </section>
+        <section id="skills">
+            <h2>Technologies</h2>
             <div class="skill-tags">
                 <span class="skill-tag">JavaScript</span>
-                <span class="skill-tag">Integrations</span>
-                <span class="skill-tag">ITIL</span>
+                <span class="skill-tag">REST Integrations</span>
+                <span class="skill-tag">ITIL processes</span>
             </div>
-        </div>
+            <h2>ServiceNow products</h2>
+            <div class="skill-tags">
+                <span class="skill-tag">CSM + ITSM</span>
+                <span class="skill-tag">Performance Analytics</span>
+            </div>
+            <h2>More</h2>
+            <div class="skill-tags">
+                <span class="skill-tag">ITIL processes</span>
+            </div>
+        </section>
     </div>
 </body>
 </html>

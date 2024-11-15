@@ -16,11 +16,16 @@ body {
 	border: 1px solid lightgray;
 }
 
+main {
+	min-height: 100vh;
+	padding: 1em 2em;
+}
+
 /* Header including title, personal data and picture*/
 header {
 	display: flex;
 	flex-flow: nowrap; /* Default but JiC */
-	margin: 2em;
+	margin: 1em 2em;
 	
 	/* When taking out the picture...
 	* margin: 2em auto;
@@ -44,8 +49,7 @@ div#mainTitle {
 /******************************/
 table, tr { width: 100%; } /*100%parent*/
 section {
-	max-width: 85%;
-	margin: 1em 2em;
+	margin: 1em 0;
     display: inline-block;
 }
 
@@ -92,71 +96,11 @@ section#Experience tr.detail td {
 
 .two-column-list {
     column-count: 2; /* Set the number of columns to 2 */
-    column-gap: 20px; /* Add space between columns */
+    column-gap: 10px; /* Add space between columns */
     list-style-position: inside; /* Keep bullet points inside the list */
 /*    padding: 0; /* Remove default padding */
 /*    margin: 0; /* Remove default margin */
 }
-
-
-
-/* Apr'24 -- Fun w/ layouts */
-/******************************
- * 
- * 
- * 
-.flexcontainer {
-   display: flex;
-   align-items: left;
-   justify-content: center;
-   flex-flow: column;
-   align-content: left;
-
-}
-
-.flex_row {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   flex-flow: row;
-   align-content: center;
-
-}
-
-section {
-}
-
-.flex_layout {
-    display: flex;
-    flex-direction: column;
-}
-
-.detail {
-    display: flex;
-    margin-bottom: 10px;
-}
-
-.date {
-    width: 100px;
-}
-
-.infoRow {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-}
-
-.detDestac {
-    font-weight: bold;
-}
-
-.detSecond {
-    color: #666;
-}
-
-
-******************************/
-/******************************/
 
 
 
@@ -203,10 +147,9 @@ div#personalData {
 .skills-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
 }
 
 .skills-grid section {
     flex: 1 1 calc(50% - 10px);
-	margin: unset;
 }
