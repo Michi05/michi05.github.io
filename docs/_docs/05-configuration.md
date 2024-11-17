@@ -912,10 +912,10 @@ Author links are all optional, include the ones you want visible under the `auth
 
 ```yaml
 author:
-  name: "Your Name"
-  avatar: "/assets/images/bio-photo.jpg"
-  bio: "I am an **amazing** person." # Note: Markdown is allowed
-  location: "Somewhere"
+  name             : "Garlez, Miguel A."
+  avatar           : "/prof/media/logo.png" # path of avatar image
+  bio              : "ServiceNow Technical Architect (CTA)"
+  location         : "UK, Remote"
   links:
     - label: "Made Mistakes"
       icon: "fas fa-fw fa-link"

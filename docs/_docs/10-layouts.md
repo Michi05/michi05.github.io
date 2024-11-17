@@ -595,10 +595,10 @@ To assign more author links, add to the `author.links` array  in [`_config.yml`]
 
 ```yaml
 author:
-  name: "Your Name"
-  avatar: "/assets/images/bio-photo.jpg"
-  bio: "I am an **amazing** person." # Note: Markdown is allowed
-  location: "Somewhere"
+  name             : "Garlez, Miguel A."
+  avatar           : "/prof/media/logo.png" # path of avatar image
+  bio              : "ServiceNow Technical Architect (CTA)"
+  location         : "UK, Remote"
   links:
     - label: "Made Mistakes"
       icon: "fas fa-fw fa-link"
