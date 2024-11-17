@@ -214,15 +214,30 @@ h5.detDestac {
         text-align: right;
     }
 
-    .info {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
 
-    .detDescription {
-        margin-top: 5px;
-    }
+/****************nov24 -- SideNote flex *************/
+
+.info {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.detDescription {
+    flex: 15;
+    margin-top: 5px;
+    order : 10;
+}
+
+sidenote.word-cloud {
+    flex: 8;
+    padding: 10px;
+    min-width: 200px;
+
+    margin-left: 2em;
+    order : 80;
+}
+
 
     ul {
         padding-left: 20px;
