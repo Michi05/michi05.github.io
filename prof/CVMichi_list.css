@@ -56,7 +56,7 @@ ul.inline-cluster li:last-child::after {
     justify-content: center;
     align-items: center;
 }
-.word-cloud div {
+.word-cloud li {
     font-size: calc(10px + 1.2 * var(--weight));
     padding: 5px;
     background: #e0e0e0;
@@ -64,7 +64,7 @@ ul.inline-cluster li:last-child::after {
     text-align: center;
 }
 /* Word cloud with gradient colors (Idea 1) */
-.word-cloud-gradient div {
+.word-cloud-gradient li {
     font-size: calc(10px + 1.2 * var(--weight));
     padding: 5px;
     background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
@@ -73,7 +73,7 @@ ul.inline-cluster li:last-child::after {
     color: #333;
 }
 /* Word cloud with varied background colors and borders (Idea 3) */
-.word-cloud-bordered div {
+.word-cloud-bordered li {
     font-size: calc(10px + 1.2 * var(--weight));
     padding: 5px;
     background: #e0e0e0;
@@ -83,7 +83,7 @@ ul.inline-cluster li:last-child::after {
     color: #333;
 }
 /* Word cloud with emojis (Updated from Icons, Idea 7) */
-.word-cloud-icons div {
+.word-cloud-icons li {
     font-size: calc(10px + 1.2 * var(--weight));
     padding: 5px;
     background: #e0e0e0;
