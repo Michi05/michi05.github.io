@@ -52,7 +52,6 @@ ul.inline-cluster li:last-child::after {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    width: 40%;
     justify-content: center;
     align-items: center;
 }
@@ -62,6 +61,8 @@ ul.inline-cluster li:last-child::after {
     background: #e0e0e0;
     border-radius: 5px;
     text-align: center;
+
+    list-style: none;
 }
 /* Word cloud with gradient colors (Idea 1) */
 .word-cloud-gradient li {
