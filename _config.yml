@@ -119,15 +119,18 @@ author:
   location         : "UK, Remote"
   email            :
   links:
-    - label: "More info and contact"
-      icon: "fas fa-fw fa-envelope-square"
-      url: "card.html"
-    - label: "Contact Info"
-      icon: "fas fa-fw fa-link"
-      # url: "card.html"
+    - label: "ServiceNow Profile"
+      icon: "fab fa-fw fa-id-card"
+      url: "https://tinyurl.com/miguelgglez"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
       url: "https://linkedin.com/in/miguelgglez"
+    - label: "CV"
+      icon: "fab fa-fw fa-linkedin"
+      url: "prof/resume"
+    - label: "Contact Info"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "card.html"
 
 # Site Footer
 footer:
