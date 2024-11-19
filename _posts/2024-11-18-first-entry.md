@@ -1,6 +1,6 @@
 ---
-title: "Purpose"
-excerpt: "Personal space for professional matters"
+title: "Intro & Purpose"
+excerpt: ""
 header:
   image: "/prof/media/SN Profile.png"
   caption: "ServiceNow certification profile"
