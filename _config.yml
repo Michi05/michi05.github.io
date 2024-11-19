@@ -291,6 +291,17 @@ compress_html:
   ignore:
     envs: development
 
+# Galleries nov24
+gallery:
+  - url: /prof/media/SN Profile.png
+    image_path: /prof/media/SN Profile.png
+    alt: "placeholder image 1"
+    title: "Image 1 title caption"
+  - url: /prof/media/SN Profile.png
+    image_path: /prof/media/SN Profile.png
+    alt: "placeholder image 2"
+    title: "Image 2 title caption"
+
 
 # Defaults
 defaults:
@@ -301,7 +312,19 @@ defaults:
     values:
       layout: single
       author_profile: true
-      read_time: true
-      comments: # true
-      share: true
-      related: true
+      read_time: false
+      comments: false
+      share: false
+      related: false
+
+  # rest
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: page
+      author_profile: true
+      read_time: false
+      comments: false
+      share: false
+      related: false
