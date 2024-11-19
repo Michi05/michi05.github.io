@@ -8,6 +8,8 @@ ul.inline-cluster {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 2px;
+
+    text-align: right;
 }
 ul.inline-cluster li {
     display: inline;
@@ -49,14 +51,14 @@ ul.inline-cluster li:last-child::after {
 /****************nov24 -- WordCloud *************/
 /* Elegant flex layout for word cloud */
 .word-cloud {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    gap: 4px;
+    justify-content: right;
     align-items: center;
 }
 .word-cloud li {
-    font-size: calc(10px + 1.2 * var(--weight));
+/*    font-size: calc(10px + 1.2 * var(--weight));*/
     padding: 5px;
     background: #e0e0e0;
     border-radius: 5px;
@@ -94,3 +96,15 @@ ul.inline-cluster li:last-child::after {
     align-items: center;
     gap: 5px;
 }
+
+
+
+/* Styling for tech and product classes */
+/*
+li.tech {
+    font-family: 'Courier New', Courier, monospace; /* Code-like font for tech entries * /
+}
+li.product {
+    font-style: italic; /* Italic font for product entries * /
+}
+*/

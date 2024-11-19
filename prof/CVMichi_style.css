@@ -240,22 +240,27 @@ h5.detDestac {
 }
 
 
-    ul {
-        padding-left: 20px;
-    }
+ul {
+    padding-left: 20px;
+}
 
-    .experience-item {
-    	content: "➖";
+.experience-item {
+	content: "➖";
 
-    	.collapsible-content {
-        	display: none;
-		}
-    }
+	.collapsible-content {
+    	display: none;
+	}
+}
 
-    .experience-item.expanded {
-    	content: "➕";
+.experience-item.expanded {
+	content: "➕";
 
-    	.collapsible-content {
-        	display: block;
-		}
-    }
+	.collapsible-content {
+    	display: block;
+	}
+}
+
+.forceHidden {
+    visibility: hidden;
+    display: none !important;
+}

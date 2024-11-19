@@ -1,14 +1,6 @@
 
 @media print {
 
-	table, tbody, tr {
-    	page-break-inside: auto;
-	}
-
-    tr.detail, .avoid_break {
-		page-break-inside: avoid;
-		page-break-before: auto;
-	}
     .break_before { /* Tricky, shouldn't be fixed... */
 		page-break-before: auto;
 		padding-top: 2em;
@@ -52,14 +44,19 @@
         content: none !important;
     }
 
-    .col-md-6 {
-        width: 45%;
-        float: left;
-        margin: 2em 0;
-    }
+/******************************/
+/******************************/
 
-/******************************/
-/******************************/
+
+.experience-container {
+  break-inside: auto;
+
+  article.experience-item {
+    page-break-inside: avoid;
+  }
+
+}
+
 
 }
 

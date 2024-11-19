@@ -49,10 +49,15 @@ div#mainTitle {
 /******************************/
 table, tr { width: 100%; } /*100%parent*/
 section {
-	margin: 1em 0;
-    display: inline-block;
+	margin-bottom: 3em;
+    display: block;
 }
 
+
+h4.sectionTitle {
+/*	text-align: center;*/
+margin-left: 10%;
+}
 
 h4.sectionTitle:before {
     content: " ";
@@ -63,18 +68,17 @@ h4.sectionTitle:before {
 	border: 3px solid /*MainColor*/RoyalBlue;
 }
 
-
-td.date,td.detailTag {
-    width: 15%; /* ForV2: Maybe 20%  but depending on related change? */
-    text-align: center;
-    vertical-align: middle;
-    padding: 4px;
+/*h4.sectionTitle:after {
+    content: " ";
+    display: inline-block;
+    margin: 0 1em 0.3em 10px; /* Be Careful with the left margin * /
+    width: 10%;
+	height: 0px;
+	border: 3px solid /*MainColor* /RoyalBlue;
 }
+*/
 
-tr.detail td, div.detail, div.row{
-	padding: 0.5em 2px;
-	line-height: 1.5;
-}
+
 
 section#Experience tr.detail td {
 	padding-top: 2em;
