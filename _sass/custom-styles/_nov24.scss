@@ -1,9 +1,22 @@
 
 body.layout--home > .initial-content > #main {
-    margin-left: auto;
-    margin-right: auto;
-    width: 70vw;
-    min-width: fit-content;
+  background-color: initial;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70vw;
+  min-width: fit-content;
 }
 
 
+#site-nav {
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  
+}
+
+#site-nav {
+  a, li, div, span {
+    font-family: cursive;
+  }
+}
