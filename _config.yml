@@ -67,7 +67,7 @@ reCaptcha:
   secret                 :
 atom_feed:
   path                   : # blank (default) uses feed.xml
-  hide                   : # true, false (default)
+  hide                   : true # true, false (default)
 search                   : # true, false (default)
 search_full_content      : # true, false (default)
 search_provider          : # lunr (default), algolia, google
@@ -251,7 +251,7 @@ whitelist:
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-gist
-  - jekyll-feed
+  # - jekyll-feed
   - jekyll-include-cache
 
 
@@ -293,12 +293,12 @@ compress_html:
 
 # Galleries nov24
 gallery:
-  - url: /prof/media/SN Profile.png
-    image_path: /prof/media/SN Profile.png
+  - url: prof/media/SN Profile.png
+    image_path: prof/media/SN Profile.png
     alt: "placeholder image 1"
     title: "Image 1 title caption"
-  - url: /prof/media/SN Profile.png
-    image_path: /prof/media/SN Profile.png
+  - url: prof/media/SN Profile.png
+    image_path: prof/media/SN Profile.png
     alt: "placeholder image 2"
     title: "Image 2 title caption"
 
