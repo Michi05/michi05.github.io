@@ -17,7 +17,7 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 # Site Settings
 locale                   : "en-US"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
-title                    : "Garlez -- Business Profile"
+title                    : "Garlez - Business Profile (beta)"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Miguel A."
@@ -116,7 +116,7 @@ author:
   name             : "Garlez, Miguel A."
   avatar           : "/prof/media/logo.png" # path of avatar image
   bio              : "ServiceNow Technical Architect (CTA)"
-  location         : "UK, Remote"
+  location         : "EU, Remote"
   email            :
   links:
     - label: "ServiceNow Profile"

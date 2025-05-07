@@ -598,7 +598,7 @@ author:
   name             : "Garlez, Miguel A."
   avatar           : "/prof/media/logo.png" # path of avatar image
   bio              : "ServiceNow Technical Architect (CTA)"
-  location         : "UK, Remote"
+  location         : "EU, Remote"
   links:
     - label: "Made Mistakes"
       icon: "fas fa-fw fa-link"
