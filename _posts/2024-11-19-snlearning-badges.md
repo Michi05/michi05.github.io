@@ -1,6 +1,6 @@
 ---
 title: "SN Badges"
-excerpt: "My badges and accomplishments can be seen..."
+excerpt: "Badges and accomplishments are publicly available"
 header:
   image: ""
   caption: ""

@@ -1,6 +1,6 @@
 ---
-title: "Intro & Purpose"
-excerpt: ""
+title: "Beta version"
+excerpt: "This web is work in progress... (permanently?)"
 header:
   image: ""
   caption: ""
@@ -11,7 +11,8 @@ tags:
   - image
 ---
 
-My badges and accomplishments can be verified in the [official SN page](https://tinyurl.com/miguelgglez)
 
-![ServiceNow certification profile](/prof/media/SN Profile.png)
+This site is currently in beta — I’m still shaping the content and layout.
+Expect ongoing updates as I apply what I learn and refine how I present my work.
+In the meantime, feel free to connect via [LinkedIn] or explore my [ServiceNow profile].
 
