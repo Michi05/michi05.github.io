@@ -124,6 +124,18 @@ h4.sectionTitle {
 	padding: 0;
 }
 
+.detDescription>span,
+.detDescription div.justifiedText {
+    display: block;
+    text-align: justify;
+}
+
+.detDescription div.justifiedText::first-letter,
+.detDescription>span::first-letter,
+.detDescription em {
+  font-weight: bold;
+}
+
 .detDescription>ul { margin: 0; }
 
 /* Version with points below: */
@@ -145,9 +157,6 @@ tr.legacyBlock, .hideMe {
     display:block;
 }
 
-div.justifiedText {
-	text-align: justify;
-}
 
 .fa-external-link{
     vertical-align: super;
