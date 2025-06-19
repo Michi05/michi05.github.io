@@ -9,18 +9,21 @@ ul.inline-cluster {
     flex-wrap: wrap;
     gap: 2px;
 
-    text-align: right;
+    flex-direction: row-reverse;
 }
 ul.inline-cluster li {
     display: inline;
 }
-ul.inline-cluster li::after {
+ul.inline-cluster li::before {
     content: " \2022 "; /* Bullet character */
     padding: 0 5px;
 }
-ul.inline-cluster li:last-child::after {
-    content: ""; /* Remove bullet after the last item */
-}
+
+
+/* Remove bullet after the last item */
+/* ul.inline-cluster li:first-child::before {
+    content: "";
+} */
 
 
 /****************nov24 -- Collapsible *************/

@@ -125,7 +125,7 @@ h4.sectionTitle {
 }
 
 .detDescription>span,
-.detDescription div.justifiedText {
+div.justifiedText {
     display: block;
     text-align: justify;
 }
