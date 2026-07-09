@@ -173,6 +173,11 @@
   .chip.checkout{background:#FBEEE9;border:1px solid #E9C6BF;border-left:3px solid #C2564A}
   .chip.checkout .tag{color:#B23A2E}
   .chip.checkout .ttl{color:#7d2b21}
+  .chip.chore{background:#EAEEF3;border:1px solid var(--tile-line-soft);border-left:none;border-radius:6px;
+    padding:3px 8px;flex-direction:row;align-items:center;gap:6px;box-shadow:none}
+  .chip.chore .ch-emoji{font-size:11px;line-height:1;flex:none}
+  .chip.chore .ch-label{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;color:var(--muted);
+    letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .chip.allday{background-image:linear-gradient(90deg,rgba(255,255,255,.45),transparent);}
   .chip.allday .ttl::before{content:"▬ ";opacity:.5;font-size:9px;vertical-align:middle}
   .chip.short{padding:4px 7px}
@@ -214,6 +219,7 @@
   .dr-status.confirmed{background:var(--confirmed-bg);color:var(--confirmed)}
   .dr-status.pending{background:var(--pending-bg);color:var(--pending)}
   .dr-status.interest{background:var(--interest-bg);color:var(--interest)}
+  .dr-status.chore{background:var(--card);color:var(--muted);border:1px solid var(--tile-line)}
   .dr-head h2{font-family:"Archivo";font-size:20px;font-weight:700;margin:12px 0 3px;line-height:1.15}
   .dr-head .org{font-size:12.5px;color:var(--muted)}
   .dr-close{position:absolute;top:12px;right:12px;background:var(--card);border:1px solid var(--tile-line);
@@ -461,6 +467,34 @@ const FLOATING = [
     note:"Optimising your website for organic traffic and LLMs: content SEO fundamentals, spotting new lead-gen page opportunities, and a live demo on a volunteer's site. Needs 1–2 volunteers (DM your domain; Nigel sets up Google Search Console ~a week ahead for a content audit). React 📈 to join; date confirmed once numbers are in." },
 ];
 
+/* Weekly housekeeping — one tile per weekday+type, listing the apartments (details on click).
+   weekday: 0=Sun … 1=Mon, 2=Tue, 4=Thu. Recurs on every matching weekday in range. */
+const HOUSEKEEPING = [
+  { id:"clean-mon", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces", weekday:1,
+    apts:[
+      {name:"LISBOA",     loc:"3rd (top) floor, right", time:"14:00–15:00"},
+      {name:"CARCAVELOS", loc:"3rd (top) floor, left",  time:"15:00–16:00"},
+      {name:"SINTRA",     loc:"2nd floor, right",        time:"16:00–17:00"},
+      {name:"FARO",       loc:"2nd floor, left",         time:"17:00–18:00"},
+    ] },
+  { id:"clean-tue", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces", weekday:2,
+    apts:[
+      {name:"PORTO",      loc:"Ground floor",            time:"14:00–15:00"},
+    ] },
+  { id:"bed-tue", kind:"bedding", tag:"BEDDING", type:"Fresh bedding", weekday:2,
+    apts:[
+      {name:"LISBOA",     loc:"3rd (top) floor, right", time:"15:00–16:00"},
+      {name:"CARCAVELOS", loc:"3rd (top) floor, left",  time:"16:00–17:00"},
+      {name:"FARO",       loc:"2nd floor, left",         time:"17:00–18:00"},
+    ] },
+  { id:"bed-thu", kind:"bedding", tag:"BEDDING", type:"Fresh bedding", weekday:4,
+    apts:[
+      {name:"SINTRA",     loc:"2nd floor, right",        time:"14:00–15:00"},
+      {name:"PORTO",      loc:"Ground floor",            time:"15:00–16:00"},
+    ] },
+];
+const hkById = {}; HOUSEKEEPING.forEach(h=>hkById[h.id]=h);
+
 const byId = {};
 EVENTS.forEach(e=>byId[e.id]=e);
 SPANS.forEach(e=>byId[e.id]=e);
@@ -534,6 +568,18 @@ function spanChipEl(sp,key){
   return b;
 }
 
+/* recurring housekeeping: slim single-line gray pill with a leading emoji,
+   deliberately quieter than an activity chip. Full details (apartments/times) on click. */
+const HK_META={ clean:{emoji:"🧹", label:"Cleaning common spaces"}, bedding:{emoji:"🛏️", label:"Fresh bedding"} };
+function choreChipEl(hk){
+  const m=HK_META[hk.kind];
+  const b=document.createElement("button");
+  b.className=`chip chore ${hk.kind}`;
+  b.innerHTML=`<span class="ch-emoji">${m.emoji}</span><span class="ch-label">${m.label}</span>`;
+  b.addEventListener("click",()=>openHousekeeping(hk.id));
+  return b;
+}
+
 function renderCalendar(){
   const cal=document.getElementById("calendar");
   cal.innerHTML="";
@@ -580,6 +626,8 @@ function renderCalendar(){
       SPANS.filter(sp=>visible(sp) && key>=sp.startDate && key<=sp.endDate)
         .forEach(sp=>cell.appendChild(spanChipEl(sp,key)));
       shownEvents.forEach(ev=>cell.appendChild(chipEl(ev)));
+      // recurring housekeeping for this weekday
+      HOUSEKEEPING.filter(hk=>hk.weekday===dt.getUTCDay()).forEach(hk=>cell.appendChild(choreChipEl(hk)));
       days.appendChild(cell);
     });
     wk.appendChild(days);
@@ -596,14 +644,16 @@ function renderAgenda(){
     const dayEvents=EVENTS.filter(e=>e.date===date && visible(e)).sort((a,b)=>(a.start||"99").localeCompare(b.start||"99"));
     // include span if starts within
     const spanHere=SPANS.filter(sp=>sp.startDate===date && visible(sp));
-    if(!dayEvents.length && !spanHere.length && date!==TODAY) return;
+    const choresHere=HOUSEKEEPING.filter(hk=>hk.weekday===dt.getUTCDay());
+    if(!dayEvents.length && !spanHere.length && !choresHere.length && date!==TODAY) return;
     const box=document.createElement("div"); box.className="ag-day"+(date===TODAY?" today":"");
     const lvl=dayClashLevel(dayEvents);
     box.innerHTML=`<div class="ag-date"><span>${WDFULL[dt.getUTCDay()]}</span><span class="wd">${dt.getUTCDate()} ${MO[dt.getUTCMonth()]}</span>${date===TODAY?'<span class="todaytag">TODAY</span>':""}${lvl?`<span class="badge ${lvl}">${lvl==="clash"?"⚠ clash":"◇ options"}</span>`:""}</div>`;
     const list=document.createElement("div"); list.className="ag-list";
     spanHere.forEach(sp=>{ const b=document.createElement("button"); b.className="span-bar"; b.innerHTML=`<span class="tag">${sp.tag}</span> ${sp.title} · 24–26 Jul (2–3 nights)`; b.addEventListener("click",()=>openDrawer(sp.id)); list.appendChild(b); });
-    if(!dayEvents.length && !spanHere.length){ const e=document.createElement("div"); e.className="ag-empty"; e.textContent="Nothing planned yet."; list.appendChild(e);}
+    if(!dayEvents.length && !spanHere.length && !choresHere.length){ const e=document.createElement("div"); e.className="ag-empty"; e.textContent="Nothing planned yet."; list.appendChild(e);}
     dayEvents.forEach(ev=>list.appendChild(chipEl(ev)));
+    choresHere.forEach(hk=>list.appendChild(choreChipEl(hk)));
     box.appendChild(list); ag.appendChild(box);
   });
 }
@@ -688,6 +738,22 @@ function openDayDrawer(dateKey,events,lvl){
   });
   const body=document.getElementById("drBody"); body.innerHTML=html;
   body.querySelectorAll("[data-goto]").forEach(bn=>bn.addEventListener("click",()=>openDrawer(bn.dataset.goto)));
+  drawer.classList.add("on"); scrim.classList.add("on"); drawer.setAttribute("aria-hidden","false");
+  document.getElementById("drClose").focus();
+}
+
+function openHousekeeping(id){
+  const hk=hkById[id]; if(!hk) return;
+  lastFocus=document.activeElement;
+  document.getElementById("drStatus").className="dr-status chore";
+  document.getElementById("drStatus").textContent="● Housekeeping";
+  document.getElementById("drTitle").textContent=hk.type;
+  document.getElementById("drOrg").textContent=`Every ${WDFULL[hk.weekday]} during the stay`;
+  let html=`<div class="dr-note">Recurring apartment housekeeping — same slot each week. Times are per apartment.</div>`;
+  html+=`<p class="dr-section-t">By apartment</p><ul class="opts">`;
+  hk.apts.forEach(a=>{ html+=`<li><b>${a.name}</b> — ${a.loc} · ${a.time}</li>`; });
+  html+=`</ul>`;
+  const body=document.getElementById("drBody"); body.innerHTML=html;
   drawer.classList.add("on"); scrim.classList.add("on"); drawer.setAttribute("aria-hidden","false");
   document.getElementById("drClose").focus();
 }
