@@ -174,15 +174,10 @@
   .chip.checkout .tag{color:#B23A2E}
   .chip.checkout .ttl{color:#7d2b21}
   .chip.chore{background:#EAEEF3;border:1px solid var(--tile-line-soft);border-left:none;border-radius:6px;
-    padding:4px 8px;flex-direction:row;align-items:center;gap:7px;box-shadow:none}
-  .chip.chore .ch-emoji{font-size:12px;line-height:1;flex:none}
-  .chip.chore .ch-body{display:flex;flex-direction:column;gap:1px;min-width:0}
+    padding:3px 8px;flex-direction:row;align-items:center;gap:6px;box-shadow:none}
+  .chip.chore .ch-emoji{font-size:11px;line-height:1;flex:none}
   .chip.chore .ch-label{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;color:var(--muted);
     letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .chip.chore .ch-cities{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:500;color:#8797ab;
-    letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .chip.chore.social{background:var(--interest-bg);border-color:#D4E1F4}
-  .chip.chore.social .ch-label{color:var(--interest)}
   .chip.allday{background-image:linear-gradient(90deg,rgba(255,255,255,.45),transparent);}
   .chip.allday .ttl::before{content:"▬ ";opacity:.5;font-size:9px;vertical-align:middle}
   .chip.short{padding:4px 7px}
@@ -576,28 +571,12 @@ function spanChipEl(sp,key){
 /* recurring housekeeping: slim single-line gray pill with a leading emoji,
    deliberately quieter than an activity chip. Full details (apartments/times) on click. */
 const HK_META={ clean:{emoji:"🧹", label:"Cleaning common spaces"}, bedding:{emoji:"🛏️", label:"Fresh bedding"} };
-const CITY_ABBR={ PORTO:"Po", SINTRA:"Si", LISBOA:"Li", FARO:"Fa", CARCAVELOS:"Ca" };
 function choreChipEl(hk){
   const m=HK_META[hk.kind];
-  const cities=hk.apts.map(a=>CITY_ABBR[a.name]||a.name).join(" · ");
   const b=document.createElement("button");
   b.className=`chip chore ${hk.kind}`;
-  b.innerHTML=`<span class="ch-emoji">${m.emoji}</span><span class="ch-body"><span class="ch-label">${m.label}</span><span class="ch-cities">${cities}</span></span>`;
+  b.innerHTML=`<span class="ch-emoji">${m.emoji}</span><span class="ch-label">${m.label}</span>`;
   b.addEventListener("click",()=>openHousekeeping(hk.id));
-  return b;
-}
-
-/* other weekly recurring markers (title + emoji only; time details in the drawer) */
-const RECURRING=[
-  { id:"tribal-tue", emoji:"🥳", label:"Tribal Tuesday", weekday:2,
-    note:"WiFi Tribe's weekly Tribal Tuesday get-together. Usually around midday, but the time flexes to fit whoever's around — keep an eye on the channel for the call." },
-];
-const recById={}; RECURRING.forEach(r=>recById[r.id]=r);
-function recChipEl(r){
-  const b=document.createElement("button");
-  b.className="chip chore social";
-  b.innerHTML=`<span class="ch-emoji">${r.emoji}</span><span class="ch-body"><span class="ch-label">${r.label}</span></span>`;
-  b.addEventListener("click",()=>openRecurring(r.id));
   return b;
 }
 
@@ -647,8 +626,7 @@ function renderCalendar(){
       SPANS.filter(sp=>visible(sp) && key>=sp.startDate && key<=sp.endDate)
         .forEach(sp=>cell.appendChild(spanChipEl(sp,key)));
       shownEvents.forEach(ev=>cell.appendChild(chipEl(ev)));
-      // recurring weekly markers (social first, then housekeeping) for this weekday
-      RECURRING.filter(r=>r.weekday===dt.getUTCDay()).forEach(r=>cell.appendChild(recChipEl(r)));
+      // recurring housekeeping for this weekday
       HOUSEKEEPING.filter(hk=>hk.weekday===dt.getUTCDay()).forEach(hk=>cell.appendChild(choreChipEl(hk)));
       days.appendChild(cell);
     });
@@ -667,16 +645,14 @@ function renderAgenda(){
     // include span if starts within
     const spanHere=SPANS.filter(sp=>sp.startDate===date && visible(sp));
     const choresHere=HOUSEKEEPING.filter(hk=>hk.weekday===dt.getUTCDay());
-    const recHere=RECURRING.filter(r=>r.weekday===dt.getUTCDay());
-    if(!dayEvents.length && !spanHere.length && !choresHere.length && !recHere.length && date!==TODAY) return;
+    if(!dayEvents.length && !spanHere.length && !choresHere.length && date!==TODAY) return;
     const box=document.createElement("div"); box.className="ag-day"+(date===TODAY?" today":"");
     const lvl=dayClashLevel(dayEvents);
     box.innerHTML=`<div class="ag-date"><span>${WDFULL[dt.getUTCDay()]}</span><span class="wd">${dt.getUTCDate()} ${MO[dt.getUTCMonth()]}</span>${date===TODAY?'<span class="todaytag">TODAY</span>':""}${lvl?`<span class="badge ${lvl}">${lvl==="clash"?"⚠ clash":"◇ options"}</span>`:""}</div>`;
     const list=document.createElement("div"); list.className="ag-list";
     spanHere.forEach(sp=>{ const b=document.createElement("button"); b.className="span-bar"; b.innerHTML=`<span class="tag">${sp.tag}</span> ${sp.title} · 24–26 Jul (2–3 nights)`; b.addEventListener("click",()=>openDrawer(sp.id)); list.appendChild(b); });
-    if(!dayEvents.length && !spanHere.length && !choresHere.length && !recHere.length){ const e=document.createElement("div"); e.className="ag-empty"; e.textContent="Nothing planned yet."; list.appendChild(e);}
+    if(!dayEvents.length && !spanHere.length && !choresHere.length){ const e=document.createElement("div"); e.className="ag-empty"; e.textContent="Nothing planned yet."; list.appendChild(e);}
     dayEvents.forEach(ev=>list.appendChild(chipEl(ev)));
-    recHere.forEach(r=>list.appendChild(recChipEl(r)));
     choresHere.forEach(hk=>list.appendChild(choreChipEl(hk)));
     box.appendChild(list); ag.appendChild(box);
   });
@@ -778,18 +754,6 @@ function openHousekeeping(id){
   hk.apts.forEach(a=>{ html+=`<li><b>${a.name}</b> — ${a.loc} · ${a.time}</li>`; });
   html+=`</ul>`;
   const body=document.getElementById("drBody"); body.innerHTML=html;
-  drawer.classList.add("on"); scrim.classList.add("on"); drawer.setAttribute("aria-hidden","false");
-  document.getElementById("drClose").focus();
-}
-
-function openRecurring(id){
-  const r=recById[id]; if(!r) return;
-  lastFocus=document.activeElement;
-  document.getElementById("drStatus").className="dr-status chore";
-  document.getElementById("drStatus").textContent="● Weekly";
-  document.getElementById("drTitle").textContent=r.label;
-  document.getElementById("drOrg").textContent=`Every ${WDFULL[r.weekday]}`;
-  document.getElementById("drBody").innerHTML=`<div class="dr-note">${r.note}</div>`;
   drawer.classList.add("on"); scrim.classList.add("on"); drawer.setAttribute("aria-hidden","false");
   document.getElementById("drClose").focus();
 }
