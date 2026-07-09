@@ -170,6 +170,9 @@
   .chip.pending .tag{color:var(--pending)}
   .chip.interest{background:var(--interest-bg);border:1px dashed var(--interest);border-left:3px solid var(--interest)}
   .chip.interest .tag{color:var(--interest)}
+  .chip.checkout{background:#FBEEE9;border:1px solid #E9C6BF;border-left:3px solid #C2564A}
+  .chip.checkout .tag{color:#B23A2E}
+  .chip.checkout .ttl{color:#7d2b21}
   .chip.allday{background-image:linear-gradient(90deg,rgba(255,255,255,.45),transparent);}
   .chip.allday .ttl::before{content:"▬ ";opacity:.5;font-size:9px;vertical-align:middle}
   .chip.short{padding:4px 7px}
@@ -432,6 +435,10 @@ const EVENTS = [
     date:"2026-07-14", len:"part", start:"17:00", noSlot:true, loc:"Likely the patio (afternoon/evening for shade)",
     options:["Tue 14 Jul · 5:00 PM","Thu 16 Jul · 6:30 PM"],
     note:"Laura shares from 30+ years living on the autism spectrum plus years of research: the spectrum vs pop culture, autistic vs introverted vs shy, why \"everyone's a little autistic\" is false — and, most importantly, how to make chapters more inclusive for neurodivergent folks. Bring questions (or send privately). 30–60+ min, discussion welcome. Two time options; she's happy to run it twice if needed." },
+
+  { id:"checkout", title:"Checkout & goodbye", tag:"CHECKOUT", org:"Porto chapter", status:"confirmed", kind:"checkout",
+    date:"2026-07-31", len:"short", start:"12:00",
+    note:"End of the Porto chapter — checkout and goodbyes around midday. Last day in the apartment." },
 ];
 
 /* Multi-day spanning events (rendered as a bar across the week) */
@@ -444,8 +451,6 @@ const SPANS = [
 
 /* Undated / floating */
 const FLOATING = [
-  { id:"cruise", title:"Sunset river cruise", tag:"CRUISE", org:"Nikki Woolcock", status:"confirmed",
-    note:"Boat company moved departure to 7:30pm, finishing 9:30pm — but the date lives in another thread. Confirm which evening before you count on it." },
   { id:"tiles", title:"Tile-painting workshop", tag:"TILES", org:"Hannah Woods", status:"interest",
     note:"Floated as an idea, no date or venue pinned yet." },
   { id:"ferrata", title:"Via Ferrata", tag:"FERRATA", org:"Erin Erhardt", status:"interest",
@@ -504,7 +509,7 @@ for(let w=0;w<4;w++){ const row=[]; for(let i=0;i<7;i++){ const dt=new Date(STAR
 /* ============ Rendering ============ */
 function chipEl(ev){
   const b=document.createElement("button");
-  b.className=`chip ${ev.status} ${ev.len==="fullday"?"allday":ev.len==="short"?"short":""}`.trim();
+  b.className=`chip ${ev.kind==="checkout"?"checkout":ev.status} ${ev.len==="fullday"?"allday":ev.len==="short"?"short":""}`.trim();
   if(!visible(ev)) b.classList.add("dim");
   const cl=clashMap[ev.id]||[];
   const hard=cl.some(c=>c.level==="clash"), soft=cl.some(c=>c.level==="choose");
@@ -513,6 +518,17 @@ function chipEl(ev){
   b.innerHTML=`<div class="top"><span class="tag">${ev.tag}</span><span class="time">${timeTxt}</span></div>
     <div class="ttl">${ev.title}</div>${hard?'<span class="mk" style="color:var(--clash)">⚠</span>':soft?'<span class="mk" style="color:var(--choose)">◇</span>':''}`;
   b.addEventListener("click",()=>openDrawer(ev.id));
+  return b;
+}
+
+/* a multi-day span shown inside a single day cell */
+function spanChipEl(sp,key){
+  const isStart = key===sp.startDate;
+  const b=document.createElement("button");
+  b.className="chip interest span-chip"+(isStart?" span-chip-start":" span-chip-cont");
+  b.innerHTML=`<div class="top"><span class="tag">${isStart?sp.tag:"⋯"}</span><span class="time">${isStart?"2–3 nts":"cont."}</span></div>
+    <div class="ttl">${sp.title}</div>`;
+  b.addEventListener("click",()=>openDrawer(sp.id));
   return b;
 }
 
@@ -526,32 +542,6 @@ function renderCalendar(){
 
   weeks.forEach(row=>{
     const wk=document.createElement("div"); wk.className="week";
-    // spanning lane
-    const lane=document.createElement("div"); lane.className="lane";
-    let laneUsed=false;
-    SPANS.forEach(sp=>{
-      const s=d(sp.startDate), e=d(sp.endDate);
-      const idxs=row.map((dt,i)=> (dt>=s&&dt<=e)?i:-1).filter(i=>i>=0);
-      if(idxs.length && visible(sp)){
-        laneUsed=true;
-        // one tile per day so each clearly belongs to its own column;
-        // side borders drop out between days so the run reads as a continuation.
-        idxs.forEach(ci=>{
-          const dt=row[ci];
-          const isStart = iso(dt)===sp.startDate;
-          const isEnd   = iso(dt)===sp.endDate;
-          const bar=document.createElement("button");
-          bar.className="span-bar span-day"+(isStart?" span-start":" span-cont")+(isEnd?" span-end":"");
-          bar.style.gridColumn=`${ci+1} / ${ci+2}`;
-          bar.innerHTML = isStart
-            ? `<span class="tag">${sp.tag}</span><span class="sp-ttl">${sp.title}</span>`
-            : `<span class="lead">⋯</span><span class="sp-ttl">${sp.title}</span>`;
-          bar.addEventListener("click",()=>openDrawer(sp.id));
-          lane.appendChild(bar);
-        });
-      }
-    });
-    if(laneUsed) wk.appendChild(lane);
 
     const days=document.createElement("div"); days.className="days";
     row.forEach(dt=>{
@@ -584,6 +574,9 @@ function renderCalendar(){
         dh.appendChild(bd);
       }
       cell.appendChild(dh);
+      // multi-day spans render as a chip inside each day they cover
+      SPANS.filter(sp=>visible(sp) && key>=sp.startDate && key<=sp.endDate)
+        .forEach(sp=>cell.appendChild(spanChipEl(sp,key)));
       shownEvents.forEach(ev=>cell.appendChild(chipEl(ev)));
       days.appendChild(cell);
     });
@@ -705,7 +698,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&drawer.classList.c
 /* ============ Tally, deadlines, floating, footer ============ */
 function buildTally(){
   const counts={confirmed:0,pending:0,interest:0};
-  EVENTS.concat(SPANS).forEach(e=>counts[e.status]++);
+  EVENTS.concat(SPANS).forEach(e=>{ if(e.kind==="checkout") return; counts[e.status]++; });
   const labels={confirmed:"confirmed",pending:"pending",interest:"interest"};
   document.getElementById("tally").innerHTML=Object.keys(counts).map(k=>
     `<span class="pill"><span class="swatch sw-${k}"></span>${counts[k]} ${labels[k]}</span>`).join("");
