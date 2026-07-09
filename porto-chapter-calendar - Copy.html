@@ -59,7 +59,7 @@
   .hero-body{
     background:var(--card-2);border:1px solid var(--tile-line);border-top:none;
     border-radius:0 0 12px 12px;padding:16px 20px;display:flex;flex-wrap:wrap;
-    align-items:flex-end;justify-content:space-between;gap:14px;box-shadow:var(--shadow);position:relative}
+    align-items:flex-end;justify-content:space-between;gap:14px;box-shadow:var(--shadow)}
   .hero h1{
     font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(24px,4vw,38px);
     letter-spacing:.12em;text-transform:uppercase;margin:0;line-height:1;color:var(--indigo)}
@@ -103,27 +103,12 @@
   .toggle input{accent-color:var(--cobalt);width:15px;height:15px}
 
   /* ---------- Legend ---------- */
-  .legend{position:absolute;bottom:12px;right:16px;display:inline-block;margin:0}
-  .legend-btn{
-    width:22px;height:22px;border-radius:50%;border:1.5px solid var(--cobalt);
-    background:var(--cobalt-soft);color:var(--cobalt);font-family:"IBM Plex Mono",monospace;
-    font-size:12px;font-weight:700;cursor:help;display:flex;align-items:center;justify-content:center;
-    line-height:1;padding:0}
-  .legend-pop{
-    position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);
-    background:var(--card-2);border:1px solid var(--tile-line);border-radius:8px;
-    padding:10px 14px;box-shadow:var(--shadow);white-space:nowrap;
-    opacity:0;pointer-events:none;transition:opacity .15s;z-index:30;
-    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);letter-spacing:.02em}
-  .legend-pop::before{
-    content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
-    border:6px solid transparent;border-bottom-color:var(--tile-line)}
-  .legend-pop::after{
-    content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
-    border:5px solid transparent;border-bottom-color:var(--card-2)}
-  .legend-btn:hover+.legend-pop,.legend-btn:focus+.legend-pop{opacity:1;pointer-events:auto}
-  .legend-pop div{display:flex;align-items:center;gap:8px;padding:3px 0}
-  .legend-pop div+div{border-top:1px solid var(--tile-line-soft)}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0 16px;font-size:11.5px;color:var(--muted);
+    font-family:"IBM Plex Mono",monospace;letter-spacing:.02em}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .lg-bar{width:22px;height:9px;border-radius:3px;background:var(--confirmed-bg);border:1px solid var(--confirmed)}
+  .lg-chip{width:14px;height:12px;border-radius:3px;border:1.5px dashed var(--interest);background:var(--interest-bg)}
+  .lg-short{width:14px;height:8px;border-radius:999px;background:var(--pending-bg);border:1px solid var(--pending)}
   .lg-clash{color:var(--clash);font-weight:700}
   .lg-choose{color:var(--choose);font-weight:700}
 
@@ -131,7 +116,7 @@
   .weekday-head{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
   .weekday-head div{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
     letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding:2px 0}
-  .weekday-head .we{color:#B22222}
+  .weekday-head .we{color:var(--indigo-2)}
   .week{margin-bottom:6px}
   .lane{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
   .lane:empty{display:none}
@@ -161,7 +146,6 @@
   .dnum{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13px;color:var(--indigo-2)}
   .dnum .mo{font-size:10px;color:var(--muted);margin-left:3px}
   .today .dnum{color:var(--cobalt)}
-  .weekend .dnum{color:#B22222}
   .todaytag{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:700;color:#fff;background:var(--cobalt);
     border-radius:999px;padding:2px 6px;letter-spacing:.05em}
   .badge{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:700;border-radius:999px;
@@ -289,7 +273,7 @@
     .seg.viewseg{order:-1}
   }
   @media (prefers-reduced-motion:reduce){
-    .drawer,.scrim,.unsched-body,.unsched-arrow,.legend-pop{transition:none}
+    .drawer,.scrim,.unsched-body,.unsched-arrow{transition:none}
   }
 </style>
 </head>
@@ -313,13 +297,6 @@
       <div>
         <h1>Porto Chapter</h1>
         <div class="sub">group calendar · <b>Mon 6 Jul – Sun 2 Aug 2026</b> · 4 weeks · tap any tile for details</div>
-      </div>
-      <div class="legend" aria-label="Legend">
-        <button class="legend-btn" aria-label="Show legend" tabindex="0">i</button>
-        <div class="legend-pop" role="tooltip">
-          <div><span class="lg-clash">⚠</span> Hard clash — same day &amp; time</div>
-          <div><span class="lg-choose">◇</span> Competing options — pick one</div>
-        </div>
       </div>
     </div>
   </header>
@@ -347,6 +324,14 @@
       <button class="fbtn" data-status="interest" aria-pressed="true"><span class="swatch sw-interest"></span>Interest <span class="fbtn-count" id="count-interest"></span></button>
     </div>
     <label class="toggle"><input type="checkbox" id="showPast" checked> Show past days</label>
+  </div>
+
+  <div class="legend" aria-hidden="true">
+    <span><span class="lg-bar"></span> all-day / full trip</span>
+    <span><span class="lg-chip"></span> morning · afternoon · evening block</span>
+    <span><span class="lg-short"></span> short / coffee / deadline</span>
+    <span class="lg-clash">⚠ hard clash</span>
+    <span class="lg-choose">◇ competing options — pick one</span>
   </div>
 
   <div class="weekday-head" id="weekdayHead"></div>
@@ -380,155 +365,126 @@ function iso(dt){ return dt.toISOString().slice(0,10); }
 function fmtTime(t){ if(!t) return ""; let [h,m]=t.split(":").map(Number); const ap=h<12?"AM":"PM"; let hh=h%12; if(hh===0)hh=12; return m? `${hh}:${String(m).padStart(2,"0")} ${ap}` : `${hh} ${ap}`; }
 function partOf(ev){ if(ev.len==="fullday") return "day"; if(!ev.start) return null; const h=+ev.start.split(":")[0]; if(h<12)return"morning"; if(h<18)return"afternoon"; return "evening"; }
 function partLabel(p){ return {morning:"Morning",afternoon:"Afternoon",evening:"Evening",day:"All day"}[p]||""; }
-const CAT_EMOJI={food:"🍽️",city:"🏛️",sport:"🏄",trip:"🚌"};
 
 /* ============ Event data (reconstructed from the thread) ============ */
 /* status: confirmed | pending | interest      len: fullday | part | short */
 const EVENTS = [
-  { id:"match", title:"⚽ Portugal vs Spain — watch party", tag:"MATCH", org:"Alex Cogen", status:"confirmed",
+  { id:"match", title:"Portugal vs Spain — watch party", tag:"MATCH", org:"Alex Cogen", status:"confirmed",
     date:"2026-07-06", len:"part", start:"20:00", loc:"Time Out Market (group ended up at O Tosco)",
     note:"World Cup night. 28-min walk from the apartment; a few ubered over at 7:45pm and grabbed a table for 10 inside." },
 
-  { id:"match-qf1", title:"⚽ France vs Morocco", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-09", len:"part", start:"21:00", loc:"Sky Sports",
-    note:"World Cup quarter-final. Watch party TBD." },
-
-  { id:"match-qf2", title:"⚽ Spain vs Belgium", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-10", len:"part", start:"20:00", loc:"Sky Sports",
-    note:"World Cup quarter-final. Watch party TBD." },
-
-  { id:"match-qf3", title:"⚽ Norway vs England", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-11", len:"part", start:"22:00", loc:"Sky Sports",
-    note:"World Cup quarter-final. Watch party TBD." },
-
-  { id:"match-qf4", title:"⚽ Argentina vs Switzerland", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-12", len:"part", start:"02:00", loc:"Sky Sports",
-    note:"World Cup quarter-final. Watch party TBD." },
-
-  { id:"match-sf1", title:"⚽ France/Morocco vs Spain/Belgium", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-14", len:"part", start:"20:00", loc:"Sky Sports",
-    note:"World Cup semi-final. Watch party TBD." },
-
-  { id:"match-sf2", title:"⚽ Norway/England vs Argentina/Switzerland", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-15", len:"part", start:"20:00", loc:"Sky Sports",
-    note:"World Cup semi-final. Watch party TBD." },
-
-  { id:"match-3rd", title:"⚽ Third-place match", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-18", len:"part", start:"21:00", loc:"Livescore+",
-    note:"World Cup third-place playoff. Watch party TBD." },
-
-  { id:"match-final", title:"⚽ Final", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-19", len:"part", start:"20:00", loc:"Livescore+",
-    note:"World Cup final. Watch party TBD." },
-
-  { id:"walk", title:"🚶 Free walking tour", tag:"WALK", org:"Emeraude L", status:"confirmed",
+  { id:"walk", title:"Free walking tour", tag:"WALK", org:"Emeraude L", status:"interest",
     date:"2026-07-06", len:"part", start:"15:30", loc:"Porto centre",
     note:"Emeraude caught the afternoon free tour after missing the first one. Drop a 🚶 to tag along on the next." },
 
-  { id:"viana", title:"🚌 Viana do Castelo, Braga & Guimarães day tour", tag:"DAY TRIP", org:"Emeraude L", status:"confirmed",
+  { id:"viana", title:"Viana do Castelo, Braga & Guimarães day tour", tag:"DAY TRIP", org:"Emeraude L", status:"interest",
     date:"2026-07-08", len:"fullday", price:"€39", loc:"North of Porto",
     note:"Emeraude's own booked day tour — tag along if you're free. Full-day commitment." },
 
-  { id:"majestic", title:"🏛️ Majestic Café — Harry Potter coffee", tag:"CAFÉ", org:"Christopher Ravosa", status:"confirmed",
+  { id:"majestic", title:"Majestic Café — Harry Potter coffee", tag:"CAFÉ", org:"Christopher Ravosa", status:"interest",
     date:"2026-07-08", len:"short", start:"09:00", loc:"Majestic Café",
     link:{label:"cafemajestic.com", url:"https://cafemajestic.com"},
     note:"J.K. Rowling reportedly wrote early Philosopher's Stone chapters here. Casual coffee around 9am for Harry Potter fans." },
 
-  { id:"aveiro-em", title:"🚌 Aveiro, Cruise, Costa Nova & Capela da Pedra tour", tag:"DAY TRIP", org:"Emeraude L", status:"confirmed",
+  { id:"aveiro-em", title:"Aveiro, Cruise, Costa Nova & Capela da Pedra tour", tag:"DAY TRIP", org:"Emeraude L", status:"interest",
     date:"2026-07-09", len:"fullday", price:"€42", loc:"South of Porto",
     note:"Another of Emeraude's booked day tours — open to anyone free that day. Full-day." },
 
-  { id:"livraria", title:"🏛️ Livraria Lello bookstore", tag:"BOOKSTORE", org:"Erin Erhardt", status:"confirmed",
+  { id:"livraria", title:"Livraria Lello bookstore", tag:"BOOKSTORE", org:"Erin Erhardt", status:"confirmed",
     date:"2026-07-10", len:"short", start:"10:00", price:"€16 (includes a book voucher)", loc:"Livraria Lello",
     deadline:{text:"RSVP so Erin can buy group tickets", date:"2026-07-08", time:"12:00"},
     note:"Erin is buying group tickets for the 10:00 / 10:15 slot (go early = less crowded). Binding post — she confirmed the Friday morning slot." },
 
-  { id:"douro", title:"🚌 Douro Valley boat tour & wine tasting", tag:"DOURO", org:"Emeraude L", status:"confirmed",
+  { id:"douro", title:"Douro Valley boat tour & wine tasting", tag:"DOURO", org:"Emeraude L", status:"pending",
     date:"2026-07-11", len:"fullday", start:"08:30", price:"€90", loc:"Meet: Largo da Lapa 1, 4050-069 Porto",
     deadline:{text:"Commit so the group booking can go in", date:"2026-07-08", time:"10:00"},
     note:"All-day (≈10h): minibus transport, guide, boat trip, lunch with wine pairings, and two wine-estate visits with tastings. Binding post awaiting the RSVP cut-off." },
 
-  { id:"fadoA", title:"🎵 Fado — Carminho (Valença festival)", tag:"FADO", org:"Adrian Punkt", status:"confirmed",
+  { id:"fadoA", title:"Fado — Carminho (Valença festival)", tag:"FADO", org:"Adrian Punkt", status:"interest",
     date:"2026-07-11", len:"part", start:"21:00", price:"≈€30", loc:"Valença (~1h15 drive)",
     note:"Option A of two. Music festival: Carminho (fado) + Yerai Cortés (contemporary flamenco) + Nouvelle Vague (post-punk / bossa nova). Adrian's driving, 3 seats. Primarily reachable by car — nice half/full-day roadtrip." },
 
-  { id:"nightout", title:"🍸 Night out — Meetup bar crawl", tag:"NIGHT OUT", org:"Harry Warren", status:"confirmed",
+  { id:"nightout", title:"Night out — Meetup bar crawl", tag:"NIGHT OUT", org:"Harry Warren", status:"interest",
     date:"2026-07-11", len:"part", start:"22:00", loc:"Several bars around Porto",
     note:"Free Meetup event, ~100 people rotating through a few bars. Kicks off 10pm in town." },
 
-  { id:"brunch", title:"🍽️ Sunday brunch — assigned small groups", tag:"BRUNCH", org:"Maya", status:"confirmed",
+  { id:"brunch", title:"Sunday brunch — assigned small groups", tag:"BRUNCH", org:"Maya", status:"interest",
     date:"2026-07-12", len:"part", start:"11:00", loc:"Various brunch spots",
     note:"Riffing on Saturday's popular small-group dinners: 4-person groups each sent to a different brunch place. Emoji in if you want to be assigned." },
 
-  { id:"kayak", title:"🏄 Douro Valley kayak rental", tag:"KAYAK", org:"Harry Warren", status:"confirmed",
+  { id:"kayak", title:"Douro Valley kayak rental", tag:"KAYAK", org:"Harry Warren", status:"interest",
     date:"2026-07-12", len:"part", start:"13:00", loc:"Pinhão, Douro Valley",
     link:{label:"getyourguide.com", url:"https://www.getyourguide.com/douro-valley-l4965/pinhao-4-hour-douro-valley-kayak-rental-t385465"},
     note:"4-hour kayak rental on the Douro. 'Let's go.' Note: framed against Spencer's beach day as the two Sunday options." },
 
-  { id:"beach", title:"🏖️ Beach day — Espinho", tag:"BEACH", org:"Spencer Deuterman", status:"confirmed",
+  { id:"beach", title:"Beach day — Espinho", tag:"BEACH", org:"Spencer Deuterman", status:"interest",
     date:"2026-07-12", len:"fullday", loc:"Espinho (30-min drive or train from Campanhã)",
     link:{label:"Turismo de Espinho", url:"https://www.turismodeespinho.pt"},
     note:"Explicitly posted as the kayaking alternative. Big sandy beaches (Praia da Baía), rentable chairs/umbrellas, boardwalk, bars, casino." },
 
-  { id:"foodtour", title:"🏛️ Porto food tour (Porto Walkers)", tag:"FOOD TOUR", org:"Emeraude L", status:"interest",
+  { id:"foodtour", title:"Porto food tour (Porto Walkers)", tag:"FOOD TOUR", org:"Emeraude L", status:"interest",
     date:"2026-07-13", len:"part", start:"11:30", price:"€70 regular / €67.50pp private (€675 for 10)",
     options:["Mon 13 Jul · 11:30","Tue 14 Jul · 11:30 (private only)","Wed 15 Jul · 11:30"],
     note:"3h30, ~1.5km walking. 15 tastings, 3 vinho verde (non-alc option), 2 pastries incl. pastel de nata, 4 local venues. Interest post — indicate every day Mon–Wed you're free; regular tour runs Mon/Wed/Fri." },
 
-  { id:"standup", title:"🎭 English stand-up comedy open mic", tag:"COMEDY", org:"Adrian Punkt", status:"interest",
+  { id:"standup", title:"English stand-up comedy open mic", tag:"COMEDY", org:"Adrian Punkt", status:"interest",
     date:"2026-07-16", len:"part", start:"21:00", price:"Free", loc:"Maria Pistolas, Porto",
     link:{label:"agendaculturalporto.org", url:"https://agendaculturalporto.org/eventos/english-stand-up-comedy-open-mic-no-porto-noite-de-humor-em-ingles-no-maria-pistolas-2/"},
     note:"Relaxed English-language open mic night, free entry." },
 
-  { id:"odyssey", title:"🎬 Odyssey (Christopher Nolan) — IMAX", tag:"CINEMA", org:"Dan Perez", status:"confirmed",
-    date:"2026-07-17", len:"part", start:"13:00", price:"€13.50 (group of 6+)", loc:"IMAX, ~20-min drive (Porto suburbs)",
-    link:{label:"Google Maps", url:"https://maps.app.goo.gl/1ACxibKVNNsS3Dtv6"},
-    note:"173-min film, English with Portuguese subtitles. Confirmed for Friday 17 July at 1:00 PM. Group discount applies with 6+ people." },
+  { id:"odyssey", title:"Odyssey (Christopher Nolan) — IMAX", tag:"CINEMA", org:"Dan Perez", status:"interest",
+    date:"2026-07-16", len:"part", price:"€15 (deluxe screen)", loc:"IMAX, ~20-min drive (Porto suburbs)",
+    options:["Thu 16 Jul · 1:00 PM","Thu 16 Jul · 4:40 PM","Thu 16 Jul · 8:20 PM","Fri 17 Jul · 1:00 PM","Fri 17 Jul · 4:40 PM"],
+    note:"173-min film, English with Portuguese subtitles. Non-binding poll for the time — Dan will send a follow-up before booking. Placed on Thu as the lead option; times undecided.", noSlot:true },
 
-  { id:"speakeasy", title:"🍸 Speakeasy / cocktail bar crawl", tag:"COCKTAILS", org:"Alex Cogen", status:"interest",
+  { id:"speakeasy", title:"Speakeasy / cocktail bar crawl", tag:"COCKTAILS", org:"Alex Cogen", status:"interest",
     date:"2026-07-16", len:"part", start:"20:00",
     options:["Thu 16 Jul","Fri 17 Jul"],
     note:"DIY crawl needing reservations: Apotecário (tables of 4, so multiple bookings) + Atman (large groups), plus Royal Cocktail Club / Fiasco / yAkA. Great mocktails too. Thu or Fri next week." },
 
-  { id:"chefs", title:"🚌 Chefs on Fire — Aveiro", tag:"CHEFS·FIRE", org:"Wallace Cheung", status:"confirmed",
+  { id:"chefs", title:"Chefs on Fire — Aveiro", tag:"CHEFS·FIRE", org:"Wallace Cheung", status:"confirmed",
     date:"2026-07-18", len:"part", start:"12:00", end:"16:30",
     price:"€40 + transport (Uber ≈€40–50pp) · ticket fee makes it €43.94", loc:"Aveiro (~1h drive south)",
     deadline:{text:"Pick your menu 🥩 regular / 🥗 veg", date:"2026-07-08", time:"17:00"},
     note:"Open-air festival: top chefs cooking over open fire, 4-course menu (veg option) + wine + concert, 12:00–16:30 lunch slot. Wallace is booking tickets now to lock early-bird rates; transport still TBD (minibus €100–120pp vs Uber)." },
 
-  { id:"fadoB", title:"🎵 Fado — Carminho (Coimbra)", tag:"FADO", org:"Adrian Punkt", status:"interest",
+  { id:"fadoB", title:"Fado — Carminho (Coimbra)", tag:"FADO", org:"Adrian Punkt", status:"interest",
     date:"2026-07-18", len:"part", start:"21:00", price:"≈€30", loc:"Coimbra (~1h15, easy by train)",
     note:"Option B of two. Carminho solo concert in Portugal's former capital — train-friendly. Adrian's driving, 3 seats." },
 
-  { id:"ss-sales", title:"💼 Skill share — B2B sales", tag:"SKILLSHARE", org:"Harry Warren", status:"confirmed",
+  { id:"villa-opt", title:"Villa weekend — optional 3rd night", tag:"VILLA", org:"Alex Cogen", status:"interest",
+    date:"2026-07-27", len:"part", noSlot:true,
+    note:"If the 3-night option wins, checkout moves to Monday 27 July. 2-nighters can leave Sunday and only be split for 2 nights." },
+
+  { id:"ss-sales", title:"Skill share — B2B sales", tag:"SKILLSHARE", org:"Harry Warren", status:"interest",
     date:"2026-07-09", len:"part", start:"20:00", end:"21:30", loc:"On the patio (outside)",
     note:"Harry's skill share on business-to-business sales: how to find clients and get paid, and the process he uses to convert complete strangers into people who pay you regularly. For people selling to other businesses — not shops selling to individuals. ~90-min presentation. Tap 💰 to join and set a time." },
 
-  { id:"ss-autism", title:"💼 Skill share — Autism & neurodivergence", tag:"SKILLSHARE", org:"Laura Vegh", status:"interest",
+  { id:"ss-autism", title:"Skill share — Autism & neurodivergence", tag:"SKILLSHARE", org:"Laura Vegh", status:"interest",
     date:"2026-07-14", len:"part", start:"17:00", noSlot:true, loc:"Likely the patio (afternoon/evening for shade)",
     options:["Tue 14 Jul · 5:00 PM","Thu 16 Jul · 6:30 PM"],
     note:"Laura shares from 30+ years living on the autism spectrum plus years of research: the spectrum vs pop culture, autistic vs introverted vs shy, why \"everyone's a little autistic\" is false — and, most importantly, how to make chapters more inclusive for neurodivergent folks. Bring questions (or send privately). 30–60+ min, discussion welcome. Two time options; she's happy to run it twice if needed." },
 
-  { id:"checkout", title:"🧳 Checkout & goodbye", tag:"CHECKOUT", org:"Porto chapter", status:"confirmed", kind:"checkout",
+  { id:"checkout", title:"Checkout & goodbye", tag:"CHECKOUT", org:"Porto chapter", status:"confirmed", kind:"checkout",
     date:"2026-07-31", len:"short", start:"12:00",
     note:"End of the Porto chapter — checkout and goodbyes around midday. Last day in the apartment." },
 ];
 
 /* Multi-day spanning events (rendered as a bar across the week) */
 const SPANS = [
-  { id:"villa", title:"🏡 Villa weekend", tag:"VILLA", org:"Alex Cogen", status:"confirmed",
-    startDate:"2026-07-24", endDate:"2026-07-27",
-    note:"Confirmed: 3 nights (Fri 24 → Mon 27 Jul).",
-    options:["3 nights · Fri 24 → Mon 27 Jul"] }
+  { id:"villa", title:"Villa weekend", tag:"VILLA", org:"Alex Cogen", status:"interest",
+    startDate:"2026-07-24", endDate:"2026-07-26",
+    note:"Interest poll: 2 nights (Fri 24 → Sun 26 Jul) vs 3 nights (→ Mon 27 Jul). Spots still being scouted. If 3 nights wins, 2-nighters can leave after two and only be split for two on Splitwise.",
+    options:["2 nights · Fri 24 → Sun 26 Jul","3 nights · Fri 24 → Mon 27 Jul"] }
 ];
 
 /* Undated / floating */
 const FLOATING = [
-  { id:"tiles", title:"🎨 Tile-painting workshop", tag:"TILES", org:"Hannah Woods", status:"interest",
+  { id:"tiles", title:"Tile-painting workshop", tag:"TILES", org:"Hannah Woods", status:"interest",
     note:"Floated as an idea, no date or venue pinned yet." },
-  { id:"ferrata", title:"🧗 Via Ferrata", tag:"FERRATA", org:"Erin Erhardt", status:"interest",
+  { id:"ferrata", title:"Via Ferrata", tag:"FERRATA", org:"Erin Erhardt", status:"interest",
     note:"Erin wants to try a via ferrata — Portugal has several. She's researching; message her if you're into climbing routes or have thoughts. No date or location pinned yet." },
-  { id:"ss-seo", title:"💼 Skill share — SEO & GEO fundamentals", tag:"SKILLSHARE", org:"Nigel Seah", status:"interest",
+  { id:"ss-seo", title:"Skill share — SEO & GEO fundamentals", tag:"SKILLSHARE", org:"Nigel Seah", status:"interest",
     note:"Optimising your website for organic traffic and LLMs: content SEO fundamentals, spotting new lead-gen page opportunities, and a live demo on a volunteer's site. Needs 1–2 volunteers (DM your domain; Nigel sets up Google Search Console ~a week ahead for a content audit). React 📈 to join; date confirmed once numbers are in." },
 ];
 
@@ -585,7 +541,7 @@ const clashMap={}; // id -> [{id, level}]
       const a=list[i],b=list[j];
       const sa=slots(a),sb=slots(b);
       if(sa.some(s=>sb.includes(s))){
-        const level="choose";
+        const level=(a.status==="confirmed"||a.status==="pending"||b.status==="confirmed"||b.status==="pending")?"clash":"choose";
         (clashMap[a.id]=clashMap[a.id]||[]).push({id:b.id,level});
         (clashMap[b.id]=clashMap[b.id]||[]).push({id:a.id,level});
       }
@@ -680,10 +636,8 @@ function renderCalendar(){
       if(!inJuly) cell.classList.add("oob");
       const isPast = key<TODAY;
       const isToday = key===TODAY;
-      const isWeekend = dt.getUTCDay()===0 || dt.getUTCDay()===6;
       if(isPast) cell.classList.add("past");
       if(isToday) cell.classList.add("today");
-      if(isWeekend) cell.classList.add("weekend");
       if(isPast && !state.showPast) cell.style.visibility="hidden";
 
       const dayEvents=EVENTS.filter(e=>e.date===key).sort((a,b)=>{
