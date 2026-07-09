@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Porto Chapter — Group Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#EAF0F6; --card:#F8FAFD; --card-2:#FFFFFF;
+    --tile-line:#CBD8E7; --tile-line-soft:#DEE7F1;
+    --indigo:#122F58; --indigo-2:#2A4B7C; --muted:#5E718B;
+    --cobalt:#2E63B0; --cobalt-soft:#E7EEF9;
+    --confirmed:#0F7A5E; --confirmed-bg:#E0F0EA;
+    --pending:#B06A12; --pending-bg:#F7EAD6;
+    --interest:#2E63B0; --interest-bg:#EDF3FC;
+    --clash:#B23A2E; --clash-bg:#F8E4E1;
+    --choose:#5E718B;
+    --shadow:0 1px 2px rgba(18,47,88,.06), 0 8px 24px rgba(18,47,88,.08);
+    --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--porcelain);
+    color:var(--indigo);
+    font-family:"Inter",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.4;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 18px 80px}
+
+  /* ---------- Hero ---------- */
+  header.hero{position:relative;margin-bottom:14px}
+  .frieze{width:100%;height:34px;display:block;border-radius:8px 8px 0 0;opacity:.9}
+  .hero-body{
+    background:var(--card-2);border:1px solid var(--tile-line);border-top:none;
+    border-radius:0 0 12px 12px;padding:16px 20px;display:flex;flex-wrap:wrap;
+    align-items:flex-end;justify-content:space-between;gap:14px;box-shadow:var(--shadow)}
+  .hero h1{
+    font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(24px,4vw,38px);
+    letter-spacing:.12em;text-transform:uppercase;margin:0;line-height:1;color:var(--indigo)}
+  .hero .sub{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);margin-top:8px;letter-spacing:.03em}
+  .hero .sub b{color:var(--indigo-2);font-weight:600}
+  .tally{display:flex;gap:8px;flex-wrap:wrap}
+  .tally .pill{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;
+    padding:6px 10px;border-radius:999px;border:1px solid var(--tile-line);background:var(--card);
+    display:flex;align-items:center;gap:7px;white-space:nowrap}
+  .swatch{width:9px;height:9px;border-radius:2px;display:inline-block}
+  .sw-confirmed{background:var(--confirmed)} .sw-pending{background:var(--pending)} .sw-interest{background:var(--interest)}
+
+  /* ---------- Action banner ---------- */
+  .action{
+    display:flex;gap:12px;align-items:flex-start;
+    background:var(--clash-bg);border:1px solid #E3B7B0;border-left:4px solid var(--clash);
+    border-radius:var(--radius);padding:12px 14px;margin:14px 0}
+  .action .ico{font-family:"IBM Plex Mono",monospace;font-weight:700;color:var(--clash);font-size:13px;line-height:1.6;flex:none}
+  .action h2{font-family:"Archivo",sans-serif;font-size:14px;margin:0 0 4px;letter-spacing:.02em;color:#7d2b21}
+  .action ul{margin:0;padding-left:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px}
+  .action li{font-size:13px;color:#5c2620}
+  .action li time{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--clash)}
+  .action button.x{margin-left:auto;background:none;border:none;color:#7d2b21;font-size:18px;cursor:pointer;line-height:1;padding:2px 4px}
+
+  /* ---------- Controls ---------- */
+  .controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:14px 0 6px}
+  .seg{display:inline-flex;background:var(--card);border:1px solid var(--tile-line);border-radius:999px;padding:3px}
+  .seg button{
+    font-family:"Inter";font-size:13px;font-weight:600;color:var(--muted);
+    border:none;background:none;padding:6px 14px;border-radius:999px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--indigo);color:#fff}
+  .filters{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+  .fbtn{
+    font-family:"Inter";font-size:12.5px;font-weight:600;cursor:pointer;
+    border:1px solid var(--tile-line);background:var(--card);color:var(--muted);
+    padding:6px 11px;border-radius:999px;display:flex;align-items:center;gap:7px}
+  .fbtn[aria-pressed="true"]{color:var(--indigo);background:#fff;border-color:var(--indigo-2)}
+  .fbtn[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
+  .fbtn .swatch{border-radius:3px}
+  .toggle{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
+  .toggle input{accent-color:var(--cobalt);width:15px;height:15px}
+
+  /* ---------- Legend ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0 16px;font-size:11.5px;color:var(--muted);
+    font-family:"IBM Plex Mono",monospace;letter-spacing:.02em}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .lg-bar{width:22px;height:9px;border-radius:3px;background:var(--confirmed-bg);border:1px solid var(--confirmed)}
+  .lg-chip{width:14px;height:12px;border-radius:3px;border:1.5px dashed var(--interest);background:var(--interest-bg)}
+  .lg-short{width:14px;height:8px;border-radius:999px;background:var(--pending-bg);border:1px solid var(--pending)}
+  .lg-clash{color:var(--clash);font-weight:700}
+  .lg-choose{color:var(--choose);font-weight:700}
+
+  /* ---------- Calendar grid ---------- */
+  .weekday-head{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
+  .weekday-head div{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding:2px 0}
+  .weekday-head .we{color:var(--indigo-2)}
+  .week{margin-bottom:6px}
+  .lane{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
+  .lane:empty{display:none}
+  .span-bar{
+    border-radius:8px;padding:7px 10px;cursor:pointer;border:1.5px solid var(--interest);
+    background:var(--interest-bg);color:var(--indigo);display:flex;align-items:center;gap:8px;
+    font-size:12.5px;font-weight:600;box-shadow:var(--shadow);text-align:left}
+  .span-bar .tag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;color:var(--interest)}
+  .span-bar .opt{border-style:dashed;opacity:.75}
+  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:stretch}
+  .day{
+    background:var(--card-2);border:1px solid var(--tile-line);border-radius:var(--radius);
+    min-height:118px;padding:7px 7px 8px;display:flex;flex-direction:column;gap:5px;position:relative}
+  .day.oob{background:repeating-linear-gradient(135deg,#eef2f7,#eef2f7 6px,#e9eef5 6px,#e9eef5 12px);border-style:dashed;opacity:.7}
+  .day.past{opacity:.62}
+  .day.today{border-color:var(--cobalt);box-shadow:0 0 0 2px var(--cobalt-soft)}
+  .day-head{display:flex;align-items:center;justify-content:space-between;gap:4px}
+  .dnum{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13px;color:var(--indigo-2)}
+  .dnum .mo{font-size:10px;color:var(--muted);margin-left:3px}
+  .today .dnum{color:var(--cobalt)}
+  .todaytag{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:700;color:#fff;background:var(--cobalt);
+    border-radius:999px;padding:2px 6px;letter-spacing:.05em}
+  .badge{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:700;border-radius:999px;
+    padding:2px 7px;cursor:pointer;border:none}
+  .badge.clash{background:var(--clash-bg);color:var(--clash)}
+  .badge.choose{background:#E7ECF2;color:var(--choose)}
+
+  /* event chips */
+  .chip{
+    text-align:left;width:100%;border:none;cursor:pointer;border-radius:7px;
+    padding:5px 7px;display:flex;flex-direction:column;gap:2px;font-family:"Inter";
+    border-left:3px solid transparent;position:relative;background:#fff}
+  .chip:focus-visible,.badge:focus-visible,.span-bar:focus-visible,.chip-clash-mk:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px}
+  .chip .top{display:flex;align-items:center;gap:6px}
+  .chip .tag{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.05em;flex:none}
+  .chip .time{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-left:auto;flex:none}
+  .chip .ttl{font-size:12px;font-weight:600;line-height:1.2;color:var(--indigo)}
+  .chip.confirmed{background:var(--confirmed-bg);border-left-color:var(--confirmed)}
+  .chip.confirmed .tag{color:var(--confirmed)}
+  .chip.pending{background:var(--pending-bg);border-left-color:var(--pending)}
+  .chip.pending .tag{color:var(--pending)}
+  .chip.interest{background:var(--interest-bg);border:1px dashed var(--interest);border-left:3px solid var(--interest)}
+  .chip.interest .tag{color:var(--interest)}
+  .chip.allday{background-image:linear-gradient(90deg,rgba(255,255,255,.45),transparent);}
+  .chip.allday .ttl::before{content:"▬ ";opacity:.5;font-size:9px;vertical-align:middle}
+  .chip.short{padding:4px 7px}
+  .chip.short .ttl{font-weight:500}
+  .chip .mk{position:absolute;top:4px;right:5px;font-size:10px;font-weight:700;font-family:"IBM Plex Mono",monospace}
+  .chip.has-clash{box-shadow:inset 0 0 0 1.5px var(--clash)}
+  .chip.has-choose{box-shadow:inset 0 0 0 1px var(--choose)}
+  .chip.dim{opacity:.28;filter:grayscale(.4)}
+
+  /* ---------- Agenda ---------- */
+  .agenda{display:none;flex-direction:column;gap:2px}
+  .agenda.on{display:flex}
+  .calendar.off{display:none}
+  .ag-day{border-bottom:1px solid var(--tile-line-soft);padding:10px 2px}
+  .ag-day.today .ag-date{color:var(--cobalt)}
+  .ag-date{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;color:var(--indigo-2);
+    display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .ag-date .wd{color:var(--muted);font-weight:500}
+  .ag-list{display:flex;flex-direction:column;gap:6px}
+  .ag-empty{font-size:12px;color:var(--muted);font-style:italic;padding-left:2px}
+
+  /* ---------- Unscheduled ---------- */
+  .unsched{margin-top:22px;background:var(--card);border:1px dashed var(--tile-line);border-radius:12px;padding:14px 16px}
+  .unsched h3{font-family:"Archivo";font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 4px;color:var(--indigo-2)}
+  .unsched p.hint{font-size:12px;color:var(--muted);margin:0 0 10px}
+  .unsched .row{display:flex;flex-wrap:wrap;gap:8px}
+
+  /* ---------- Drawer ---------- */
+  .scrim{position:fixed;inset:0;background:rgba(18,47,88,.34);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+  .scrim.on{opacity:1;pointer-events:auto}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;width:min(400px,92vw);background:var(--card-2);
+    box-shadow:-10px 0 40px rgba(18,47,88,.22);transform:translateX(100%);transition:transform .24s cubic-bezier(.4,0,.2,1);
+    z-index:50;display:flex;flex-direction:column;border-left:1px solid var(--tile-line)}
+  .drawer.on{transform:translateX(0)}
+  .dr-head{padding:16px 18px 14px;border-bottom:1px solid var(--tile-line-soft);position:relative}
+  .dr-status{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.05em;
+    display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px}
+  .dr-status.confirmed{background:var(--confirmed-bg);color:var(--confirmed)}
+  .dr-status.pending{background:var(--pending-bg);color:var(--pending)}
+  .dr-status.interest{background:var(--interest-bg);color:var(--interest)}
+  .dr-head h2{font-family:"Archivo";font-size:20px;font-weight:700;margin:12px 0 3px;line-height:1.15}
+  .dr-head .org{font-size:12.5px;color:var(--muted)}
+  .dr-close{position:absolute;top:12px;right:12px;background:var(--card);border:1px solid var(--tile-line);
+    width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px;color:var(--muted);line-height:1}
+  .dr-body{padding:16px 18px 30px;overflow-y:auto}
+  .meta{display:grid;grid-template-columns:74px 1fr;gap:9px 12px;margin-bottom:16px;font-size:13.5px}
+  .meta dt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--muted);padding-top:2px}
+  .meta dd{margin:0;color:var(--indigo)}
+  .meta dd .len{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);
+    border:1px solid var(--tile-line);border-radius:5px;padding:1px 6px;margin-left:6px}
+  .dr-note{font-size:13.5px;color:var(--indigo-2);background:var(--card);border-radius:8px;padding:11px 12px;margin-bottom:14px}
+  .dr-section-t{font-family:"IBM Plex Mono",monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--muted);margin:0 0 7px}
+  .opts{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:5px}
+  .opts li{font-size:13px;font-family:"IBM Plex Mono",monospace;background:var(--card);border-radius:6px;padding:6px 9px;color:var(--indigo-2)}
+  .clashbox{border-radius:8px;padding:11px 12px;margin-bottom:14px;font-size:13px}
+  .clashbox.clash{background:var(--clash-bg);border:1px solid #E3B7B0}
+  .clashbox.choose{background:#EEF1F5;border:1px solid var(--tile-line)}
+  .clashbox b{display:block;margin-bottom:5px}
+  .clashbox.clash b{color:var(--clash)} .clashbox.choose b{color:var(--choose)}
+  .clashbox button{display:block;background:none;border:none;text-align:left;cursor:pointer;font-size:13px;
+    color:var(--indigo);padding:3px 0;text-decoration:underline;text-decoration-color:var(--tile-line)}
+  .dr-deadline{background:#FBEEE9;border:1px solid #E3B7B0;color:#7d2b21;border-radius:8px;padding:9px 12px;
+    font-size:13px;margin-bottom:14px;display:flex;gap:8px;align-items:center}
+  .dr-deadline b{font-family:"IBM Plex Mono",monospace}
+  .dr-link{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#fff;
+    background:var(--cobalt);border-radius:8px;padding:9px 14px;text-decoration:none}
+  .dr-link:hover{background:var(--indigo-2)}
+
+  footer{margin-top:28px;font-size:11.5px;color:var(--muted);font-family:"IBM Plex Mono",monospace;
+    border-top:1px solid var(--tile-line-soft);padding-top:12px;letter-spacing:.02em}
+
+  @media (max-width:820px){
+    .seg.viewseg{order:-1}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .drawer,.scrim{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <svg class="frieze" viewBox="0 0 600 34" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="azulejo" width="34" height="34" patternUnits="userSpaceOnUse">
+          <rect width="34" height="34" fill="#EAF0F6"/>
+          <g fill="none" stroke="#2E63B0" stroke-width="1.4">
+            <path d="M17 3 C24 8 26 12 31 17 C26 22 24 26 17 31 C10 26 8 22 3 17 C8 12 10 8 17 3 Z"/>
+            <circle cx="17" cy="17" r="4.2" stroke="#122F58"/>
+            <path d="M17 0 L17 5 M17 29 L17 34 M0 17 L5 17 M29 17 L34 17" stroke="#122F58" stroke-width="1"/>
+          </g>
+        </pattern>
+      </defs>
+      <rect width="600" height="34" fill="url(#azulejo)"/>
+    </svg>
+    <div class="hero-body">
+      <div>
+        <h1>Porto Chapter</h1>
+        <div class="sub">group calendar · <b>Mon 6 Jul – Sun 2 Aug 2026</b> · 4 weeks · tap any tile for details</div>
+      </div>
+      <div class="tally" id="tally"></div>
+    </div>
+  </header>
+
+  <div class="action" id="action" role="alert">
+    <div class="ico">RSVP</div>
+    <div style="flex:1">
+      <h2>Replies due today — Wed 8 Jul</h2>
+      <ul id="deadlineList"></ul>
+    </div>
+    <button class="x" id="dismissAction" aria-label="Dismiss">×</button>
+  </div>
+
+  <div class="controls">
+    <div class="seg viewseg" role="group" aria-label="View">
+      <button id="viewCal" aria-pressed="true">Calendar</button>
+      <button id="viewAgd" aria-pressed="false">Agenda</button>
+    </div>
+    <div class="filters" id="statusFilters">
+      <button class="fbtn" data-status="confirmed" aria-pressed="true"><span class="swatch sw-confirmed"></span>Confirmed</button>
+      <button class="fbtn" data-status="pending" aria-pressed="true"><span class="swatch sw-pending"></span>Pending</button>
+      <button class="fbtn" data-status="interest" aria-pressed="true"><span class="swatch sw-interest"></span>Interest</button>
+    </div>
+    <label class="toggle"><input type="checkbox" id="showPast" checked> Show past days</label>
+  </div>
+
+  <div class="legend" aria-hidden="true">
+    <span><span class="lg-bar"></span> all-day / full trip</span>
+    <span><span class="lg-chip"></span> morning · afternoon · evening block</span>
+    <span><span class="lg-short"></span> short / coffee / deadline</span>
+    <span class="lg-clash">⚠ hard clash</span>
+    <span class="lg-choose">◇ competing options — pick one</span>
+  </div>
+
+  <div class="weekday-head" id="weekdayHead"></div>
+  <div class="calendar" id="calendar"></div>
+  <div class="agenda" id="agenda"></div>
+
+  <section class="unsched">
+    <h3>Floating ideas — no date yet</h3>
+    <p class="hint">Mentioned in the channel but not slotted to a day. Nudge the organiser to pin a time.</p>
+    <div class="row" id="unschedRow"></div>
+  </section>
+
+  <footer id="footer"></footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drTitle" aria-hidden="true">
+  <div class="dr-head">
+    <button class="dr-close" id="drClose" aria-label="Close">×</button>
+    <span class="dr-status" id="drStatus"></span>
+    <h2 id="drTitle"></h2>
+    <div class="org" id="drOrg"></div>
+  </div>
+  <div class="dr-body" id="drBody"></div>
+</aside>
+
+<script>
+/* ============ Reference date & helpers ============ */
+const TODAY = "2026-07-08";
+const WD = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const WDFULL = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MO = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function d(iso){ const [y,m,dd]=iso.split("-").map(Number); return new Date(Date.UTC(y,m-1,dd)); }
+function iso(dt){ return dt.toISOString().slice(0,10); }
+function fmtTime(t){ if(!t) return ""; let [h,m]=t.split(":").map(Number); const ap=h<12?"AM":"PM"; let hh=h%12; if(hh===0)hh=12; return m? `${hh}:${String(m).padStart(2,"0")} ${ap}` : `${hh} ${ap}`; }
+function partOf(ev){ if(ev.len==="fullday") return "day"; if(!ev.start) return null; const h=+ev.start.split(":")[0]; if(h<12)return"morning"; if(h<18)return"afternoon"; return "evening"; }
+function partLabel(p){ return {morning:"Morning",afternoon:"Afternoon",evening:"Evening",day:"All day"}[p]||""; }
+
+/* ============ Event data (reconstructed from the thread) ============ */
+/* status: confirmed | pending | interest      len: fullday | part | short */
+const EVENTS = [
+  { id:"match", title:"Portugal vs Spain — watch party", tag:"MATCH", org:"Alex Cogen", status:"confirmed",
+    date:"2026-07-06", len:"part", start:"20:00", loc:"Time Out Market (group ended up at O Tosco)",
+    note:"World Cup night. 28-min walk from the apartment; a few ubered over at 7:45pm and grabbed a table for 10 inside." },
+
+  { id:"walk", title:"Free walking tour", tag:"WALK", org:"Emeraude L", status:"interest",
+    date:"2026-07-06", len:"part", start:"15:30", loc:"Porto centre",
+    note:"Emeraude caught the afternoon free tour after missing the first one. Drop a 🚶 to tag along on the next." },
+
+  { id:"viana", title:"Viana do Castelo, Braga & Guimarães day tour", tag:"DAY TRIP", org:"Emeraude L", status:"interest",
+    date:"2026-07-08", len:"fullday", price:"€39", loc:"North of Porto",
+    note:"Emeraude's own booked day tour — tag along if you're free. Full-day commitment." },
+
+  { id:"majestic", title:"Majestic Café — Harry Potter coffee", tag:"CAFÉ", org:"Christopher Ravosa", status:"interest",
+    date:"2026-07-08", len:"short", start:"09:00", loc:"Majestic Café",
+    link:{label:"cafemajestic.com", url:"https://cafemajestic.com"},
+    note:"J.K. Rowling reportedly wrote early Philosopher's Stone chapters here. Casual coffee around 9am for Harry Potter fans." },
+
+  { id:"aveiro-em", title:"Aveiro, Cruise, Costa Nova & Capela da Pedra tour", tag:"DAY TRIP", org:"Emeraude L", status:"interest",
+    date:"2026-07-09", len:"fullday", price:"€42", loc:"South of Porto",
+    note:"Another of Emeraude's booked day tours — open to anyone free that day. Full-day." },
+
+  { id:"livraria", title:"Livraria Lello bookstore", tag:"BOOKSTORE", org:"Erin Erhardt", status:"confirmed",
+    date:"2026-07-10", len:"short", start:"10:00", price:"€16 (includes a book voucher)", loc:"Livraria Lello",
+    deadline:{text:"RSVP so Erin can buy group tickets", date:"2026-07-08", time:"12:00"},
+    note:"Erin is buying group tickets for the 10:00 / 10:15 slot (go early = less crowded). Binding post — she confirmed the Friday morning slot." },
+
+  { id:"douro", title:"Douro Valley boat tour & wine tasting", tag:"DOURO", org:"Emeraude L", status:"pending",
+    date:"2026-07-11", len:"fullday", start:"08:30", price:"€90", loc:"Meet: Largo da Lapa 1, 4050-069 Porto",
+    deadline:{text:"Commit so the group booking can go in", date:"2026-07-08", time:"10:00"},
+    note:"All-day (≈10h): minibus transport, guide, boat trip, lunch with wine pairings, and two wine-estate visits with tastings. Binding post awaiting the RSVP cut-off." },
+
+  { id:"fadoA", title:"Fado — Carminho (Valença festival)", tag:"FADO", org:"Adrian Punkt", status:"interest",
+    date:"2026-07-11", len:"part", start:"21:00", price:"≈€30", loc:"Valença (~1h15 drive)",
+    note:"Option A of two. Music festival: Carminho (fado) + Yerai Cortés (contemporary flamenco) + Nouvelle Vague (post-punk / bossa nova). Adrian's driving, 3 seats. Primarily reachable by car — nice half/full-day roadtrip." },
+
+  { id:"nightout", title:"Night out — Meetup bar crawl", tag:"NIGHT OUT", org:"Harry Warren", status:"interest",
+    date:"2026-07-11", len:"part", start:"22:00", loc:"Several bars around Porto",
+    note:"Free Meetup event, ~100 people rotating through a few bars. Kicks off 10pm in town." },
+
+  { id:"brunch", title:"Sunday brunch — assigned small groups", tag:"BRUNCH", org:"Maya", status:"interest",
+    date:"2026-07-12", len:"part", start:"11:00", loc:"Various brunch spots",
+    note:"Riffing on Saturday's popular small-group dinners: 4-person groups each sent to a different brunch place. Emoji in if you want to be assigned." },
+
+  { id:"kayak", title:"Douro Valley kayak rental", tag:"KAYAK", org:"Harry Warren", status:"interest",
+    date:"2026-07-12", len:"part", start:"13:00", loc:"Pinhão, Douro Valley",
+    link:{label:"getyourguide.com", url:"https://www.getyourguide.com/douro-valley-l4965/pinhao-4-hour-douro-valley-kayak-rental-t385465"},
+    note:"4-hour kayak rental on the Douro. 'Let's go.' Note: framed against Spencer's beach day as the two Sunday options." },
+
+  { id:"beach", title:"Beach day — Espinho", tag:"BEACH", org:"Spencer Deuterman", status:"interest",
+    date:"2026-07-12", len:"fullday", loc:"Espinho (30-min drive or train from Campanhã)",
+    link:{label:"Turismo de Espinho", url:"https://www.turismodeespinho.pt"},
+    note:"Explicitly posted as the kayaking alternative. Big sandy beaches (Praia da Baía), rentable chairs/umbrellas, boardwalk, bars, casino." },
+
+  { id:"foodtour", title:"Porto food tour (Porto Walkers)", tag:"FOOD TOUR", org:"Emeraude L", status:"interest",
+    date:"2026-07-13", len:"part", start:"11:30", price:"€70 regular / €67.50pp private (€675 for 10)",
+    options:["Mon 13 Jul · 11:30","Tue 14 Jul · 11:30 (private only)","Wed 15 Jul · 11:30"],
+    note:"3h30, ~1.5km walking. 15 tastings, 3 vinho verde (non-alc option), 2 pastries incl. pastel de nata, 4 local venues. Interest post — indicate every day Mon–Wed you're free; regular tour runs Mon/Wed/Fri." },
+
+  { id:"standup", title:"English stand-up comedy open mic", tag:"COMEDY", org:"Adrian Punkt", status:"interest",
+    date:"2026-07-16", len:"part", start:"21:00", price:"Free", loc:"Maria Pistolas, Porto",
+    link:{label:"agendaculturalporto.org", url:"https://agendaculturalporto.org/eventos/english-stand-up-comedy-open-mic-no-porto-noite-de-humor-em-ingles-no-maria-pistolas-2/"},
+    note:"Relaxed English-language open mic night, free entry." },
+
+  { id:"odyssey", title:"Odyssey (Christopher Nolan) — IMAX", tag:"CINEMA", org:"Dan Perez", status:"interest",
+    date:"2026-07-16", len:"part", price:"€15 (deluxe screen)", loc:"IMAX, ~20-min drive (Porto suburbs)",
+    options:["Thu 16 Jul · 1:00 PM","Thu 16 Jul · 4:40 PM","Thu 16 Jul · 8:20 PM","Fri 17 Jul · 1:00 PM","Fri 17 Jul · 4:40 PM"],
+    note:"173-min film, English with Portuguese subtitles. Non-binding poll for the time — Dan will send a follow-up before booking. Placed on Thu as the lead option; times undecided.", noSlot:true },
+
+  { id:"speakeasy", title:"Speakeasy / cocktail bar crawl", tag:"COCKTAILS", org:"Alex Cogen", status:"interest",
+    date:"2026-07-16", len:"part", start:"20:00",
+    options:["Thu 16 Jul","Fri 17 Jul"],
+    note:"DIY crawl needing reservations: Apotecário (tables of 4, so multiple bookings) + Atman (large groups), plus Royal Cocktail Club / Fiasco / yAkA. Great mocktails too. Thu or Fri next week." },
+
+  { id:"chefs", title:"Chefs on Fire — Aveiro", tag:"CHEFS·FIRE", org:"Wallace Cheung", status:"confirmed",
+    date:"2026-07-18", len:"part", start:"12:00", end:"16:30",
+    price:"€40 + transport (Uber ≈€40–50pp) · ticket fee makes it €43.94", loc:"Aveiro (~1h drive south)",
+    deadline:{text:"Pick your menu 🥩 regular / 🥗 veg", date:"2026-07-08", time:"17:00"},
+    note:"Open-air festival: top chefs cooking over open fire, 4-course menu (veg option) + wine + concert, 12:00–16:30 lunch slot. Wallace is booking tickets now to lock early-bird rates; transport still TBD (minibus €100–120pp vs Uber)." },
+
+  { id:"fadoB", title:"Fado — Carminho (Coimbra)", tag:"FADO", org:"Adrian Punkt", status:"interest",
+    date:"2026-07-18", len:"part", start:"21:00", price:"≈€30", loc:"Coimbra (~1h15, easy by train)",
+    note:"Option B of two. Carminho solo concert in Portugal's former capital — train-friendly. Adrian's driving, 3 seats." },
+
+  { id:"villa-opt", title:"Villa weekend — optional 3rd night", tag:"VILLA", org:"Alex Cogen", status:"interest",
+    date:"2026-07-27", len:"part", noSlot:true,
+    note:"If the 3-night option wins, checkout moves to Monday 27 July. 2-nighters can leave Sunday and only be split for 2 nights." },
+];
+
+/* Multi-day spanning events (rendered as a bar across the week) */
+const SPANS = [
+  { id:"villa", title:"Villa weekend", tag:"VILLA", org:"Alex Cogen", status:"interest",
+    startDate:"2026-07-24", endDate:"2026-07-26",
+    note:"Interest poll: 2 nights (Fri 24 → Sun 26 Jul) vs 3 nights (→ Mon 27 Jul). Spots still being scouted. If 3 nights wins, 2-nighters can leave after two and only be split for two on Splitwise.",
+    options:["2 nights · Fri 24 → Sun 26 Jul","3 nights · Fri 24 → Mon 27 Jul"] }
+];
+
+/* Undated / floating */
+const FLOATING = [
+  { id:"cruise", title:"Sunset river cruise", tag:"CRUISE", org:"Nikki Woolcock", status:"confirmed",
+    note:"Boat company moved departure to 7:30pm, finishing 9:30pm — but the date lives in another thread. Confirm which evening before you count on it." },
+  { id:"tiles", title:"Tile-painting workshop", tag:"TILES", org:"Hannah Woods", status:"interest",
+    note:"Floated as an idea, no date or venue pinned yet." },
+];
+
+const byId = {};
+EVENTS.forEach(e=>byId[e.id]=e);
+SPANS.forEach(e=>byId[e.id]=e);
+FLOATING.forEach(e=>byId[e.id]=e);
+
+/* ============ Clash detection ============ */
+/* occupancy slots per event: fullday=[m,a], part/short by daypart. noSlot -> none (undecided) */
+function slots(ev){
+  if(ev.noSlot) return [];
+  if(ev.len==="fullday") return ["m","a"];
+  const p=partOf(ev);
+  if(p==="morning") return ["m"];
+  if(p==="afternoon") return ["a"];
+  if(p==="evening") return ["e"];
+  return [];
+}
+const clashMap={}; // id -> [{id, level}]
+(function computeClashes(){
+  const byDate={};
+  EVENTS.forEach(e=>{ (byDate[e.date]=byDate[e.date]||[]).push(e); });
+  Object.values(byDate).forEach(list=>{
+    for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){
+      const a=list[i],b=list[j];
+      const sa=slots(a),sb=slots(b);
+      if(sa.some(s=>sb.includes(s))){
+        const level=(a.status==="confirmed"||a.status==="pending"||b.status==="confirmed"||b.status==="pending")?"clash":"choose";
+        (clashMap[a.id]=clashMap[a.id]||[]).push({id:b.id,level});
+        (clashMap[b.id]=clashMap[b.id]||[]).push({id:a.id,level});
+      }
+    }
+  });
+})();
+function dayClashLevel(dateEvents){
+  let lvl=null;
+  dateEvents.forEach(e=>{ (clashMap[e.id]||[]).forEach(c=>{ if(dateEvents.find(x=>x.id===c.id)){ if(c.level==="clash")lvl="clash"; else if(!lvl)lvl="choose"; } }); });
+  return lvl;
+}
+
+/* ============ State ============ */
+const state={ view:"calendar", statuses:{confirmed:true,pending:true,interest:true}, showPast:true };
+const visible = ev => state.statuses[ev.status];
+
+/* ============ Build calendar range: Mon 6 Jul -> Sun 2 Aug 2026 ============ */
+const START=d("2026-07-06");
+const weeks=[];
+for(let w=0;w<4;w++){ const row=[]; for(let i=0;i<7;i++){ const dt=new Date(START); dt.setUTCDate(START.getUTCDate()+w*7+i); row.push(dt);} weeks.push(row); }
+
+/* ============ Rendering ============ */
+function chipEl(ev){
+  const b=document.createElement("button");
+  b.className=`chip ${ev.status} ${ev.len==="fullday"?"allday":ev.len==="short"?"short":""}`.trim();
+  if(!visible(ev)) b.classList.add("dim");
+  const cl=clashMap[ev.id]||[];
+  const hard=cl.some(c=>c.level==="clash"), soft=cl.some(c=>c.level==="choose");
+  if(hard) b.classList.add("has-clash"); else if(soft) b.classList.add("has-choose");
+  const timeTxt = ev.noSlot?"poll":(ev.len==="fullday")?"all day":(ev.end?`${fmtTime(ev.start)}`:fmtTime(ev.start));
+  b.innerHTML=`<div class="top"><span class="tag">${ev.tag}</span><span class="time">${timeTxt}</span></div>
+    <div class="ttl">${ev.title}</div>${hard?'<span class="mk" style="color:var(--clash)">⚠</span>':soft?'<span class="mk" style="color:var(--choose)">◇</span>':''}`;
+  b.addEventListener("click",()=>openDrawer(ev.id));
+  return b;
+}
+
+function renderCalendar(){
+  const cal=document.getElementById("calendar");
+  cal.innerHTML="";
+  // weekday header
+  const head=document.getElementById("weekdayHead");
+  head.innerHTML="";
+  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach((w,i)=>{ const c=document.createElement("div"); c.textContent=w; if(i>=5)c.className="we"; head.appendChild(c); });
+
+  weeks.forEach(row=>{
+    const wk=document.createElement("div"); wk.className="week";
+    // spanning lane
+    const lane=document.createElement("div"); lane.className="lane";
+    let laneUsed=false;
+    SPANS.forEach(sp=>{
+      const s=d(sp.startDate), e=d(sp.endDate);
+      const idxs=row.map((dt,i)=> (dt>=s&&dt<=e)?i:-1).filter(i=>i>=0);
+      if(idxs.length && visible(sp)){
+        laneUsed=true;
+        const bar=document.createElement("button");
+        bar.className="span-bar";
+        bar.style.gridColumn=`${idxs[0]+1} / ${idxs[idxs.length-1]+2}`;
+        bar.innerHTML=`<span class="tag">${sp.tag}</span> ${sp.title} <span style="color:var(--muted);font-weight:500">· 2–3 nights (poll)</span>`;
+        bar.addEventListener("click",()=>openDrawer(sp.id));
+        lane.appendChild(bar);
+      }
+    });
+    if(laneUsed) wk.appendChild(lane);
+
+    const days=document.createElement("div"); days.className="days";
+    row.forEach(dt=>{
+      const key=iso(dt);
+      const cell=document.createElement("div"); cell.className="day";
+      const inJuly = dt.getUTCMonth()===6;
+      if(!inJuly) cell.classList.add("oob");
+      const isPast = key<TODAY;
+      const isToday = key===TODAY;
+      if(isPast) cell.classList.add("past");
+      if(isToday) cell.classList.add("today");
+      if(isPast && !state.showPast) cell.style.visibility="hidden";
+
+      const dayEvents=EVENTS.filter(e=>e.date===key).sort((a,b)=>{
+        const o={fullday:0,part:1,short:2}; if(o[a.len]!==o[b.len]) return o[a.len]-o[b.len];
+        return (a.start||"99:99").localeCompare(b.start||"99:99");
+      });
+      const shownEvents=dayEvents.filter(visible);
+      const lvl=dayClashLevel(shownEvents);
+
+      const dh=document.createElement("div"); dh.className="day-head";
+      const dn=dt.getUTCDate();
+      dh.innerHTML=`<span class="dnum">${dn}${dn===1?`<span class="mo">${MO[dt.getUTCMonth()]}</span>`:""}</span>`;
+      if(isToday){ const t=document.createElement("span"); t.className="todaytag"; t.textContent="TODAY"; dh.appendChild(t); }
+      else if(lvl){ const bd=document.createElement("button"); bd.className=`badge ${lvl}`;
+        const n=shownEvents.length;
+        bd.textContent = lvl==="clash"?`⚠ clash`:`◇ ${n} options`;
+        bd.title = lvl==="clash"?"Hard clash on this day":"Competing options — pick one";
+        bd.addEventListener("click",()=>openDayDrawer(key,shownEvents,lvl));
+        dh.appendChild(bd);
+      }
+      cell.appendChild(dh);
+      shownEvents.forEach(ev=>cell.appendChild(chipEl(ev)));
+      days.appendChild(cell);
+    });
+    wk.appendChild(days);
+    cal.appendChild(wk);
+  });
+}
+
+function renderAgenda(){
+  const ag=document.getElementById("agenda"); ag.innerHTML="";
+  const all=[];
+  weeks.flat().forEach(dt=>{ const key=iso(dt); if(key<TODAY && !state.showPast) return;
+    all.push({date:key,dt}); });
+  all.forEach(({date,dt})=>{
+    const dayEvents=EVENTS.filter(e=>e.date===date && visible(e)).sort((a,b)=>(a.start||"99").localeCompare(b.start||"99"));
+    // include span if starts within
+    const spanHere=SPANS.filter(sp=>sp.startDate===date && visible(sp));
+    if(!dayEvents.length && !spanHere.length && date!==TODAY) return;
+    const box=document.createElement("div"); box.className="ag-day"+(date===TODAY?" today":"");
+    const lvl=dayClashLevel(dayEvents);
+    box.innerHTML=`<div class="ag-date"><span>${WDFULL[dt.getUTCDay()]}</span><span class="wd">${dt.getUTCDate()} ${MO[dt.getUTCMonth()]}</span>${date===TODAY?'<span class="todaytag">TODAY</span>':""}${lvl?`<span class="badge ${lvl}">${lvl==="clash"?"⚠ clash":"◇ options"}</span>`:""}</div>`;
+    const list=document.createElement("div"); list.className="ag-list";
+    spanHere.forEach(sp=>{ const b=document.createElement("button"); b.className="span-bar"; b.innerHTML=`<span class="tag">${sp.tag}</span> ${sp.title} · 24–26 Jul (2–3 nights)`; b.addEventListener("click",()=>openDrawer(sp.id)); list.appendChild(b); });
+    if(!dayEvents.length && !spanHere.length){ const e=document.createElement("div"); e.className="ag-empty"; e.textContent="Nothing planned yet."; list.appendChild(e);}
+    dayEvents.forEach(ev=>list.appendChild(chipEl(ev)));
+    box.appendChild(list); ag.appendChild(box);
+  });
+}
+
+function render(){ renderCalendar(); renderAgenda(); }
+
+/* ============ Drawer ============ */
+const drawer=document.getElementById("drawer"), scrim=document.getElementById("scrim");
+let lastFocus=null;
+function openDrawer(id){
+  const ev=byId[id]; if(!ev) return;
+  lastFocus=document.activeElement;
+  document.getElementById("drStatus").className="dr-status "+ev.status;
+  document.getElementById("drStatus").textContent={confirmed:"● Confirmed",pending:"● Pending confirmation",interest:"● Interest / placeholder"}[ev.status];
+  document.getElementById("drTitle").textContent=ev.title;
+  document.getElementById("drOrg").textContent="Posted by "+ev.org;
+
+  const rows=[];
+  const isSpan=!!ev.startDate;
+  if(isSpan){
+    rows.push(["When", `Fri 24 – Sun 26 Jul 2026 <span class="len">multi-day</span>`]);
+  } else if(ev.date){
+    const dt=d(ev.date);
+    let when=`${WDFULL[dt.getUTCDay()]} ${dt.getUTCDate()} ${MO[dt.getUTCMonth()]}`;
+    const p=partOf(ev);
+    if(ev.noSlot) when+= ` <span class="len">time TBD · poll</span>`;
+    else if(ev.len==="fullday") when+=` <span class="len">all day</span>`;
+    else if(ev.end) when+=` · ${fmtTime(ev.start)}–${fmtTime(ev.end)} <span class="len">${partLabel(p)}</span>`;
+    else if(ev.start) when+=` · ${fmtTime(ev.start)} <span class="len">${ev.len==="short"?"short":partLabel(p)}</span>`;
+    rows.push(["When",when]);
+  }
+  if(ev.loc) rows.push(["Where",ev.loc]);
+  if(ev.price) rows.push(["Cost",ev.price]);
+
+  let html=`<dl class="meta">${rows.map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join("")}</dl>`;
+
+  if(ev.deadline){
+    const dd=d(ev.deadline.date); const today=ev.deadline.date===TODAY;
+    html+=`<div class="dr-deadline"><span>⏰</span><div><b>Reply by ${fmtTime(ev.deadline.time)}, ${WD[dd.getUTCDay()]} ${dd.getUTCDate()} ${MO[dd.getUTCMonth()]}${today?" — that's today":""}.</b><br>${ev.deadline.text}.</div></div>`;
+  }
+
+  if(ev.note) html+=`<div class="dr-note">${ev.note}</div>`;
+
+  if(ev.options){
+    html+=`<p class="dr-section-t">Options on the table</p><ul class="opts">${ev.options.map(o=>`<li>${o}</li>`).join("")}</ul>`;
+  }
+
+  const cl=clashMap[ev.id]||[];
+  if(cl.length){
+    const hard=cl.filter(c=>c.level==="clash"), soft=cl.filter(c=>c.level==="choose");
+    if(hard.length){
+      html+=`<div class="clashbox clash"><b>⚠ Hard clash — same day & time block</b>${hard.map(c=>`<button data-goto="${c.id}">${byId[c.id].title} →</button>`).join("")}</div>`;
+    }
+    if(soft.length){
+      html+=`<div class="clashbox choose"><b>◇ Competing option — you can only do one</b>${soft.map(c=>`<button data-goto="${c.id}">${byId[c.id].title} →</button>`).join("")}</div>`;
+    }
+  }
+
+  if(ev.link) html+=`<a class="dr-link" href="${ev.link.url}" target="_blank" rel="noopener">Open ${ev.link.label} ↗</a>`;
+
+  const body=document.getElementById("drBody"); body.innerHTML=html;
+  body.querySelectorAll("[data-goto]").forEach(bn=>bn.addEventListener("click",()=>openDrawer(bn.dataset.goto)));
+
+  drawer.classList.add("on"); scrim.classList.add("on"); drawer.setAttribute("aria-hidden","false");
+  document.getElementById("drClose").focus();
+}
+
+function openDayDrawer(dateKey,events,lvl){
+  const dt=d(dateKey);
+  lastFocus=document.activeElement;
+  document.getElementById("drStatus").className="dr-status "+(lvl==="clash"?"pending":"interest");
+  document.getElementById("drStatus").textContent = lvl==="clash"?"⚠ Hard clash":"◇ Competing options";
+  document.getElementById("drTitle").textContent=`${WDFULL[dt.getUTCDay()]} ${dt.getUTCDate()} ${MO[dt.getUTCMonth()]}`;
+  document.getElementById("drOrg").textContent=`${events.length} activities compete for this day`;
+  const groups={morning:[],afternoon:[],evening:[],day:[],other:[]};
+  events.forEach(e=>{ const p=e.noSlot?"other":(partOf(e)||"other"); (groups[p]||groups.other).push(e); });
+  let html=`<div class="dr-note">Tiles below overlap in time. ${lvl==="clash"?"At least one is confirmed or pending — sort out the collision.":"These are competing interest posts — the group needs to pick."}</div>`;
+  [["day","All day"],["morning","Morning"],["afternoon","Afternoon"],["evening","Evening"],["other","Time TBD"]].forEach(([k,lab])=>{
+    if(groups[k].length){ html+=`<p class="dr-section-t">${lab}</p>`;
+      groups[k].forEach(e=>{ html+=`<button class="chip ${e.status} ${e.len==='fullday'?'allday':''}" data-goto="${e.id}" style="margin-bottom:6px"><div class="top"><span class="tag">${e.tag}</span><span class="time">${e.noSlot?'poll':e.len==='fullday'?'all day':fmtTime(e.start)}</span></div><div class="ttl">${e.title}</div></button>`; });
+    }
+  });
+  const body=document.getElementById("drBody"); body.innerHTML=html;
+  body.querySelectorAll("[data-goto]").forEach(bn=>bn.addEventListener("click",()=>openDrawer(bn.dataset.goto)));
+  drawer.classList.add("on"); scrim.classList.add("on"); drawer.setAttribute("aria-hidden","false");
+  document.getElementById("drClose").focus();
+}
+
+function closeDrawer(){ drawer.classList.remove("on"); scrim.classList.remove("on"); drawer.setAttribute("aria-hidden","true"); if(lastFocus)lastFocus.focus(); }
+document.getElementById("drClose").addEventListener("click",closeDrawer);
+scrim.addEventListener("click",closeDrawer);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&drawer.classList.contains("on"))closeDrawer(); });
+
+/* ============ Tally, deadlines, floating, footer ============ */
+function buildTally(){
+  const counts={confirmed:0,pending:0,interest:0};
+  EVENTS.concat(SPANS).forEach(e=>counts[e.status]++);
+  const labels={confirmed:"confirmed",pending:"pending",interest:"interest"};
+  document.getElementById("tally").innerHTML=Object.keys(counts).map(k=>
+    `<span class="pill"><span class="swatch sw-${k}"></span>${counts[k]} ${labels[k]}</span>`).join("");
+}
+function buildDeadlines(){
+  const today=EVENTS.filter(e=>e.deadline && e.deadline.date===TODAY)
+    .sort((a,b)=>a.deadline.time.localeCompare(b.deadline.time));
+  if(!today.length){ document.getElementById("action").style.display="none"; return; }
+  document.getElementById("deadlineList").innerHTML=today.map(e=>
+    `<li><time>${fmtTime(e.deadline.time)}</time> — ${e.title}</li>`).join("");
+}
+function buildFloating(){
+  document.getElementById("unschedRow").innerHTML="";
+  FLOATING.forEach(ev=>{ const b=chipEl(ev); b.style.maxWidth="260px"; document.getElementById("unschedRow").appendChild(b); });
+}
+document.getElementById("footer").textContent=
+  "Reconstructed from the #porto Slack thread · dates inferred from RSVP deadlines (\"reply by Weds 8 Jul\" fixes today = Wed 8 Jul). Confirmed = booked/decided · Pending = binding post awaiting cut-off · Interest = poll or idea. Verify times against the channel before you commit money.";
+
+/* ============ Wire up controls ============ */
+document.getElementById("viewCal").addEventListener("click",()=>setView("calendar"));
+document.getElementById("viewAgd").addEventListener("click",()=>setView("agenda"));
+function setView(v){
+  state.view=v;
+  document.getElementById("viewCal").setAttribute("aria-pressed",v==="calendar");
+  document.getElementById("viewAgd").setAttribute("aria-pressed",v==="agenda");
+  document.getElementById("calendar").classList.toggle("off",v!=="calendar");
+  document.getElementById("weekdayHead").style.display = v==="calendar"?"grid":"none";
+  document.getElementById("agenda").classList.toggle("on",v==="agenda");
+}
+document.querySelectorAll("#statusFilters .fbtn").forEach(btn=>{
+  btn.addEventListener("click",()=>{ const s=btn.dataset.status; state.statuses[s]=!state.statuses[s];
+    btn.setAttribute("aria-pressed",state.statuses[s]); render(); });
+});
+document.getElementById("showPast").addEventListener("change",e=>{ state.showPast=e.target.checked; render(); });
+document.getElementById("dismissAction").addEventListener("click",()=>document.getElementById("action").style.display="none");
+
+/* ============ Init ============ */
+buildTally(); buildDeadlines(); buildFloating(); render();
+if(window.innerWidth<820) setView("agenda");
+</script>
+</body>
+</html>
