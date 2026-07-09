@@ -327,7 +327,9 @@
 
 <script>
 /* ============ Reference date & helpers ============ */
-const TODAY = "2026-07-09";
+// Current day, always in Porto local time (Europe/Lisbon, DST-aware) regardless of the viewer's timezone.
+// en-CA locale formats as YYYY-MM-DD, matching the calendar's date keys.
+const TODAY = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Lisbon" }).format(new Date());
 const WD = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const WDFULL = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const MO = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -708,7 +710,7 @@ function buildFloating(){
   FLOATING.forEach(ev=>{ const b=chipEl(ev); b.style.maxWidth="260px"; document.getElementById("unschedRow").appendChild(b); });
 }
 document.getElementById("footer").textContent=
-  "Reconstructed from the #porto Slack thread · dates inferred from RSVP deadlines (\"reply by Weds 8 Jul\" fixes today = Wed 8 Jul). Confirmed = booked/decided · Pending = binding post awaiting cut-off · Interest = poll or idea. Verify times against the channel before you commit money.";
+  "Reconstructed from the #porto Slack thread. Confirmed = booked/decided · Pending = binding post awaiting cut-off · Interest = poll or idea. Verify times against the channel before you commit money.";
 
 /* ============ Wire up controls ============ */
 document.getElementById("viewCal").addEventListener("click",()=>setView("calendar"));

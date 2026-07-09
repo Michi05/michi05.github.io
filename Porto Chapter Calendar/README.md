@@ -161,8 +161,12 @@ the need to verify times before spending money.
 
 These are judgement calls the thread doesn't fully settle — worth confirming with the group:
 
-- **"Today" = Wed 8 Jul 2026**, inferred from the RSVP-deadline language (§2). If the export is from
-  a different week, all relative dates shift together.
+- **"Today" is computed live in Porto local time** (`Europe/Lisbon`, DST-aware) via
+  `Intl.DateTimeFormat("en-CA", …)`, so the highlighted day is correct for every viewer regardless of
+  their own timezone. **The date range is fixed by design** (Mon 6 Jul → Sun 2 Aug 2026): while the
+  real date falls inside that window the current day is ringed and earlier days are dimmed; once the
+  date is outside the window no day is ringed (nothing breaks — there's simply no "today" marker).
+  To reuse this calendar for another trip, change the `START` date and the range accordingly.
 - **Emeraude's Douro mention (Thu 9 Jul)** is treated as superseded by the Saturday 11 Jul group
   binding post; Thursday is shown as her Aveiro day tour instead. If both were meant to stand, they
   need splitting.
