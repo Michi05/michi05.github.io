@@ -19,8 +19,26 @@ _Add new actions above this line._
 ## ✅ Decisions log
 
 - **Cruise dropped (9 Jul):** it's in the past and sits outside the 4-week window; not worth extending the grid backward for a single finished event.
-- **Villa weekend** rendered as per-day tiles inside the 24–26 Jul cells (not a floating lane).
+- **Villa weekend** rendered as a spanning bar across 24–27 Jul cells (confirmed: 3 nights, Fri 24 → Mon 27).
 - **RSVP banner removed** — it referenced 8 Jul deadlines that have passed.
+- **First week confirmed (9 Jul):** All first-week activities set to confirmed (green) except football matches, poll activities (Odyssey, food tour, speakeasy, autism skill share), and weekly housekeeping (cleaning, Tribal Tuesday).
+- **Villa weekend confirmed (9 Jul):** All 4 days confirmed as 3-night stay. Removed separate "optional 3rd night" entry; extended span to cover Fri 24 → Mon 27.
+- **B2B sales skill share confirmed (9 Jul):** Harry's session on Thu 9 Jul moved to confirmed status.
+- **Odyssey IMAX confirmed & rescheduled (9 Jul):** Moved from Thu 16 poll to Fri 17 at 1:00 PM. Confirmed with group discount (€13.50 for 6+). Added Google Maps link.
+- **Food tour moved to Wed 15 (9 Jul):** Porto Walkers food tour pinned to Wednesday 15 Jul at 11:30.
+- **Added Lado B Café (9 Jul):** Dan's francesinha lunch suggestion for Fri 10 at 12:00. Added with Google Maps link.
+- **Added 8 World Cup matches (9 Jul):** All quarter-finals, semi-finals, third-place, and final added with ⚽ emoji. All set to "interest" status.
+- **Simplified clash detection (9 Jul):** All overlaps now show as ◇ (competing options) instead of distinguishing ⚠ hard clashes. Since all events are group activities, overlaps just mean "pick one."
+- **Added category emojis (9 Jul):** All event titles prefixed with category-based emojis for quick visual scanning (see README §3.3 for full list).
+- **UI improvements (9 Jul):**
+  - Floating ideas section moved to top, collapsed by default with counter badge
+  - Renamed to "Ideas TBD" with centered text and expand/collapse arrows
+  - Width reduced to 85%
+  - Status filter buttons consolidated with live counts (removed separate tally pills from hero)
+  - Legend replaced with ⓘ icon + hover popover showing only clash indicators
+  - Legend icon positioned in bottom-right of hero
+  - Weekend day numbers (Sat/Sun) now in firebrick red
+  - Events sorted chronologically within each day (morning → evening)
 
 ---
 
@@ -37,17 +55,19 @@ _Add new actions above this line._
 
 Things floated in the channel with no fixed date yet — nudge an organiser to pin a time:
 
-- **Tile-painting workshop** — no date/venue.
-- **Via Ferrata climb** — Erin researching routes.
-- **Skill share — SEO & GEO fundamentals** — Nigel; date once volunteer numbers are in.
+- **🎨 Tile-painting workshop** — Hannah Woods; no date/venue.
+- **🧗 Via Ferrata climb** — Erin researching routes.
+- **💼 Skill share — SEO & GEO fundamentals** — Nigel; date once volunteer numbers are in.
 
 ---
 
 ## 🗒️ Notes
 
-- "Today" in the calendar is pinned to **Wed 8 Jul 2026** (inferred from RSVP-deadline language). Bump it if the reference date should move.
+- "Today" in the calendar is computed live in Porto local time (`Europe/Lisbon`).
 - Statuses: **Confirmed** = booked/decided · **Pending** = binding post awaiting cut-off · **Interest** = poll or idea.
 - Always verify times and prices against the channel before committing money.
+- Category emojis represent the **kind of activity** (duration/context), not the specific content. For example, Chefs on Fire gets 🚌 (trip) not 🍽️ (food), and food tour gets 🏛️ (tour) not 🍽️ (food).
+- All overlaps are treated as "competing options" (◇) — the group simply picks one. No distinction between "hard clashes" and "soft overlaps."
 
 ---
 
@@ -55,3 +75,4 @@ Things floated in the channel with no fixed date yet — nudge an organiser to p
 
 - Live calendar: <https://cv.garlez.me/porto-chapter-calendar.html>
 - Source thread: `#por_jul26_adventures` (WiFi Tribe Slack)
+- Detailed change log: `development_runbook_jul26.md`

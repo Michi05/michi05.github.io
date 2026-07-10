@@ -16,9 +16,9 @@ activities by commitment level. The explicit requirements, and how each is met:
 
 | Requirement from the brief | How it's addressed |
 | --- | --- |
-| Differentiate **confirmed / pending / placeholder** | Three visual statuses — colour + fill + border style — plus filter toggles. |
-| **Main goal:** see what's available at a glance; avoid missing things | Whole trip fits on one screen as a 4-week grid; a "replies due today" banner surfaces time-critical RSVPs. |
-| **Prevent collisions, or see them clearly when they exist** | Automatic clash detection by time-of-day slot, shown as per-day badges and per-tile markers, with a drill-down that lists exactly what conflicts. |
+| Differentiate **confirmed / pending / placeholder** | Three visual statuses — colour + fill + border style — plus filter toggles with live counts. |
+| **Main goal:** see what's available at a glance; avoid missing things | Whole trip fits on one screen as a 4-week grid; a collapsible "Ideas TBD" section surfaces undated activities. |
+| **Prevent collisions, or see them clearly when they exist** | Automatic overlap detection by time-of-day slot, shown as per-day badges and per-tile markers, with a drill-down that lists exactly what conflicts. |
 | Relevant for **~4 weeks**, may span two months | Fixed range Mon 6 Jul → Sun 2 Aug 2026; renders month boundaries (Aug days are muted/out-of-range). No multi-month scaling needed. |
 | Favour the **overall picture** but allow **dynamic drill-down** | Grid gives the overview; clicking any tile or day badge opens a detail drawer with the full context. |
 | Tell apart **long vs short** activities (full-day vs a block vs a 1-hour/deadline item) | Duration is encoded independently of status: full-width bars, timed blocks, and slim pills. |
@@ -57,8 +57,9 @@ Every activity is classified on **two independent axes**, plus an optional third
 | **Pending** | A binding post still inside its RSVP window | Solid ochre fill, ochre left bar |
 | **Interest** | Interest post, poll, or floated idea — not committed | Dashed blue outline, no fill |
 
-The fill weight itself signals commitment: interest reads as a "sketched, unglazed tile", pending as
-warm, confirmed as fully glazed-in.
+The fill weight itself signals commitment: interest reads as a "sketched, unglazed tile", pending as warm, confirmed as fully glazed-in.
+
+**Note:** The "pending" status is rarely used in practice. Most events are either confirmed (green) or interest (blue). The filter buttons show live counts for each status.
 
 ### 3.2 Length — how much of the day does it eat?
 
@@ -71,11 +72,32 @@ warm, confirmed as fully glazed-in.
 Time-of-day isn't given its own colour to avoid overloading the eye; instead events sort
 chronologically within a cell (all-day → morning → afternoon → evening), so the day reads top-to-bottom.
 
-### 3.3 Deadlines
+### 3.3 Category emojis
 
-Events carrying an RSVP cut-off (`deadline`) drive the red **"replies due today"** banner and a
-highlighted callout in the detail drawer. Three land on Wed 8 Jul (Douro 10:00, Livraria 12:00,
-Chefs on Fire menu 17:00).
+Each event title is prefixed with a category emoji for quick visual scanning. These represent the **kind of activity** (duration and context), not the specific content:
+
+| Emoji | Category | Examples |
+| --- | --- | --- |
+| ⚽ | Sports / Match | World Cup matches |
+| 🏄 | Sports / Water | Kayak |
+| 🏖️ | Sports / Leisure | Beach day |
+| 🧗 | Sports / Climbing | Via Ferrata |
+| 🏛️ | City / Tour | Food tour, bookstore, café |
+| 🚶 | City / Walk | Walking tour |
+| 🚌 | Full-day trip | Day tours, Chefs on Fire |
+| 🍽️ | Food / Meal | Brunch, francesinha lunch |
+| 🍸 | Food / Drinks | Cocktails, bar crawl |
+| 🎵 | Entertainment / Music | Fado concerts |
+| 🎭 | Entertainment / Theatre | Stand-up comedy |
+| 🎬 | Entertainment / Cinema | IMAX movie |
+| 💼 | Professional / Skill share | B2B sales, autism talk, SEO |
+| 🧳 | Travel / Logistics | Checkout |
+| 🏡 | Accommodation | Villa weekend |
+| 🎨 | Workshop | Tile-painting |
+
+### 3.4 Deadlines
+
+Events carrying an RSVP cut-off (`deadline`) drive a highlighted callout in the detail drawer.
 
 ---
 
@@ -85,14 +107,11 @@ Each event occupies **time-of-day slots**: full-day = morning + afternoon (eveni
 day tour followed by a night out is *not* flagged); a part/short event occupies only its own period;
 a poll with undecided timing occupies nothing.
 
-Two events on the same date that share a slot produce a conflict, at one of two severities:
+Two events on the same date that share a slot produce a conflict:
 
-- **⚠ Hard clash** — at least one event is confirmed or pending. A real problem to resolve.
-- **◇ Competing options** — all involved events are interest posts. Not a problem, just a choice
-  (e.g. Sun 12 Jul: brunch vs kayak vs beach — the group picks one).
+- **◇ Competing options** — The group needs to pick one (e.g. Sun 12 Jul: brunch vs kayak vs beach).
 
-Conflicts surface at three levels of zoom: a day badge in the grid, an inset outline on each
-affected tile, and a cross-linked list inside the detail drawer.
+All overlaps are treated as "competing options" rather than "hard clashes" since these are group activities where the group simply needs to choose. Conflicts surface at three levels of zoom: a day badge in the grid, an inset outline on each affected tile, and a cross-linked list inside the detail drawer.
 
 ---
 
@@ -126,11 +145,17 @@ weekend) render as a single spanning bar in a dedicated lane above the day cells
 stay reads as one thing rather than three separate chips. Today is ringed; past days are muted; the
 Aug tail is shown as out-of-range hatching so the calendar edges are honest about the range.
 
+**Weekend styling:** Saturday and Sunday day numbers are displayed in firebrick red to visually distinguish weekends from weekdays.
+
+**Collapsible sections:** The "Ideas TBD" section at the top is collapsed by default with a counter showing the number of undated activities. Click to expand and see the floating ideas.
+
+**Legend icon:** A small blue ⓘ icon in the bottom-right of the hero section reveals a popover with clash indicator meanings on hover.
+
+**Status filters:** The filter buttons (Confirmed / Pending / Interest) are consolidated into a single row with live counts, replacing the separate tally pills that were previously in the hero.
+
 ### 5.3 Copy
 
-Interface language names things by what the user controls ("Show past days", "Replies due today",
-"Reply by 12 PM"), states clash meaning plainly, and keeps the footer honest about provenance and
-the need to verify times before spending money.
+Interface language names things by what the user controls ("Show past days", "Reply by 12 PM"), states overlap meaning plainly, and keeps the footer honest about provenance and the need to verify times before spending money.
 
 ---
 
@@ -139,21 +164,22 @@ the need to verify times before spending money.
 - **Single static HTML file, vanilla JS, zero dependencies.** A trip calendar should open instantly
   and survive being emailed around or dropped on any host. No framework, no CDN runtime, no build.
 - **Data-driven rendering.** All activities live in three plain arrays (`EVENTS`, `SPANS`,
-  `FLOATING`). Rendering, filtering, and clash detection derive from that data, so updating the
+  `FLOATING`). Rendering, filtering, and overlap detection derive from that data, so updating the
   calendar means editing objects, not markup (see §8).
-- **Clash algorithm** runs once on load (`computeClashes`) into a lookup map keyed by event id, then
+- **Event sorting.** Events are sorted by date first, then chronologically by start time within each day (morning → afternoon → evening). Full-day events appear at the top of their date group.
+- **Overlap algorithm** runs once on load (`computeClashes`) into a lookup map keyed by event id, then
   reused by both views and the drawer — O(events² per day), trivial at this scale.
 - **Two views, one data source.** A 7-column grid for wide screens and a stacked **Agenda** list for
   phones; the agenda is auto-selected below 820px because a 7-wide grid is unusable on a narrow
   screen. Both are rendered from the same event objects.
 - **Drill-down drawer** is a single reusable panel driven by event id, with cross-links so you can
-  hop from a clash straight to the conflicting activity. Closes on backdrop click, the × button, or
+  hop from an overlap straight to the conflicting activity. Closes on backdrop click, the × button, or
   Escape.
 - **Dates handled in UTC** (`Date.UTC`, ISO `YYYY-MM-DD` keys) to avoid timezone drift shifting an
   event onto the wrong day.
 - **Accessibility floor:** every tile and control is a real `<button>`, visible keyboard focus rings,
   `aria-pressed` on toggles, a labelled `role="dialog"` drawer, and `prefers-reduced-motion` honoured
-  for the drawer transition.
+  for all transitions.
 
 ---
 
@@ -172,12 +198,12 @@ These are judgement calls the thread doesn't fully settle — worth confirming w
   need splitting.
 - **Poll events** (Odyssey movie, food tour, cocktails, villa nights) are pinned to their *lead*
   candidate date with all options listed in the drawer. They deliberately don't occupy a time slot,
-  so an undecided poll won't raise false clashes — the trade-off is that a poll's *potential*
+  so an undecided poll won't raise false overlaps — the trade-off is that a poll's *potential*
   conflicts aren't pre-flagged.
-- **Two floating items** (sunset cruise, tile painting) have no date in the thread and live in a
-  separate "floating ideas" shelf rather than on the grid.
-- **Per-tile clash markers reflect the underlying data**, not the current filter — hiding one side of
-  a clash via the status filter still shows the marker on the other. The day-level badge *is*
+- **Floating items** (tile painting, via ferrata, SEO skill share) have no date in the thread and live in a
+  separate "Ideas TBD" section rather than on the grid.
+- **Per-tile overlap markers reflect the underlying data**, not the current filter — hiding one side of
+  an overlap via the status filter still shows the marker on the other. The day-level badge *is*
   filter-aware.
 - Ephemeral "we're here now" match-night messages (Bonaparte / O Tosco) are folded into the single
   Portugal vs Spain event rather than shown separately.
@@ -194,10 +220,10 @@ code needs touching.
 ```js
 {
   id:      "douro",                 // unique string, used for cross-links
-  title:   "Douro Valley boat tour & wine tasting",
+  title:   "🚌 Douro Valley boat tour & wine tasting",  // prefix with category emoji
   tag:     "DOURO",                 // short mono category label shown on the tile
   org:     "Emeraude L",            // who posted it
-  status:  "pending",               // "confirmed" | "pending" | "interest"
+  status:  "confirmed",             // "confirmed" | "pending" | "interest"
   date:    "2026-07-11",            // ISO date (omit for floating items)
   len:     "fullday",               // "fullday" | "part" | "short"
   start:   "08:30",                 // 24h "HH:MM" (drives morning/afternoon/evening)
@@ -206,16 +232,16 @@ code needs touching.
   loc:     "Meet: Largo da Lapa 1", // optional
   link:    { label:"getyourguide.com", url:"https://..." },   // optional
   deadline:{ text:"Commit so the booking can go in",
-             date:"2026-07-08", time:"10:00" },               // optional → feeds today-banner
+             date:"2026-07-08", time:"10:00" },               // optional → feeds drawer callout
   options: ["Mon 13 Jul", "Wed 15 Jul"],                      // optional, for polls
-  noSlot:  true                     // optional: undecided time → excluded from clash detection
+  noSlot:  true                     // optional: undecided time → excluded from overlap detection
 }
 ```
 
 - **`SPANS`** holds multi-day events (`startDate` / `endDate`) rendered as a spanning bar.
-- **`FLOATING`** holds undated ideas (no `date`), shown in the shelf below the grid.
+- **`FLOATING`** holds undated ideas (no `date`), shown in the "Ideas TBD" section.
 - To move the visible window, change the `START` date and the `4` in the week-building loop.
-- Clash behaviour follows automatically from `date`, `len`, and `start`; no manual conflict list to
+- Overlap behaviour follows automatically from `date`, `len`, and `start`; no manual conflict list to
   maintain.
 
 ### 8.1 Add a new activity (step by step)
@@ -223,14 +249,15 @@ code needs touching.
 1. Open `porto-chapter-calendar.html` and find the `const EVENTS = [ ... ]` array in the `<script>`.
 2. Copy an existing object and paste it as a new entry, then edit the fields. Only `id`, `title`,
    `tag`, `org`, `status`, and `len` are required — drop any optional field you don't need.
-3. Give it a **unique `id`** (used for cross-links). Save and refresh the browser — that's it. The
-   tile, filters, deadline banner, and clash detection all pick it up automatically.
+3. **Prefix the title with a category emoji** from the table in §3.3.
+4. Give it a **unique `id`** (used for cross-links). Save and refresh the browser — that's it. The
+   tile, filters, and overlap detection all pick it up automatically.
 
 ```js
 // Example: a confirmed morning pastel-de-nata run on Fri 17 Jul
 {
   id:     "natas",
-  title:  "Pastel de nata crawl",
+  title:  "🍽️ Pastel de nata crawl",
   tag:    "FOOD",
   org:    "You",
   status: "confirmed",
@@ -242,13 +269,14 @@ code needs touching.
 ```
 
 - **Multi-day trip?** Add it to `SPANS` instead, with `startDate` / `endDate` (no `len`/`start`).
-- **No date yet?** Add it to `FLOATING` (omit `date`); it lands in the "floating ideas" shelf.
+- **No date yet?** Add it to `FLOATING` (omit `date`); it lands in the "Ideas TBD" section.
 
 ### 8.2 Add a new field, category, or status
 
 - **A new detail row** (e.g. a `dresscode` field): add it to the object, then add one line in
   `openDrawer()` where the other `rows.push([...])` calls are, so it renders in the drawer.
 - **A new category tag:** just set `tag:"WHATEVER"` — tags are free text, nothing else to register.
+- **A new category emoji:** add it to the title string. The emoji system is free-form — no registration needed.
 - **A new status** beyond confirmed/pending/interest: this one touches more than data. You'd add a
   colour block in `:root`, a `.chip.<status>` rule in the CSS, a matching entry in the `openDrawer`
   status label map, and a filter button in the controls. Doable, but it's the one change that isn't
@@ -261,6 +289,8 @@ code needs touching.
 ```
 porto-chapter-calendar.html   The entire app: markup, CSS, data, and logic in one file
 README.md                     This document
+Notes and ideas _jul26.md     Working scratchpad with decisions and troubleshooting
+development_runbook_jul26.md  Detailed chronological log of changes
 ```
 
 ---

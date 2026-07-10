@@ -179,6 +179,7 @@
   .chip .tag{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.05em;flex:none}
   .chip .time{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-left:auto;flex:none}
   .chip .ttl{font-size:12px;font-weight:600;line-height:1.2;color:var(--indigo)}
+  .chip.cancelled .ttl{text-decoration:line-through}
   .chip.confirmed{background:var(--confirmed-bg);border-left-color:var(--confirmed)}
   .chip.confirmed .tag{color:var(--confirmed)}
   .chip.pending{background:var(--pending-bg);border-left-color:var(--pending)}
@@ -312,7 +313,7 @@
     <div class="hero-body">
       <div>
         <h1>Porto Chapter</h1>
-        <div class="sub">group calendar · <b>Mon 6 Jul – Sun 2 Aug 2026</b> · 4 weeks · tap any tile for details</div>
+        <div class="sub">Last updated on <b>10 Jul 2026</b> · Tap any tile for details</div>
       </div>
       <div class="legend" aria-label="Legend">
         <button class="legend-btn" aria-label="Show legend" tabindex="0">i</button>
@@ -419,7 +420,7 @@ const EVENTS = [
     deadline:{text:"RSVP so Erin can buy group tickets", date:"2026-07-08", time:"12:00"},
     note:"Erin is buying group tickets for the 10:00 / 10:15 slot (go early = less crowded). Binding post — she confirmed the Friday morning slot." },
 
-  { id:"lado-b", title:"🍽️ Lado B Café — francesinha lunch", tag:"FOOD", org:"Dan Perez", status:"interest",
+  { id:"lado-b", title:"🍽️ Lado B Café — francesinha lunch", tag:"FOOD", org:"Dan Perez", status:"confirmed",
     date:"2026-07-10", len:"part", start:"12:00", loc:"Lado B Café (Coliseu), R. de Passos Manuel 190, Porto",
     link:{label:"Google Maps", url:"https://maps.app.goo.gl/p3bRLrNhuHn9bkJn8"},
     note:"Recommended by the tour guide for francesinha. Near Livraria Lello for those doing the bookstore visit. Opens at 12:00." },
@@ -432,6 +433,13 @@ const EVENTS = [
     date:"2026-07-11", len:"fullday", start:"08:30", price:"€90", loc:"Meet: Largo da Lapa 1, 4050-069 Porto",
     deadline:{text:"Commit so the group booking can go in", date:"2026-07-08", time:"10:00"},
     note:"All-day (≈10h): minibus transport, guide, boat trip, lunch with wine pairings, and two wine-estate visits with tastings. Binding post awaiting the RSVP cut-off." },
+
+  { id:"dragshow", title:"🧜 Drag Me Anywhere — Into the Wild", tag:"DRAG SHOW", org:"Group", status:"confirmed",
+    date:"2026-07-11", len:"part", start:"22:00", end:"01:00", price:"€6 (Early Bird) + ~€1 service charge",
+    loc:"Bar of Soap – Porto, Rua do Bolhão 132, 4000-111 Porto, Portugal",
+    link:{label:"shotgun.live tickets", url:"https://shotgun.live/pt-pt/events/drag-me-anywhere-into-the-wild"},
+    deadline:{text:"React so tickets get bought (max 9 Early Bird)", date:"2026-07-10", time:"17:00"},
+    note:"After the Douro wine tour. Early Bird tickets still available — buying up to nine at once by 17:00 today, so react before then to get in." },
 
   { id:"fadoA", title:"🎵 Fado — Carminho (Valença festival)", tag:"FADO", org:"Adrian Punkt", status:"confirmed",
     date:"2026-07-11", len:"part", start:"21:00", price:"≈€30", loc:"Valença (~1h15 drive)",
@@ -449,19 +457,33 @@ const EVENTS = [
     date:"2026-07-12", len:"part", start:"02:00", loc:"Sky Sports",
     note:"World Cup quarter-final. Watch party TBD." },
 
+  { id:"padel", title:"🎾 Padel", tag:"PADEL", org:"Adrian Punkt", status:"confirmed",
+    date:"2026-07-12", len:"short", start:"10:00",
+    note:"Resolved from the two-option poll (morning before beach, or evening after beach/kayak) — group settled on the 10am slot, then heading to the beach." },
+
   { id:"beach", title:"🏖️ Beach day — Espinho", tag:"BEACH", org:"Spencer Deuterman", status:"confirmed",
     date:"2026-07-12", len:"fullday", loc:"Espinho (30-min drive or train from Campanhã)",
     link:{label:"Turismo de Espinho", url:"https://www.turismodeespinho.pt"},
     note:"Explicitly posted as the kayaking alternative. Big sandy beaches (Praia da Baía), rentable chairs/umbrellas, boardwalk, bars, casino." },
 
-  { id:"brunch", title:"🍽️ Sunday brunch — assigned small groups", tag:"BRUNCH", org:"Maya", status:"confirmed",
+  { id:"brunch", title:"🍽️ Sunday brunch — assigned small groups", tag:"BRUNCH", org:"Maya", status:"pending", cancelled:true,
     date:"2026-07-12", len:"part", start:"11:00", loc:"Various brunch spots",
-    note:"Riffing on Saturday's popular small-group dinners: 4-person groups each sent to a different brunch place. Emoji in if you want to be assigned." },
+    note:"Cancelled — won't happen. Was: 4-person groups each sent to a different brunch place, riffing on Saturday's small-group dinners." },
 
-  { id:"kayak", title:"🏄 Douro Valley kayak rental", tag:"KAYAK", org:"Harry Warren", status:"confirmed",
+  { id:"kayak", title:"🏄 Douro Valley kayak rental", tag:"KAYAK", org:"Harry Warren", status:"pending", cancelled:true,
     date:"2026-07-12", len:"part", start:"13:00", loc:"Pinhão, Douro Valley",
     link:{label:"getyourguide.com", url:"https://www.getyourguide.com/douro-valley-l4965/pinhao-4-hour-douro-valley-kayak-rental-t385465"},
-    note:"4-hour kayak rental on the Douro. 'Let's go.' Note: framed against Spencer's beach day as the two Sunday options." },
+    note:"Cancelled — won't happen. Was framed against Spencer's beach day as the two Sunday options; beach won out." },
+
+  { id:"birthday-lunch", title:"🥐 Dan's birthday — casual lunch", tag:"BIRTHDAY", org:"Dan Perez", status:"confirmed",
+    date:"2026-07-13", len:"part", start:"12:00", loc:"Casa Guedes Tradicional, Praça dos Poveiros 130, Porto",
+    link:{label:"Google Maps", url:"https://maps.app.goo.gl/s33RNWXQJWDo9PWH8"},
+    note:"Dan turns 44! Recommended by multiple people (incl. James). Walk over at lunchtime, can host a big group. React 🥐 if interested." },
+
+  { id:"birthday-dinner", title:"🍽️ Dan's birthday — bougie dinner", tag:"BIRTHDAY", org:"Dan Perez", status:"confirmed",
+    date:"2026-07-13", len:"part", start:"19:00", price:"Pricey — don't feel compelled to join",
+    link:{label:"Google Maps", url:"https://maps.app.goo.gl/EikUVVurSbeWLhFE8"},
+    note:"Fancy dinner, likely ~7pm. Unclear if they can host a big group. React 🍖 if interested and Dan will follow up on timing." },
 
   { id:"ss-autism", title:"💼 Skill share — Autism & neurodivergence", tag:"SKILLSHARE", org:"Laura Vegh", status:"interest",
     date:"2026-07-14", len:"part", start:"17:00", noSlot:true, loc:"Likely the patio (afternoon/evening for shade)",
@@ -614,7 +636,7 @@ for(let w=0;w<4;w++){ const row=[]; for(let i=0;i<7;i++){ const dt=new Date(STAR
 /* ============ Rendering ============ */
 function chipEl(ev){
   const b=document.createElement("button");
-  b.className=`chip ${ev.kind==="checkout"?"checkout":ev.status} ${ev.len==="fullday"?"allday":ev.len==="short"?"short":""}`.trim();
+  b.className=`chip ${ev.kind==="checkout"?"checkout":ev.status} ${ev.len==="fullday"?"allday":ev.len==="short"?"short":""} ${ev.cancelled?"cancelled":""}`.trim();
   if(!visible(ev)) b.classList.add("dim");
   const cl=clashMap[ev.id]||[];
   const hard=cl.some(c=>c.level==="clash"), soft=cl.some(c=>c.level==="choose");
@@ -757,8 +779,9 @@ function openDrawer(id){
   const ev=byId[id]; if(!ev) return;
   lastFocus=document.activeElement;
   document.getElementById("drStatus").className="dr-status "+ev.status;
-  document.getElementById("drStatus").textContent={confirmed:"● Confirmed",pending:"● Pending confirmation",interest:"● Interest / placeholder"}[ev.status];
+  document.getElementById("drStatus").textContent=ev.cancelled?"● Cancelled":{confirmed:"● Confirmed",pending:"● Pending confirmation",interest:"● Interest / placeholder"}[ev.status];
   document.getElementById("drTitle").textContent=ev.title;
+  document.getElementById("drTitle").style.textDecoration=ev.cancelled?"line-through":"";
   document.getElementById("drOrg").textContent="Posted by "+ev.org;
 
   const rows=[];
@@ -823,7 +846,7 @@ function openDayDrawer(dateKey,events,lvl){
   let html=`<div class="dr-note">Tiles below overlap in time. ${lvl==="clash"?"At least one is confirmed or pending — sort out the collision.":"These are competing interest posts — the group needs to pick."}</div>`;
   [["day","All day"],["morning","Morning"],["afternoon","Afternoon"],["evening","Evening"],["other","Time TBD"]].forEach(([k,lab])=>{
     if(groups[k].length){ html+=`<p class="dr-section-t">${lab}</p>`;
-      groups[k].forEach(e=>{ html+=`<button class="chip ${e.status} ${e.len==='fullday'?'allday':''}" data-goto="${e.id}" style="margin-bottom:6px"><div class="top"><span class="tag">${e.tag}</span><span class="time">${e.noSlot?'poll':e.len==='fullday'?'all day':fmtTime(e.start)}</span></div><div class="ttl">${e.title}</div></button>`; });
+      groups[k].forEach(e=>{ html+=`<button class="chip ${e.status} ${e.len==='fullday'?'allday':''} ${e.cancelled?'cancelled':''}" data-goto="${e.id}" style="margin-bottom:6px"><div class="top"><span class="tag">${e.tag}</span><span class="time">${e.noSlot?'poll':e.len==='fullday'?'all day':fmtTime(e.start)}</span></div><div class="ttl">${e.title}</div></button>`; });
     }
   });
   const body=document.getElementById("drBody"); body.innerHTML=html;
@@ -879,8 +902,9 @@ function buildFloating(){
   FLOATING.forEach(ev=>{ const b=chipEl(ev); b.style.maxWidth="260px"; document.getElementById("unschedRow").appendChild(b); });
   document.getElementById("unschedCount").textContent = FLOATING.length;
 }
-document.getElementById("footer").textContent=
-  "Reconstructed from the #porto Slack thread. Confirmed = booked/decided · Pending = binding post awaiting cut-off · Interest = poll or idea. Verify times against the channel before you commit money.";
+document.getElementById("footer").innerHTML=
+  "Reconstructed from the #porto Slack thread. Confirmed = booked/decided · Pending = binding post awaiting cut-off · Interest = poll or idea. Verify times against the channel before you commit money."+
+  "<br>group calendar · <b>Mon 6 Jul – Sun 2 Aug 2026</b> · 4 weeks";
 
 /* ============ Wire up controls ============ */
 document.getElementById("viewCal").addEventListener("click",()=>setView("calendar"));
