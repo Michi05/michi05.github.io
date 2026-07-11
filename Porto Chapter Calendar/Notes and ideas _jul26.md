@@ -2,7 +2,23 @@
 
 _A working scratchpad for the Porto group calendar: things to remember, decisions made, and ideas not yet on the grid. The calendar itself lives in `porto-chapter-calendar.html`; this file is just the human context around it._
 
-Last updated: 2026-07-09
+Last updated: 2026-07-11
+
+---
+
+## 🗺️ Roadmap
+
+- [x] Cleaning hours + Tribal Tuesdays
+- [x] Add emojis to see things faster
+- [x] Add football matches
+- [x] Sync (download) to YOUR own calendar
+- [ ] Update automatically from API
+- [ ] Link back to the Slack posts
+- [ ] Include full data and comments... even emojis if possible... this is not reliable yet!!
+- [ ] Include how many people accepted (if I can...)
+- [ ] Polls and multiple-choice on the side (they get a bit lost at the bottom)... or maybe a tabbed version to separate confirmed from 'ideas'
+- [ ] Publish a screenshot that can be seen in a glance from slack... in the preview or the canvas
+- [ ] UI improvements (adding up fast...) — separate day in '3' slots, consolidate colours/lines/emojis, update legend, improve filtering, etc.
 
 ---
 

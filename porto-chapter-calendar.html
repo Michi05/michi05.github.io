@@ -282,6 +282,7 @@
   .dr-link{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#fff;
     background:var(--cobalt);border-radius:8px;padding:9px 14px;text-decoration:none}
   .dr-link:hover{background:var(--indigo-2)}
+  .dr-link + .dr-link{margin-left:8px}
 
   footer{margin-top:28px;font-size:11.5px;color:var(--muted);font-family:"IBM Plex Mono",monospace;
     border-top:1px solid var(--tile-line-soft);padding-top:12px;letter-spacing:.02em}
@@ -771,6 +772,97 @@ function renderAgenda(){
 
 function render(){ renderCalendar(); renderAgenda(); }
 
+/* ============ ICS export ============ */
+function pad2(n){ return String(n).padStart(2,"0"); }
+
+// RFC5545 §3.3.11 text escaping. Order matters: backslash first, else later
+// escapes get double-escaped.
+function escapeICS(text){
+  return String(text)
+    .replace(/\\/g,"\\\\")
+    .replace(/;/g,"\\;")
+    .replace(/,/g,"\\,")
+    .replace(/\n/g,"\\n");
+}
+
+// ISO date + "HH:MM" -> floating local "YYYYMMDDTHHMMSS" (paired with TZID param).
+function icsLocalDateTime(isoDate, hhmm){
+  const [y,m,dd]=isoDate.split("-");
+  const [hh,mi]=hhmm.split(":");
+  return `${y}${m}${dd}T${pad2(+hh)}${pad2(+mi)}00`;
+}
+
+function icsDateOnly(isoDate){ return isoDate.replaceAll("-",""); }
+
+// Day after isoDate as "YYYYMMDD" — RFC5545 all-day DTEND is exclusive.
+function icsDayAfter(isoDate){
+  const dt=d(isoDate);
+  dt.setUTCDate(dt.getUTCDate()+1);
+  return icsDateOnly(iso(dt));
+}
+
+// Builds one VEVENT .ics body. Caller gates on (ev.date||ev.startDate) && !ev.cancelled.
+function buildICS(ev){
+  const isSpan=!!ev.startDate;
+  const uid=`${ev.id}@porto-chapter-calendar`;
+  const now=new Date();
+  const dtstamp=`${now.getUTCFullYear()}${pad2(now.getUTCMonth()+1)}${pad2(now.getUTCDate())}T${pad2(now.getUTCHours())}${pad2(now.getUTCMinutes())}${pad2(now.getUTCSeconds())}Z`;
+
+  let dtLines;
+  if(isSpan){
+    dtLines=[
+      `DTSTART;VALUE=DATE:${icsDateOnly(ev.startDate)}`,
+      `DTEND;VALUE=DATE:${icsDayAfter(ev.endDate)}`,
+    ];
+  } else if(ev.len==="fullday"){
+    dtLines=[
+      `DTSTART;VALUE=DATE:${icsDateOnly(ev.date)}`,
+      `DTEND;VALUE=DATE:${icsDayAfter(ev.date)}`,
+    ];
+  } else {
+    const startStamp=icsLocalDateTime(ev.date, ev.start);
+    let endHHMM=ev.end;
+    if(!endHHMM){
+      const [h,m]=ev.start.split(":").map(Number);
+      const endDt=new Date(Date.UTC(2000,0,1,h,m));
+      endDt.setUTCMinutes(endDt.getUTCMinutes()+60);
+      endHHMM=`${pad2(endDt.getUTCHours())}:${pad2(endDt.getUTCMinutes())}`;
+    }
+    const endStamp=icsLocalDateTime(ev.date, endHHMM);
+    dtLines=[
+      `DTSTART;TZID=Europe/Lisbon:${startStamp}`,
+      `DTEND;TZID=Europe/Lisbon:${endStamp}`,
+    ];
+  }
+
+  const descParts=[`Posted by ${ev.org}`];
+  if(ev.price) descParts.push(ev.price);
+  if(ev.link) descParts.push(ev.link.url);
+  if(ev.note) descParts.push(ev.note);
+  const description=descParts.map(escapeICS).join("\\n");
+
+  const lines=[
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//porto-chapter-calendar//EN",
+    "CALSCALE:GREGORIAN",
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${dtstamp}`,
+    ...dtLines,
+    `SUMMARY:${escapeICS(ev.title)}`,
+  ];
+  if(description) lines.push(`DESCRIPTION:${description}`);
+  if(ev.loc) lines.push(`LOCATION:${escapeICS(ev.loc)}`);
+  lines.push("END:VEVENT","END:VCALENDAR");
+
+  return lines.join("\r\n");
+}
+
+function icsHref(ev){
+  return `data:text/calendar;charset=utf-8,${encodeURIComponent(buildICS(ev))}`;
+}
+
 /* ============ Drawer ============ */
 const drawer=document.getElementById("drawer"), scrim=document.getElementById("scrim");
 let lastFocus=null;
@@ -825,6 +917,7 @@ function openDrawer(id){
   }
 
   if(ev.link) html+=`<a class="dr-link" href="${ev.link.url}" target="_blank" rel="noopener">Open ${ev.link.label} ↗</a>`;
+  if((ev.date || ev.startDate) && !ev.cancelled) html+=`<a class="dr-link ics" href="${icsHref(ev)}" download="${ev.id}.ics">Add to calendar ↓</a>`;
 
   const body=document.getElementById("drBody"); body.innerHTML=html;
   body.querySelectorAll("[data-goto]").forEach(bn=>bn.addEventListener("click",()=>openDrawer(bn.dataset.goto)));
