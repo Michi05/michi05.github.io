@@ -14,7 +14,8 @@ Last updated: 2026-07-13
 - [x] Sync (download) to YOUR own calendar
 - [ ] Update automatically from API
 - [ ] Auto-Publish a screenshot that can be seen in a glance from slack... in the preview or the canvas
-- [ ] Full public calendar to sync connect to
+- [x] Full public calendar to sync connect to
+- [ ] Make the Google Calendar push part of the regular update workflow (currently a manual one-off — see `google-calendar-mcp-setup.md`)
 - [ ] Daily notifications the night before -- automatic chases!
 
 ##### With API:
@@ -70,6 +71,7 @@ _Add new actions above this line._
 - **Add-to-calendar / .ics export (11 Jul):** Drawer shows an "Add to calendar ↓" button for every dated EVENTS/SPANS item — builds an RFC5545 `.ics` on the fly (data URI, no Blob) and downloads on click. Skipped for FLOATING (dateless) items by design, and hidden for `cancelled` events (brunch, kayak) per call.
 - **Calendar grid restructured into Mon–Thu / Fri–Sun rows (13 Jul):** Each 7-day week now renders as two grid rows instead of one, so cells never over-shrink. Weekday names moved inside each day cell (no shared header, since the two row shapes don't share a column layout); Fri–Sun rows render at 85% width, centered, to read as visually "shorter." Below 640px both row shapes collapse to 2 columns.
 - **"Show past days" renamed to "Show past rows" (13 Jul):** Toggle now `display:none`s an entire past row at once (only once every day in it is behind today) instead of hiding individual day cells, which used to leave ugly blank gaps. Days within a not-yet-fully-past row still gray out individually. Default changed to **off** — past rows stay hidden until switched on.
+- **Dedicated public Google Calendar set up (13 Jul):** New account `wifitribe.porto.jul26@gmail.com`, GCP project `wifitribe-porto-jul26`, public iCal subscribe feed enabled. Claude Code wired to it via `nspady/google-calendar-mcp` (local stdio, OAuth Desktop client, credentials kept outside the repo). All 33 dated `EVENTS`/`SPANS` entries pushed as a one-off (cancelled events and undated `FLOATING` ideas skipped). No automatic sync yet — see `google-calendar-mcp-setup.md` and the new roadmap item above.
 
 ---
 
