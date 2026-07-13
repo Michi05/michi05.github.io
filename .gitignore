@@ -31,3 +31,12 @@ codekit-config.json
 _asset_bundler_cache
 _site
 michi05.github.io.code-workspace
+
+# Secrets / credentials — never commit these (Google OAuth, tokens, etc.)
+client_secret*.json
+credentials.json
+tokens.json
+*.credentials.json
+.env
+.env.*
+**/integrations/
