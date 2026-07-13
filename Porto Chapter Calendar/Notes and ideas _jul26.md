@@ -2,7 +2,7 @@
 
 _A working scratchpad for the Porto group calendar: things to remember, decisions made, and ideas not yet on the grid. The calendar itself lives in `porto-chapter-calendar.html`; this file is just the human context around it._
 
-Last updated: 2026-07-11
+Last updated: 2026-07-13
 
 ---
 
@@ -26,8 +26,8 @@ Last updated: 2026-07-11
 
 ##### UI Improvements
 - [ ] Improve linking to locations
-- [ ] 4 + 3 format with less tiles per row but more room for weekend plans
-- [ ] Hide past weeks (instead of days) days after the first week is passed
+- [x] 4 + 3 format with less tiles per row but more room for weekend plans
+- [x] Hide past weeks (instead of days) days after the first week is passed
 - [ ] Consolidate colours/lines/emojis, update legend, improve filtering, etc.
 - [ ] Sort tiles properly (maybe separate days in 3 parts)
 
@@ -67,6 +67,9 @@ _Add new actions above this line._
   - Legend icon positioned in bottom-right of hero
   - Weekend day numbers (Sat/Sun) now in firebrick red
   - Events sorted chronologically within each day (morning → evening)
+- **Add-to-calendar / .ics export (11 Jul):** Drawer shows an "Add to calendar ↓" button for every dated EVENTS/SPANS item — builds an RFC5545 `.ics` on the fly (data URI, no Blob) and downloads on click. Skipped for FLOATING (dateless) items by design, and hidden for `cancelled` events (brunch, kayak) per call.
+- **Calendar grid restructured into Mon–Thu / Fri–Sun rows (13 Jul):** Each 7-day week now renders as two grid rows instead of one, so cells never over-shrink. Weekday names moved inside each day cell (no shared header, since the two row shapes don't share a column layout); Fri–Sun rows render at 85% width, centered, to read as visually "shorter." Below 640px both row shapes collapse to 2 columns.
+- **"Show past days" renamed to "Show past rows" (13 Jul):** Toggle now `display:none`s an entire past row at once (only once every day in it is behind today) instead of hiding individual day cells, which used to leave ugly blank gaps. Days within a not-yet-fully-past row still gray out individually. Default changed to **off** — past rows stay hidden until switched on.
 
 ---
 

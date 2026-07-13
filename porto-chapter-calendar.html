@@ -128,11 +128,8 @@
   .lg-choose{color:var(--choose);font-weight:700}
 
   /* ---------- Calendar grid ---------- */
-  .weekday-head{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
-  .weekday-head div{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
-    letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding:2px 0}
-  .weekday-head .we{color:#B22222}
   .week{margin-bottom:6px}
+  .week.row-hidden{display:none}
   .lane{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
   .lane:empty{display:none}
   .span-bar{
@@ -150,18 +147,23 @@
   .span-end{border-right:1.5px solid var(--interest);border-top-right-radius:8px;border-bottom-right-radius:8px}
   .span-cont .sp-ttl{color:var(--indigo-2)}
   .span-cont .lead{color:var(--interest);font-weight:700;margin-right:2px}
-  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:stretch}
+  .days{display:grid;gap:6px;align-items:stretch}
+  .days.dow-4{grid-template-columns:repeat(4,1fr)}
+  .days.dow-3{grid-template-columns:repeat(3,1fr);width:85%;margin:0 auto}
   .day{
     background:var(--card-2);border:1px solid var(--tile-line);border-radius:var(--radius);
-    min-height:118px;padding:7px 7px 8px;display:flex;flex-direction:column;gap:5px;position:relative}
+    min-height:clamp(7.5rem,22vw,9.5rem);padding:7px 7px 8px;display:flex;flex-direction:column;gap:5px;position:relative}
   .day.oob{background:repeating-linear-gradient(135deg,#eef2f7,#eef2f7 6px,#e9eef5 6px,#e9eef5 12px);border-style:dashed;opacity:.7}
   .day.past{opacity:.62}
   .day.today{border-color:var(--cobalt);box-shadow:0 0 0 2px var(--cobalt-soft)}
   .day-head{display:flex;align-items:center;justify-content:space-between;gap:4px}
   .dnum{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13px;color:var(--indigo-2)}
   .dnum .mo{font-size:10px;color:var(--muted);margin-left:3px}
+  .dwd{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:11px;letter-spacing:.03em;
+    text-transform:uppercase;color:var(--muted);margin-right:6px}
   .today .dnum{color:var(--cobalt)}
   .weekend .dnum{color:#B22222}
+  .weekend .dwd{color:#B22222}
   .todaytag{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:700;color:#fff;background:var(--cobalt);
     border-radius:999px;padding:2px 6px;letter-spacing:.05em}
   .badge{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:700;border-radius:999px;
@@ -290,6 +292,9 @@
   @media (max-width:820px){
     .seg.viewseg{order:-1}
   }
+  @media (max-width:640px){
+    .days.dow-4,.days.dow-3{grid-template-columns:repeat(2,1fr);width:100%}
+  }
   @media (prefers-reduced-motion:reduce){
     .drawer,.scrim,.unsched-body,.unsched-arrow,.legend-pop{transition:none}
   }
@@ -348,10 +353,9 @@
       <button class="fbtn" data-status="pending" aria-pressed="true"><span class="swatch sw-pending"></span>Pending <span class="fbtn-count" id="count-pending"></span></button>
       <button class="fbtn" data-status="interest" aria-pressed="true"><span class="swatch sw-interest"></span>Interest <span class="fbtn-count" id="count-interest"></span></button>
     </div>
-    <label class="toggle"><input type="checkbox" id="showPast" checked> Show past days</label>
+    <label class="toggle"><input type="checkbox" id="showPastRows"> Show past rows</label>
   </div>
 
-  <div class="weekday-head" id="weekdayHead"></div>
   <div class="calendar" id="calendar"></div>
   <div class="agenda" id="agenda"></div>
 
@@ -627,13 +631,16 @@ function dayClashLevel(dateEvents){
 }
 
 /* ============ State ============ */
-const state={ view:"calendar", statuses:{confirmed:true,pending:true,interest:true}, showPast:true };
+const state={ view:"calendar", statuses:{confirmed:true,pending:true,interest:true}, showPastRows:false };
 const visible = ev => state.statuses[ev.status];
 
 /* ============ Build calendar range: Mon 6 Jul -> Sun 2 Aug 2026 ============ */
 const START=d("2026-07-06");
 const weeks=[];
 for(let w=0;w<4;w++){ const row=[]; for(let i=0;i<7;i++){ const dt=new Date(START); dt.setUTCDate(START.getUTCDate()+w*7+i); row.push(dt);} weeks.push(row); }
+// each week splits into two grid rows: Mon-Thu (4 days) and Fri-Sun (3 days)
+const halfRows=[];
+weeks.forEach(row=>{ halfRows.push(row.slice(0,4)); halfRows.push(row.slice(4,7)); });
 
 /* ============ Rendering ============ */
 function chipEl(ev){
@@ -692,15 +699,13 @@ function recChipEl(r){
 function renderCalendar(){
   const cal=document.getElementById("calendar");
   cal.innerHTML="";
-  // weekday header
-  const head=document.getElementById("weekdayHead");
-  head.innerHTML="";
-  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach((w,i)=>{ const c=document.createElement("div"); c.textContent=w; if(i>=5)c.className="we"; head.appendChild(c); });
 
-  weeks.forEach(row=>{
+  halfRows.forEach(row=>{
+    const rowPast = row.every(dt=>iso(dt)<TODAY);
     const wk=document.createElement("div"); wk.className="week";
+    if(rowPast && !state.showPastRows) wk.classList.add("row-hidden");
 
-    const days=document.createElement("div"); days.className="days";
+    const days=document.createElement("div"); days.className=`days dow-${row.length}`;
     row.forEach(dt=>{
       const key=iso(dt);
       const cell=document.createElement("div"); cell.className="day";
@@ -712,7 +717,6 @@ function renderCalendar(){
       if(isPast) cell.classList.add("past");
       if(isToday) cell.classList.add("today");
       if(isWeekend) cell.classList.add("weekend");
-      if(isPast && !state.showPast) cell.style.visibility="hidden";
 
       const dayEvents=EVENTS.filter(e=>e.date===key).sort((a,b)=>{
         const o={fullday:0,part:1,short:2}; if(o[a.len]!==o[b.len]) return o[a.len]-o[b.len];
@@ -723,7 +727,7 @@ function renderCalendar(){
 
       const dh=document.createElement("div"); dh.className="day-head";
       const dn=dt.getUTCDate();
-      dh.innerHTML=`<span class="dnum">${dn}${dn===1?`<span class="mo">${MO[dt.getUTCMonth()]}</span>`:""}</span>`;
+      dh.innerHTML=`<span class="dnum"><span class="dwd">${WD[dt.getUTCDay()]}</span>${dn}${dn===1?`<span class="mo">${MO[dt.getUTCMonth()]}</span>`:""}</span>`;
       if(isToday){ const t=document.createElement("span"); t.className="todaytag"; t.textContent="TODAY"; dh.appendChild(t); }
       else if(lvl){ const bd=document.createElement("button"); bd.className=`badge ${lvl}`;
         const n=shownEvents.length;
@@ -750,7 +754,7 @@ function renderCalendar(){
 function renderAgenda(){
   const ag=document.getElementById("agenda"); ag.innerHTML="";
   const all=[];
-  weeks.flat().forEach(dt=>{ const key=iso(dt); if(key<TODAY && !state.showPast) return;
+  weeks.flat().forEach(dt=>{ const key=iso(dt); if(key<TODAY && !state.showPastRows) return;
     all.push({date:key,dt}); });
   all.forEach(({date,dt})=>{
     const dayEvents=EVENTS.filter(e=>e.date===date && visible(e)).sort((a,b)=>(a.start||"99").localeCompare(b.start||"99"));
@@ -1008,14 +1012,13 @@ function setView(v){
   document.getElementById("viewCal").setAttribute("aria-pressed",v==="calendar");
   document.getElementById("viewAgd").setAttribute("aria-pressed",v==="agenda");
   document.getElementById("calendar").classList.toggle("off",v!=="calendar");
-  document.getElementById("weekdayHead").style.display = v==="calendar"?"grid":"none";
   document.getElementById("agenda").classList.toggle("on",v==="agenda");
 }
 document.querySelectorAll("#statusFilters .fbtn").forEach(btn=>{
   btn.addEventListener("click",()=>{ const s=btn.dataset.status; state.statuses[s]=!state.statuses[s];
     btn.setAttribute("aria-pressed",state.statuses[s]); render(); });
 });
-document.getElementById("showPast").addEventListener("change",e=>{ state.showPast=e.target.checked; render(); });
+document.getElementById("showPastRows").addEventListener("change",e=>{ state.showPastRows=e.target.checked; render(); });
 
 document.getElementById("unschedToggle").addEventListener("click",()=>{
   const sec=document.getElementById("unsched");

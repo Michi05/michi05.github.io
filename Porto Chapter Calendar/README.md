@@ -140,10 +140,15 @@ as templated.
 
 ### 5.2 Layout
 
-Overview-first: a fixed weekday header over four stacked week-rows. Multi-day events (the villa
-weekend) render as a single spanning bar in a dedicated lane above the day cells, so a continuous
-stay reads as one thing rather than three separate chips. Today is ringed; past days are muted; the
-Aug tail is shown as out-of-range hatching so the calendar edges are honest about the range.
+Overview-first: each 7-day week splits into two grid rows, Mon–Thu (4 cells) then Fri–Sun (3 cells,
+centered at 85% width), so no row ever needs to shrink cells below a readable size. Weekday names
+live inside each day cell (no separate header row) since the two row shapes don't share one column
+layout. Multi-day events (the villa weekend) render as a single spanning bar in a dedicated lane
+above the day cells, so a continuous stay reads as one thing rather than three separate chips.
+Today is ringed; past days are muted; a fully-past row disappears entirely once "Show past rows" is
+off (default), rather than leaving a blank gap. The Aug tail is shown as out-of-range hatching so
+the calendar edges are honest about the range. Below 640px, both row shapes collapse to 2 columns;
+below 820px the page opens straight into Agenda view.
 
 **Weekend styling:** Saturday and Sunday day numbers are displayed in firebrick red to visually distinguish weekends from weekdays.
 
@@ -155,7 +160,7 @@ Aug tail is shown as out-of-range hatching so the calendar edges are honest abou
 
 ### 5.3 Copy
 
-Interface language names things by what the user controls ("Show past days", "Reply by 12 PM"), states overlap meaning plainly, and keeps the footer honest about provenance and the need to verify times before spending money.
+Interface language names things by what the user controls ("Show past rows", "Reply by 12 PM"), states overlap meaning plainly, and keeps the footer honest about provenance and the need to verify times before spending money.
 
 ---
 
