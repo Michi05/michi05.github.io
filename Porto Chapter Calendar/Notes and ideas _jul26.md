@@ -13,12 +13,24 @@ Last updated: 2026-07-11
 - [x] Add football matches
 - [x] Sync (download) to YOUR own calendar
 - [ ] Update automatically from API
+- [ ] Auto-Publish a screenshot that can be seen in a glance from slack... in the preview or the canvas
+- [ ] Full public calendar to sync connect to
+- [ ] Daily notifications the night before -- automatic chases!
+
+##### With API:
 - [ ] Link back to the Slack posts
 - [ ] Include full data and comments... even emojis if possible... this is not reliable yet!!
 - [ ] Include how many people accepted (if I can...)
 - [ ] Polls and multiple-choice on the side (they get a bit lost at the bottom)... or maybe a tabbed version to separate confirmed from 'ideas'
-- [ ] Publish a screenshot that can be seen in a glance from slack... in the preview or the canvas
-- [ ] UI improvements (adding up fast...) — separate day in '3' slots, consolidate colours/lines/emojis, update legend, improve filtering, etc.
+- [ ] Improve the 'clash' algorithm
+
+##### UI Improvements
+- [ ] Improve linking to locations
+- [ ] 4 + 3 format with less tiles per row but more room for weekend plans
+- [ ] Hide past weeks (instead of days) days after the first week is passed
+- [ ] Consolidate colours/lines/emojis, update legend, improve filtering, etc.
+- [ ] Sort tiles properly (maybe separate days in 3 parts)
+
 
 ---
 
@@ -64,16 +76,6 @@ _Add new actions above this line._
   - **Stale scraper cache.** WhatsApp caches the preview per exact URL, effectively forever, and has no debugger to clear it. **Fix that worked:** re-share the link with a fresh cache-buster query, e.g. `https://cv.garlez.me/porto-chapter-calendar.html?v=3` — WhatsApp treats it as a new URL and re-fetches everything. Bump the number (`?v=4`, `?v=5`, …) each time.
   - **Oversized image.** The original `og:image` was a 320 KB PNG; WhatsApp silently drops previews over ~300 KB. **Fix:** switched to a 600×315 JPEG (~39 KB). Keep the OG image a small JPEG/PNG — avoid WebP, which WhatsApp doesn't reliably render for previews.
 - **Other platforms:** Facebook/Messenger → developers.facebook.com/tools/debug → "Scrape Again"; LinkedIn → linkedin.com/post-inspector; Telegram → message @WebpageBot. The `?v=` trick works everywhere as a fallback.
-
----
-
-## 💡 Ideas parking lot (not scheduled)
-
-Things floated in the channel with no fixed date yet — nudge an organiser to pin a time:
-
-- **🎨 Tile-painting workshop** — Hannah Woods; no date/venue.
-- **🧗 Via Ferrata climb** — Erin researching routes.
-- **💼 Skill share — SEO & GEO fundamentals** — Nigel; date once volunteer numbers are in.
 
 ---
 
