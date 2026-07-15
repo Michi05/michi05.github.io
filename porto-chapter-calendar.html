@@ -103,7 +103,7 @@
   .toggle input{accent-color:var(--cobalt);width:15px;height:15px}
 
   /* ---------- Legend ---------- */
-  .legend{position:absolute;bottom:12px;right:16px;display:inline-block;margin:0}
+  .legend{position:relative;display:inline-block;margin:0}
   .legend-btn{
     width:22px;height:22px;border-radius:50%;border:1.5px solid var(--cobalt);
     background:var(--cobalt-soft);color:var(--cobalt);font-family:"IBM Plex Mono",monospace;
@@ -286,6 +286,34 @@
   .dr-link:hover{background:var(--indigo-2)}
   .dr-link + .dr-link{margin-left:8px}
 
+  /* ---------- Subscribe modal ---------- */
+  .subscribe-btn{font-family:"Inter";font-size:12.5px;font-weight:700;color:#fff;
+    background:var(--cobalt);border:none;border-radius:999px;padding:9px 18px;cursor:pointer;flex:none}
+  .subscribe-btn:hover{background:var(--indigo-2)}
+  .hero-right{display:flex;align-items:center;gap:14px}
+  .sub-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);
+    width:min(440px,92vw);max-height:86vh;overflow-y:auto;background:var(--card-2);border-radius:14px;
+    box-shadow:var(--shadow);z-index:60;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+  .sub-modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  .sub-modal-body{padding:22px 22px 26px;position:relative}
+  .sub-modal h2{font-family:"Archivo";font-weight:700;font-size:18px;margin:0 0 16px;padding-right:24px}
+  .sub-opt-t{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--cobalt);margin:0 0 12px;padding-top:14px;border-top:1px solid var(--tile-line-soft)}
+  .sub-opt-t:first-of-type{padding-top:0;border-top:none}
+  .sub-step{display:flex;gap:12px;margin-bottom:18px}
+  .sub-step:last-of-type{margin-bottom:0}
+  .sub-hint{font-size:12px;color:var(--muted);font-style:italic;margin:18px 0 0;padding-top:14px;
+    border-top:1px solid var(--tile-line-soft)}
+  .sub-step-num{flex:none;width:24px;height:24px;border-radius:50%;background:var(--cobalt-soft);color:var(--cobalt);
+    font-family:"IBM Plex Mono",monospace;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+  .sub-step p{margin:0 0 9px;font-size:13.5px;color:var(--indigo-2)}
+  .copybox{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--tile-line);
+    border-radius:8px;padding:8px 10px}
+  .copybox code{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--indigo);word-break:break-all;flex:1}
+  .copybox button{flex:none;font-family:"Inter";font-size:12px;font-weight:600;
+    border:1px solid var(--tile-line-soft);background:#fff;border-radius:6px;padding:5px 11px;cursor:pointer;color:var(--cobalt)}
+  .copybox button.copied{color:var(--confirmed);border-color:var(--confirmed)}
+
   footer{margin-top:28px;font-size:11.5px;color:var(--muted);font-family:"IBM Plex Mono",monospace;
     border-top:1px solid var(--tile-line-soft);padding-top:12px;letter-spacing:.02em}
 
@@ -296,7 +324,7 @@
     .days.dow-4,.days.dow-3{grid-template-columns:repeat(2,1fr);width:100%}
   }
   @media (prefers-reduced-motion:reduce){
-    .drawer,.scrim,.unsched-body,.unsched-arrow,.legend-pop{transition:none}
+    .drawer,.scrim,.unsched-body,.unsched-arrow,.legend-pop,.sub-modal{transition:none}
   }
 </style>
 </head>
@@ -321,15 +349,77 @@
         <h1>Porto Chapter</h1>
         <div class="sub">Last updated on <b>10 Jul 2026</b> · Tap any tile for details</div>
       </div>
-      <div class="legend" aria-label="Legend">
-        <button class="legend-btn" aria-label="Show legend" tabindex="0">i</button>
-        <div class="legend-pop" role="tooltip">
-          <div><span class="lg-clash">⚠</span> Hard clash — same day &amp; time</div>
-          <div><span class="lg-choose">◇</span> Competing options — pick one</div>
+      <div class="hero-right">
+        <div class="legend" aria-label="Legend">
+          <button class="legend-btn" aria-label="Show legend" tabindex="0">i</button>
+          <div class="legend-pop" role="tooltip">
+            <div><span class="lg-clash">⚠</span> Hard clash — same day &amp; time</div>
+            <div><span class="lg-choose">◇</span> Competing options — pick one</div>
+          </div>
         </div>
+        <button class="subscribe-btn" id="subscribeBtn">Subscribe</button>
       </div>
     </div>
   </header>
+
+  <div class="scrim" id="subScrim" style="z-index:59"></div>
+  <div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-labelledby="subModalTitle" aria-hidden="true">
+    <div class="sub-modal-body">
+      <button class="dr-close" id="subClose" aria-label="Close">×</button>
+      <h2 id="subModalTitle">Subscribe to the calendar</h2>
+
+      <p class="sub-opt-t">Option 1 — Shared Google calendar</p>
+      <div class="sub-step">
+        <span class="sub-step-num">1</span>
+        <div>
+          <p>Copy this email address:</p>
+          <div class="copybox">
+            <code id="calEmail">wifitribe.porto.jul26@gmail.com</code>
+            <button class="copyBtn" data-copy="calEmail" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <div class="sub-step">
+        <span class="sub-step-num">2</span>
+        <div>
+          <p>Paste it into Google Calendar's "Add calendar" screen:</p>
+          <a class="dr-link" href="https://calendar.google.com/calendar/u/0/r/settings/addcalendar" target="_blank" rel="noopener">Open Add calendar ↗</a>
+        </div>
+      </div>
+      <div class="sub-step">
+        <span class="sub-step-num">3</span>
+        <div>
+          <p>Access the calendar menu on your phone and hit the "sync" option to make the new calendar visible.</p>
+        </div>
+      </div>
+
+      <p class="sub-opt-t">Option 2 — iCal link (any calendar app)</p>
+      <div class="sub-step">
+        <span class="sub-step-num">1</span>
+        <div>
+          <p>Copy this calendar link:</p>
+          <div class="copybox">
+            <code id="calIcs">https://calendar.google.com/calendar/ical/wifitribe.porto.jul26%40gmail.com/public/basic.ics</code>
+            <button class="copyBtn" data-copy="calIcs" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <div class="sub-step">
+        <span class="sub-step-num">2</span>
+        <div>
+          <p>Use the "import from URL" option (or similar) in your own calendar app to import it.</p>
+        </div>
+      </div>
+      <div class="sub-step">
+        <span class="sub-step-num">3</span>
+        <div>
+          <p>Check if it syncs every 24 hours or you need to "sync" manually.</p>
+        </div>
+      </div>
+
+      <p class="sub-hint">Copy this into your favourite AI if you need extra help for your device 🙂</p>
+    </div>
+  </div>
 
   <section class="unsched collapsed" id="unsched">
     <button class="unsched-head" id="unschedToggle" aria-expanded="false">
@@ -497,6 +587,10 @@ const EVENTS = [
     link:{label:"Google Maps", url:"https://maps.app.goo.gl/dnM8AroNxcMwY7FdA"},
     note:"Dan's birthday nightcap — large reservation already in for those who can't make dinner. Password \"VISHNU\", smart casual attire. React 🍸 so the headcount can be adjusted." },
 
+  { id:"museum-photo-centre", title:"🏛️ Portuguese Centre of Photography", tag:"MUSEUMS", org:"Erin Erhardt", status:"confirmed",
+    date:"2026-07-14", len:"part", start:"09:45", loc:"Portuguese Centre of Photography, Porto",
+    note:"Pivoted from the original museum shortlist — Erin & Alex picked this one for today: free entry, opens at 10:00, meet to leave at 9:45. Timed short so there's no rush getting back for Tribal Tuesday." },
+
   { id:"ss-autism", title:"💼 Skill share — Autism & neurodivergence", tag:"SKILLSHARE", org:"Laura Vegh", status:"confirmed",
     date:"2026-07-15", len:"part", start:"18:30", loc:"The patio",
     note:"The people have spoken: settled on Wednesday 15 Jul, 6:30pm on the patio. Laura shares from 30+ years living on the autism spectrum plus years of research: the spectrum vs pop culture, autistic vs introverted vs shy, why \"everyone's a little autistic\" is false — and, most importantly, how to make chapters more inclusive for neurodivergent folks. Bring questions (or send privately). 30–60+ min, discussion welcome. Can't make it but want to chat? Message Laura." },
@@ -528,6 +622,11 @@ const EVENTS = [
     link:{label:"Google Maps", url:"https://maps.app.goo.gl/1ACxibKVNNsS3Dtv6"},
     note:"173-min film, English with Portuguese subtitles. Confirmed for Friday 17 July at 1:00 PM. Group discount applies with 6+ people." },
 
+  { id:"salsa", title:"💃 Salsa club night", tag:"DANCE", org:"Harry Warren", status:"interest",
+    date:"2026-07-17", len:"part", start:"22:45",
+    link:{label:"Google Maps", url:"https://maps.app.goo.gl/qQMVA59FqEbFtRGc8"},
+    note:"Club opens 11pm, ~15 min away by Uber. Leaving from here at 10:45pm, likely staying until 1ish. React 💃 if joining." },
+
   { id:"chefs", title:"🚌 Chefs on Fire — Aveiro", tag:"CHEFS·FIRE", org:"Wallace Cheung", status:"confirmed",
     date:"2026-07-18", len:"part", start:"12:00", end:"16:30",
     price:"€40 + transport (Uber ≈€40–50pp) · ticket fee makes it €43.94", loc:"Aveiro (~1h drive south)",
@@ -545,6 +644,10 @@ const EVENTS = [
   { id:"match-final", title:"⚽ Final", tag:"MATCH", org:"Group", status:"interest",
     date:"2026-07-19", len:"part", start:"20:00", loc:"Livescore+",
     note:"World Cup final. Watch party TBD." },
+
+  { id:"polyam", title:"🤝 Curious conversation — polyamory & ENM", tag:"DISCUSSION", org:"Hannah Woods", status:"interest",
+    date:"2026-07-28", len:"part", start:"18:00",
+    note:"Not a skill share — a safe-space discussion on polyamory, ethical non-monogamy, and open relationships. Topics: labels, scheduling, jealousy, communication, boundaries, and whatever else comes up. No agenda to convince anyone of anything. Tentative time, open to alternatives. React 🫱🏽‍🫲🏾 if interested." },
 
   { id:"checkout", title:"🧳 Checkout & goodbye", tag:"CHECKOUT", org:"Porto chapter", status:"confirmed", kind:"checkout",
     date:"2026-07-31", len:"short", start:"12:00",
@@ -992,6 +1095,23 @@ function closeDrawer(){ drawer.classList.remove("on"); scrim.classList.remove("o
 document.getElementById("drClose").addEventListener("click",closeDrawer);
 scrim.addEventListener("click",closeDrawer);
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&drawer.classList.contains("on"))closeDrawer(); });
+
+/* ============ Subscribe modal ============ */
+const subModal=document.getElementById("subModal"), subScrim=document.getElementById("subScrim");
+document.getElementById("subscribeBtn").addEventListener("click",()=>{
+  subModal.classList.add("on"); subScrim.classList.add("on"); subModal.setAttribute("aria-hidden","false");
+});
+document.getElementById("subClose").addEventListener("click",()=>{
+  subModal.classList.remove("on"); subScrim.classList.remove("on"); subModal.setAttribute("aria-hidden","true");
+});
+document.querySelectorAll(".copyBtn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    navigator.clipboard.writeText(document.getElementById(btn.dataset.copy).textContent).then(()=>{
+      const prev=btn.textContent; btn.textContent="Copied!"; btn.classList.add("copied");
+      setTimeout(()=>{ btn.textContent=prev; btn.classList.remove("copied"); },1500);
+    });
+  });
+});
 
 /* ============ Tally, deadlines, floating, footer ============ */
 function buildTally(){
