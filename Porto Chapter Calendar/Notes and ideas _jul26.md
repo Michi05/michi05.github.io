@@ -2,7 +2,7 @@
 
 _A working scratchpad for the Porto group calendar: things to remember, decisions made, and ideas not yet on the grid. The calendar itself lives in `porto-chapter-calendar.html`; this file is just the human context around it._
 
-Last updated: 2026-07-13
+Last updated: 2026-07-16
 
 ---
 
@@ -32,6 +32,16 @@ Last updated: 2026-07-13
 - [ ] Consolidate colours/lines/emojis, update legend, improve filtering, etc.
 - [ ] Sort tiles properly (maybe separate days in 3 parts)
 
+---
+
+## 🧭 Strategic roadmap (architecture)
+
+Longer-horizon structural changes, as opposed to the feature list above. Not urgent, but worth designing for before the single-file approach gets harder to unwind.
+
+- [ ] **Multiple calendar instances.** Right now `porto-chapter-calendar.html` is one file for one trip (Porto, Jul 2026). Need a way to spin up a new instance per trip (next chapter, next city) without copy-pasting and forking the whole file each time — ideally one shared template/engine reused across trips, each trip only supplying its own data and a few config values (title, date range, timezone, links).
+- [ ] **Separate data from code.** `EVENTS`/`SPANS`/`FLOATING` are currently inline JS arrays inside the HTML. Move them out to their own file(s) (e.g. JSON or a small data module) so editing a trip's schedule doesn't mean editing the same file as the rendering logic. Also sets up the API-sync roadmap item above more cleanly, since an external feed would write to the data file, not the page.
+
+These two are linked: once data lives outside the code, "multiple instances" mostly becomes "same engine, different data file per trip" rather than a rewrite.
 
 ---
 

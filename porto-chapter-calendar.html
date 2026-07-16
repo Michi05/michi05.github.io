@@ -201,6 +201,8 @@
     letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .chip.chore.social{background:var(--interest-bg);border-color:#D4E1F4}
   .chip.chore.social .ch-label{color:var(--interest)}
+  .chip.quiet{background:#EAEEF3;border:1px solid var(--tile-line-soft);border-left:none}
+  .chip.quiet .tag,.chip.quiet .ttl{color:var(--muted)}
   .chip.allday{background-image:linear-gradient(90deg,rgba(255,255,255,.45),transparent);}
   .chip.allday .ttl::before{content:"▬ ";opacity:.5;font-size:9px;vertical-align:middle}
   .chip.short{padding:4px 7px}
@@ -255,6 +257,7 @@
   .dr-status.pending{background:var(--pending-bg);color:var(--pending)}
   .dr-status.interest{background:var(--interest-bg);color:var(--interest)}
   .dr-status.chore{background:var(--card);color:var(--muted);border:1px solid var(--tile-line)}
+  .dr-status.quiet{background:var(--card);color:var(--muted);border:1px solid var(--tile-line)}
   .dr-head h2{font-family:"Archivo";font-size:20px;font-weight:700;margin:12px 0 3px;line-height:1.15}
   .dr-head .org{font-size:12.5px;color:var(--muted)}
   .dr-close{position:absolute;top:12px;right:12px;background:var(--card);border:1px solid var(--tile-line);
@@ -657,6 +660,10 @@ const EVENTS = [
     date:"2026-07-23", len:"part", start:"22:00", price:"Free", loc:"Praça Guilhermina Suggia, Matosinhos",
     note:"Matosinhos em Jazz 2026 — special venue for this date, Praça Guilhermina Suggia instead of the usual bandstand. Entrada livre, 22:00 start." },
 
+  { id:"jazz-matosinhos-24", title:"🎷 Matosinhos em Jazz — Jazz Nomada", tag:"JAZZ", org:"Porto chapter", status:"interest", quiet:true,
+    date:"2026-07-24", len:"part", start:"22:00", price:"Free", loc:"Praça Guilhermina Suggia, Matosinhos",
+    note:"Orquestra Sinfónica do Porto Casa da Música × OBOA NOMADE. Special venue for this date, Praça Guilhermina Suggia instead of the usual bandstand. Entrada livre, 22:00 start." },
+
   { id:"polyam", title:"🤝 Curious conversation — polyamory & ENM", tag:"DISCUSSION", org:"Hannah Woods", status:"interest",
     date:"2026-07-28", len:"part", start:"18:00",
     note:"Not a skill share — a safe-space discussion on polyamory, ethical non-monogamy, and open relationships. Topics: labels, scheduling, jealousy, communication, boundaries, and whatever else comes up. No agenda to convince anyone of anything. Tentative time, open to alternatives. React 🫱🏽‍🫲🏾 if interested." },
@@ -767,7 +774,7 @@ weeks.forEach(row=>{ halfRows.push(row.slice(0,4)); halfRows.push(row.slice(4,7)
 /* ============ Rendering ============ */
 function chipEl(ev){
   const b=document.createElement("button");
-  b.className=`chip ${ev.kind==="checkout"?"checkout":ev.status} ${ev.len==="fullday"?"allday":ev.len==="short"?"short":""} ${ev.cancelled?"cancelled":""}`.trim();
+  b.className=`chip ${ev.kind==="checkout"?"checkout":ev.quiet?"quiet":ev.status} ${ev.len==="fullday"?"allday":ev.len==="short"?"short":""} ${ev.cancelled?"cancelled":""}`.trim();
   if(!visible(ev)) b.classList.add("dim");
   const cl=clashMap[ev.id]||[];
   const hard=cl.some(c=>c.level==="clash"), soft=cl.some(c=>c.level==="choose");
@@ -997,7 +1004,7 @@ let lastFocus=null;
 function openDrawer(id){
   const ev=byId[id]; if(!ev) return;
   lastFocus=document.activeElement;
-  document.getElementById("drStatus").className="dr-status "+ev.status;
+  document.getElementById("drStatus").className="dr-status "+(ev.quiet?"quiet":ev.status);
   document.getElementById("drStatus").textContent=ev.cancelled?"● Cancelled":{confirmed:"● Confirmed",pending:"● Pending confirmation",interest:"● Interest / placeholder"}[ev.status];
   document.getElementById("drTitle").textContent=ev.title;
   document.getElementById("drTitle").style.textDecoration=ev.cancelled?"line-through":"";
@@ -1066,7 +1073,7 @@ function openDayDrawer(dateKey,events,lvl){
   let html=`<div class="dr-note">Tiles below overlap in time. ${lvl==="clash"?"At least one is confirmed or pending — sort out the collision.":"These are competing interest posts — the group needs to pick."}</div>`;
   [["day","All day"],["morning","Morning"],["afternoon","Afternoon"],["evening","Evening"],["other","Time TBD"]].forEach(([k,lab])=>{
     if(groups[k].length){ html+=`<p class="dr-section-t">${lab}</p>`;
-      groups[k].forEach(e=>{ html+=`<button class="chip ${e.status} ${e.len==='fullday'?'allday':''} ${e.cancelled?'cancelled':''}" data-goto="${e.id}" style="margin-bottom:6px"><div class="top"><span class="tag">${e.tag}</span><span class="time">${e.noSlot?'poll':e.len==='fullday'?'all day':fmtTime(e.start)}</span></div><div class="ttl">${e.title}</div></button>`; });
+      groups[k].forEach(e=>{ html+=`<button class="chip ${e.quiet?'quiet':e.status} ${e.len==='fullday'?'allday':''} ${e.cancelled?'cancelled':''}" data-goto="${e.id}" style="margin-bottom:6px"><div class="top"><span class="tag">${e.tag}</span><span class="time">${e.noSlot?'poll':e.len==='fullday'?'all day':fmtTime(e.start)}</span></div><div class="ttl">${e.title}</div></button>`; });
     }
   });
   const body=document.getElementById("drBody"); body.innerHTML=html;
