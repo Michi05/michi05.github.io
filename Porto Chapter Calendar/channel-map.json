@@ -1,0 +1,26 @@
+{
+  "_comment": "Maps por_jul26 Slack channels to calendar entry type, for filtering which channels feed porto-chapter-calendar.html. Types: events (dated activities -> EVENTS/SPANS), Spontaneous (lightweight/last-minute plans -> HOUSEKEEPING/RECURRING style), other (not calendar-relevant), uncategorized (not yet classified).",
+  "workspace": "T40A6MC8G",
+  "urlTemplate": "https://app.slack.com/client/{workspace}/{channelId}",
+  "channels": {
+    "por_jul26_adventures":     { "id": "C0B0D6ZNQ3S", "type": "events" },
+    "por_jul26_skillshare":     { "id": "C0BFKCN7PKQ", "type": "events" },
+    "por_jul26_tribaltuesday":  { "id": "C0BFDRL67C6", "type": "events" },
+
+    "por_jul26_coworking":      { "id": "C0BEHUZ1ELC", "type": "Spontaneous" },
+    "por_jul26_fitness":        { "id": "C0BE9FH98A3", "type": "Spontaneous" },
+    "por_jul26_food":           { "id": "C0BE0C5GJJZ", "type": "Spontaneous" },
+
+    "por_jul26_announcements":  { "id": "C0AUHF32XHD", "type": "other" },
+    "por_jul26_chitchat":       { "id": "C0B0D70K5JL", "type": "other" },
+
+    "por_jul26_arrivals":        { "id": "C0AUYUFL4CA", "type": "uncategorized" },
+    "por_jul26_castleweekend":   { "id": "C0BG9QH2W66", "type": "uncategorized" },
+    "por_jul26_gratitude":       { "id": "C0BFBPH4NTT", "type": "uncategorized" },
+    "por_jul26_overheard":       { "id": "C0BF6TA8JRJ", "type": "uncategorized" },
+    "por_jul26_photos":          { "id": "C0BHEJ9KW8L", "type": "uncategorized" },
+    "por_jul26_recommendations": { "id": "C0BESP6967R", "type": "uncategorized" },
+    "por_jul26_splitwise":       { "id": "C0BEC8UDLCE", "type": "uncategorized" },
+    "por_jul26_traitors":        { "id": "C0BFQTN6MLH", "type": "uncategorized" }
+  }
+}

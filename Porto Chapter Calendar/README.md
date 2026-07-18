@@ -236,6 +236,7 @@ code needs touching.
   price:   "€90",                   // optional
   loc:     "Meet: Largo da Lapa 1", // optional
   link:    { label:"getyourguide.com", url:"https://..." },   // optional
+  post:    "https://wifitribe.slack.com/archives/C0.../p123...", // optional, permalink to the source Slack post
   deadline:{ text:"Commit so the booking can go in",
              date:"2026-07-08", time:"10:00" },               // optional → feeds drawer callout
   options: ["Mon 13 Jul", "Wed 15 Jul"],                      // optional, for polls

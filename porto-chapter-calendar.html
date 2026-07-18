@@ -656,6 +656,12 @@ const EVENTS = [
     date:"2026-07-19", len:"part", start:"20:00", loc:"Livescore+",
     note:"World Cup final. Watch party TBD." },
 
+  { id:"foodtour2", title:"🍽️ Food Tour #2 — Vintage & Port Wine", tag:"FOOD TOUR", org:"Hiba", status:"confirmed",
+    date:"2026-07-22", len:"part", start:"15:30", end:"19:00", price:"€89",
+    link:{label:"tasteporto.com", url:"https://tasteporto.com/tour/vintage-food-tour/"},
+    post:"https://wifitribe.slack.com/archives/C0BE0C5GJJZ/p1784216638729439",
+    note:"Hiba's own booked tour, gifted for her birthday — same team behind Anthony Bourdain's Parts Unknown Porto episode. 3km walking tour of classic Portuguese food & drinks, history and culture, port wine included. Tag along if you're free — react on the Slack post to join (own cost, €89)." },
+
   { id:"jazz-matosinhos-23", title:"🎷 Matosinhos em Jazz — Orquestra Jazz de Matosinhos & Cristina Branco", tag:"JAZZ", org:"Porto chapter", status:"interest",
     date:"2026-07-23", len:"part", start:"22:00", price:"Free", loc:"Praça Guilhermina Suggia, Matosinhos",
     note:"Matosinhos em Jazz 2026 — special venue for this date, Praça Guilhermina Suggia instead of the usual bandstand. Entrada livre, 22:00 start." },
@@ -974,6 +980,7 @@ function buildICS(ev){
   if(ev.price) descParts.push(ev.price);
   if(ev.link) descParts.push(ev.link.url);
   if(ev.note) descParts.push(ev.note);
+  if(ev.post) descParts.push(`Slack post: ${ev.post}`);
   const description=descParts.map(escapeICS).join("\\n");
 
   const lines=[
@@ -1052,6 +1059,7 @@ function openDrawer(id){
   }
 
   if(ev.link) html+=`<a class="dr-link" href="${ev.link.url}" target="_blank" rel="noopener">Open ${ev.link.label} ↗</a>`;
+  if(ev.post) html+=`<a class="dr-link" href="${ev.post}" target="_blank" rel="noopener">View Slack post ↗</a>`;
   if((ev.date || ev.startDate) && !ev.cancelled) html+=`<a class="dr-link ics" href="${icsHref(ev)}" download="${ev.id}.ics">Add to calendar ↓</a>`;
 
   const body=document.getElementById("drBody"); body.innerHTML=html;
