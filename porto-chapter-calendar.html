@@ -648,13 +648,54 @@ const EVENTS = [
     date:"2026-07-18", len:"part", start:"21:00", loc:"Livescore+",
     note:"World Cup third-place playoff. Watch party TBD." },
 
+  { id:"geres", title:"🚌 Gerês National Park — hike & swim", tag:"DAY TRIP", org:"Hiba", status:"confirmed",
+    date:"2026-07-19", len:"fullday", price:"€75", loc:"Meet: Barros Lima, pickup 07:40",
+    link:{label:"Viator tour", url:"https://www.viator.com/tours/Porto/Hiking-and-Swimming-in-Geres-National-Park/d26879-58705P3"},
+    post:"https://wifitribe.slack.com/archives/C0B0D6ZNQ3S/p1784202372386279",
+    note:"Guided day trip: 9km round-trip hike (2 stages) to natural pools in the heart of Gerês, ~1h swim, then a stop at a local tavern on the way back. Bring your own food/water — no food access during the ~5h hike+swim window. Pickup 7:40am at Barros Lima, back in Porto ~5:30pm. Booked: Hiba, Nikki Woolcock, Maya, Daniel Pearl, James Rutledge, Lily (+Alicia), Miguel." },
+
   { id:"jazz-matosinhos-19", title:"🎷 Matosinhos em Jazz — Máximo Trio", tag:"JAZZ", org:"Porto chapter", status:"interest",
     date:"2026-07-19", len:"part", start:"18:00", price:"Free", loc:"Jardim Basílio Teles (Coreto), Matosinhos",
     note:"Free open-air jazz festival running all July at the Matosinhos bandstand next to City Hall. Entrada livre, concerts start 18:00." },
 
   { id:"match-final", title:"⚽ Final", tag:"MATCH", org:"Group", status:"interest",
-    date:"2026-07-19", len:"part", start:"20:00", loc:"Livescore+",
-    note:"World Cup final. Watch party TBD." },
+    date:"2026-07-19", len:"part", start:"20:00", loc:"Porto apartment (projector, once dark) — Budapeste as backup",
+    post:"https://wifitribe.slack.com/archives/C0B0D6ZNQ3S/p1784475814063549",
+    note:"World Cup final. Leaning towards watching at home via projector on the wall once it gets dark (strongest reaction count); Budapeste bar is the fallback for those who'd rather go out. Porto apartment has an open-house policy — all welcome." },
+
+  { id:"borboleta", title:"🍽️ Borboleta dinner reservation", tag:"FOOD", org:"Dan Perez", status:"confirmed",
+    date:"2026-07-20", len:"part", start:"21:00", loc:"Borboleta, R. de D Manuel II 346, 4050-344 Porto, Portugal",
+    link:{label:"Google Maps", url:"https://maps.app.goo.gl/wxbDPo3ZCJpmsfdD7"},
+    post:"https://wifitribe.slack.com/archives/C0BE0C5GJJZ/p1784474343562989",
+    note:"Dan's reservation for 10 at this highly-recommended restaurant, locked in — headcount confirmed by 9pm last night so he could pre-order for the group (restaurant's Monday policy). A second reservation is possible if there's more interest." },
+
+  { id:"sunset-serra", title:"🚶 Sunset walk — Dom Luís I bridge & Mosteiro da Serra do Pilar", tag:"SUNSET", org:"Christopher Ravosa", status:"confirmed", quiet:true,
+    date:"2026-07-20", len:"part", start:"19:20", loc:"Mosteiro da Serra do Pilar, via Dom Luís I bridge",
+    note:"Walking across the bridge and up to the monastery for sunset (~9pm). ~45-min walk, so leaving 7:20pm to allow time for photo stops along the way." },
+
+  { id:"ogaveto", title:"🍽️ O Gaveto — seafood dinner", tag:"FOOD", org:"Christopher Ravosa", status:"confirmed",
+    date:"2026-07-23", len:"part", start:"20:00", loc:"O Gaveto, Matosinhos", price:"Smart casual seafood",
+    link:{label:"Google Maps", url:"https://www.google.com/maps/search/?api=1&query=Restaurante+O+Gaveto+Matosinhos"},
+    note:"Christopher booked a reservation for 5 — 4 spots open, lmk if interested. Smart casual seafood place in Matosinhos, running since 1984." },
+
+  { id:"santiago", title:"🍽️ Café Santiago — francesinha", tag:"FOOD", org:"Christopher Ravosa", status:"confirmed",
+    date:"2026-07-23", len:"short", start:"12:00", loc:"Café Santiago",
+    note:"Christopher's chasing one more francesinha — reportedly \"the best place on the planet to eat one.\" Casual, no reservation; join if you've got the appetite for more meat and cheese." },
+
+  { id:"tt-jul21", title:"🥳 Tribal Tuesday", tag:"TRIBAL TUE", org:"Alex Cogen & Spencer Deuterman", status:"confirmed",
+    date:"2026-07-21", len:"part", start:"12:00", loc:"Parque de São Roque — meet at Pátio das Camélias (14-min walk from home)",
+    post:"https://wifitribe.slack.com/archives/C0BFDRL67C6/p1784484773658509",
+    note:"Confirmed at the usual 12:00 (time-change vote didn't clear the bar). Bring blankets/towels to sit on. Old-school games planned: duck duck goose, rock-paper-scissors variants, plus whatever else people suggest. Bonus: the park has a museum and a hedge maze — go early if you want to check those out too." },
+
+  { id:"wow-daypass", title:"🍷 World of Wine — day pass", tag:"WOW", org:"Dan Perez", status:"interest",
+    date:"2026-07-23", len:"part", start:"15:00", price:"€35",
+    link:{label:"wow.pt day pass", url:"https://www.wow.pt/en/day-pass"},
+    post:"https://wifitribe.slack.com/archives/C0BE0C5GJJZ/p1784476168771129",
+    note:"Day pass covers wine & port tastings, chocolate tastings, and more across WOW's cluster of experiences. Plan is to head over ~3pm for day drinking and chocolate, likely dinner there after. Not binding — react if interested and Dan can book ahead." },
+
+  { id:"patio44", title:"🍽️ Pátio 44 — lunch", tag:"FOOD", org:"Erin Erhardt", status:"confirmed",
+    date:"2026-07-23", len:"part", start:"13:15", price:"Michelin Bib Gourmand",
+    note:"Erin's reservation for 4 at Pátio 44, a Michelin Bib Gourmand restaurant a short walk from the apartments. React if you want to join." },
 
   { id:"foodtour2", title:"🍽️ Food Tour #2 — Vintage & Port Wine", tag:"FOOD TOUR", org:"Hiba", status:"confirmed",
     date:"2026-07-22", len:"part", start:"15:30", end:"19:00", price:"€89",
@@ -699,30 +740,29 @@ const FLOATING = [
     note:"Interest post covering a shortlist: Palácio da Bolsa, Museu Nacional Soares dos Reis (fine art), Serralves Museum (contemporary/modern), Portuguese Centre of Photography (converted prison, city views), FC Porto Museum (at the stadium), Crystal Palace Garden, Torre dos Clérigos (spiral staircase, city-wide views). Erin plans weekday mornings — emoji react per venue you're into so small groups can form; add more suggestions to the thread." },
 ];
 
-/* Weekly housekeeping — one tile per weekday+type, listing the apartments (details on click).
-   weekday: 0=Sun … 1=Mon, 2=Tue, 4=Thu. Recurs on every matching weekday in range. */
+/* Weekly housekeeping — one tile per weekday, listing the apartment (details on click).
+   weekday: 0=Sun … 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri. Recurs on every matching weekday in range.
+   Schedule updated 20 Jul — one cleaning visit per apartment per week (bedding folded in, towels left out for collection). */
 const HOUSEKEEPING = [
-  { id:"clean-mon", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces", weekday:1,
+  { id:"clean-mon", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces & bedding", weekday:1,
     apts:[
-      {name:"LISBOA",     loc:"3rd (top) floor, right", time:"14:00–15:00"},
-      {name:"CARCAVELOS", loc:"3rd (top) floor, left",  time:"15:00–16:00"},
-      {name:"SINTRA",     loc:"2nd floor, right",        time:"16:00–17:00"},
-      {name:"FARO",       loc:"2nd floor, left",         time:"17:00–18:00"},
+      {name:"LISBOA",     loc:"3rd (top) floor, right", time:"16:00–18:00"},
     ] },
-  { id:"clean-tue", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces", weekday:2,
+  { id:"clean-tue", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces & bedding", weekday:2,
     apts:[
-      {name:"PORTO",      loc:"Ground floor",            time:"14:00–15:00"},
+      {name:"CARCAVELOS", loc:"3rd (top) floor, left",  time:"14:00–17:00"},
     ] },
-  { id:"bed-tue", kind:"bedding", tag:"BEDDING", type:"Fresh bedding", weekday:2,
+  { id:"clean-wed", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces & bedding", weekday:3,
     apts:[
-      {name:"LISBOA",     loc:"3rd (top) floor, right", time:"15:00–16:00"},
-      {name:"CARCAVELOS", loc:"3rd (top) floor, left",  time:"16:00–17:00"},
-      {name:"FARO",       loc:"2nd floor, left",         time:"17:00–18:00"},
+      {name:"SINTRA",     loc:"2nd floor, right",        time:"15:00–18:00"},
     ] },
-  { id:"bed-thu", kind:"bedding", tag:"BEDDING", type:"Fresh bedding", weekday:4,
+  { id:"clean-thu", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces & bedding", weekday:4,
     apts:[
-      {name:"SINTRA",     loc:"2nd floor, right",        time:"14:00–15:00"},
-      {name:"PORTO",      loc:"Ground floor",            time:"15:00–16:00"},
+      {name:"FARO",       loc:"2nd floor, left",         time:"15:00–18:00"},
+    ] },
+  { id:"clean-fri", kind:"clean", tag:"CLEANING", type:"Cleaning — common spaces & bedding", weekday:5,
+    apts:[
+      {name:"PORTO",      loc:"Ground floor",            time:"15:00–18:00"},
     ] },
 ];
 const hkById = {}; HOUSEKEEPING.forEach(h=>hkById[h.id]=h);
@@ -805,7 +845,7 @@ function spanChipEl(sp,key){
 
 /* recurring housekeeping: slim single-line gray pill with a leading emoji,
    deliberately quieter than an activity chip. Full details (apartments/times) on click. */
-const HK_META={ clean:{emoji:"🧹", label:"Cleaning common spaces"}, bedding:{emoji:"🛏️", label:"Fresh bedding"} };
+const HK_META={ clean:{emoji:"🧹", label:"Cleaning & bedding"} };
 const CITY_ABBR={ PORTO:"Po", SINTRA:"Si", LISBOA:"Li", FARO:"Fa", CARCAVELOS:"Ca" };
 function choreChipEl(hk){
   const m=HK_META[hk.kind];
@@ -819,7 +859,7 @@ function choreChipEl(hk){
 
 /* other weekly recurring markers (title + emoji only; time details in the drawer) */
 const RECURRING=[
-  { id:"tribal-tue", emoji:"🥳", label:"Tribal Tuesday", weekday:2,
+  { id:"tribal-tue", emoji:"🥳", label:"Tribal Tuesday", weekday:2, skipDates:["2026-07-21"],
     note:"WiFi Tribe's weekly Tribal Tuesday get-together. Usually around midday, but the time flexes to fit whoever's around — keep an eye on the channel for the call." },
 ];
 const recById={}; RECURRING.forEach(r=>recById[r.id]=r);
@@ -877,7 +917,7 @@ function renderCalendar(){
         .forEach(sp=>cell.appendChild(spanChipEl(sp,key)));
       shownEvents.forEach(ev=>cell.appendChild(chipEl(ev)));
       // recurring weekly markers (social first, then housekeeping) for this weekday
-      RECURRING.filter(r=>r.weekday===dt.getUTCDay()).forEach(r=>cell.appendChild(recChipEl(r)));
+      RECURRING.filter(r=>r.weekday===dt.getUTCDay() && !(r.skipDates||[]).includes(key)).forEach(r=>cell.appendChild(recChipEl(r)));
       HOUSEKEEPING.filter(hk=>hk.weekday===dt.getUTCDay()).forEach(hk=>cell.appendChild(choreChipEl(hk)));
       days.appendChild(cell);
     });
@@ -896,7 +936,7 @@ function renderAgenda(){
     // include span if starts within
     const spanHere=SPANS.filter(sp=>sp.startDate===date && visible(sp));
     const choresHere=HOUSEKEEPING.filter(hk=>hk.weekday===dt.getUTCDay());
-    const recHere=RECURRING.filter(r=>r.weekday===dt.getUTCDay());
+    const recHere=RECURRING.filter(r=>r.weekday===dt.getUTCDay() && !(r.skipDates||[]).includes(date));
     if(!dayEvents.length && !spanHere.length && !choresHere.length && !recHere.length && date!==TODAY) return;
     const box=document.createElement("div"); box.className="ag-day"+(date===TODAY?" today":"");
     const lvl=dayClashLevel(dayEvents);
