@@ -846,13 +846,14 @@ function spanChipEl(sp,key){
 /* recurring housekeeping: slim single-line gray pill with a leading emoji,
    deliberately quieter than an activity chip. Full details (apartments/times) on click. */
 const HK_META={ clean:{emoji:"🧹", label:"Cleaning & bedding"} };
-const CITY_ABBR={ PORTO:"Po", SINTRA:"Si", LISBOA:"Li", FARO:"Fa", CARCAVELOS:"Ca" };
+const CITY_DISPLAY={ PORTO:"Porto", SINTRA:"Sintra", LISBOA:"Lisboa", FARO:"Faro", CARCAVELOS:"Carcavelos" };
 function choreChipEl(hk){
   const m=HK_META[hk.kind];
-  const cities=hk.apts.map(a=>CITY_ABBR[a.name]||a.name).join(" · ");
+  const apt=hk.apts[0];
+  const title=CITY_DISPLAY[apt.name]||apt.name;
   const b=document.createElement("button");
   b.className=`chip chore ${hk.kind}`;
-  b.innerHTML=`<span class="ch-emoji">${m.emoji}</span><span class="ch-body"><span class="ch-label">${m.label}</span><span class="ch-cities">${cities}</span></span>`;
+  b.innerHTML=`<span class="ch-emoji">${m.emoji}</span><span class="ch-body"><span class="ch-label">${title}</span><span class="ch-cities">${m.label}</span></span>`;
   b.addEventListener("click",()=>openHousekeeping(hk.id));
   return b;
 }
