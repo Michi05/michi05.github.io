@@ -43,6 +43,13 @@ Longer-horizon structural changes, as opposed to the feature list above. Not urg
 
 These two are linked: once data lives outside the code, "multiple instances" mostly becomes "same engine, different data file per trip" rather than a rewrite.
 
+
+- [ ] From WT Tracey:
+Extrapolate Calendar to auto-follow a Whatsapp Group
+WhatsApp API + Bot and just update a calendar based on that
+
+
+
 ---
 
 ## 📌 Open actions
