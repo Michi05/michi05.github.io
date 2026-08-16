@@ -446,7 +446,7 @@
       <button class="fbtn" data-status="pending" aria-pressed="true"><span class="swatch sw-pending"></span>Pending <span class="fbtn-count" id="count-pending"></span></button>
       <button class="fbtn" data-status="interest" aria-pressed="true"><span class="swatch sw-interest"></span>Interest <span class="fbtn-count" id="count-interest"></span></button>
     </div>
-    <label class="toggle"><input type="checkbox" id="showPastRows"> Show past rows</label>
+    <label class="toggle"><input type="checkbox" id="showPastRows" checked> Show past rows</label>
   </div>
 
   <div class="calendar" id="calendar"></div>
@@ -862,7 +862,7 @@ function dayClashLevel(dateEvents){
 }
 
 /* ============ State ============ */
-const state={ view:"calendar", statuses:{confirmed:true,pending:true,interest:true}, showPastRows:false };
+const state={ view:"calendar", statuses:{confirmed:true,pending:true,interest:true}, showPastRows:true };
 const visible = ev => state.statuses[ev.status];
 
 /* ============ Build calendar range: Mon 6 Jul -> Sun 2 Aug 2026 ============ */
